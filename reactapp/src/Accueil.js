@@ -94,11 +94,8 @@ function Accueil(props) {
 
 
   return (
-<<<<<<< HEAD
     
-=======
     /* header */
->>>>>>> front
     <Layout className="site-layout-background">
       <Row>
         <Col span={6}>
@@ -151,22 +148,6 @@ function Accueil(props) {
 
       <Row></Row>
 
-<<<<<<< HEAD
-        <Col span={6}>
-          <Button
-            icon={<UserOutlined />}
-            size={100}
-            style={{ Color: "#214C74", borderColor: "#214C74" }}
-            onClick={() => redirection()}
-          >
-            Log in
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            type="primary"
-            size={100}
-            style={{ backgroundColor: "#214C74", borderColor: "#214C74" }}
-=======
       <Layout className="site-layout-background">
         <Sider className="site-layout-background">
           {" "}
@@ -174,7 +155,6 @@ function Accueil(props) {
             style={{ width: 256 }}
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
->>>>>>> front
           >
             <Menu.Item key="1" icon={<MailOutlined />}>
               Accueil

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './App.css';
@@ -15,32 +14,12 @@ import Thematique from './Thematique';
 import nouvelPublication from './nouvelPublication';
 import Test from './Test';
 import Publication from './publication';
+import CompleterProfil from "./completerProfil";
 //import Cookies from 'js-cookie';
 
 
 
 const store = createStore(combineReducers({token, publiToken}))
-=======
-import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.css";
-
-import { Provider } from "react-redux";
-import { connect } from "react-redux";
-import { createStore, combineReducers } from "redux";
-import token from "./reducers/token";
-import Accueil from "./Accueil";
-import Inscription from "./inscription";
-import Profilcomp from "./profilcomp";
-import Thematique from "./Thematique";
-import nouvelArticle from "./nouvelArticle";
-import Test from "./Test";
-import Publication from "./publication";
-import CompleterProfil from "./completerProfil";
-//import Cookies from 'js-cookie';
-
-const store = createStore(combineReducers({ token }));
->>>>>>> front
 
 function App(props) {
   return (
@@ -51,16 +30,10 @@ function App(props) {
           <Route component={Test} path="/test" exact />
           <Route component={Inscription} path="/inscription" exact />
           <Route component={Profilcomp} path="/profilcomp" exact />
-<<<<<<< HEAD
           <Route component={Publication} path="/publication" exact/>
           <Route component={Thematique} path="/Thematique" exact/>
           <Route component={nouvelPublication} path="/nouvelPublication" exact/>
-=======
-          <Route component={Publication} path="/publication" exact />
-          <Route component={Thematique} path="/Thematique" exact />
-          <Route component={nouvelArticle} path="/nouvelArticle" exact />
           <Route component={CompleterProfil} path="/completerProfil" exact />
->>>>>>> front
         </Switch>
       </Router>
     </Provider>
