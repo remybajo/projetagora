@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from "react-router-dom";
 import {
   Button,
   Layout,
@@ -37,6 +37,7 @@ import {
   AppstoreOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
+import EnTete from "./EnTete";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -71,80 +72,27 @@ const IconText = ({ icon, text }) => (
 // import {Redirect} from 'react-router-dom';
 // import {connect} from 'react-redux';
 
-
-
 function Accueil(props) {
+  const [inscription, setInscription] = useState();
 
-  const [inscription, setInscription] = useState()
-
-  
   var redirection = async () => {
-    console.log("coucou!!")
+    console.log("coucou!!");
     // if(inscription == false){
-    setInscription(true)
+    setInscription(true);
     // if(true == true){
     // return <Redirect to='/inscription'/>}
-    console.log(inscription)
-      console.log("oui, oui, oui, par ici tout va bien")
-    }
+    console.log(inscription);
+    console.log("oui, oui, oui, par ici tout va bien");
+  };
 
-    if(inscription){ return <Redirect to='/inscription'/>}
-  
-
-
+  if (inscription) {
+    return <Redirect to="/inscription" />;
+  }
 
   return (
-    
     /* header */
     <Layout className="site-layout-background">
-      <Row>
-        <Col span={6}>
-          {" "}
-          <Image
-            size={40}
-            className="logo"
-            width={200}
-            src="./image/AGORA.png"
-          />
-        </Col>
-        <Col span={6}></Col>
-        <Col span={6}></Col>
-        <Col span={6} className="social-icons">
-          {" "}
-          <TwitterOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="twitter"
-          />
-          <Divider type="vertical" />
-          <FacebookOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="facebook"
-          />
-          <Divider type="vertical" />
-          <LinkedinOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="linkedin"
-          />
-          <div>
-            {" "}
-            <Button
-              icon={<UserOutlined />}
-              size={100}
-              style={{ Color: "#214C74", borderColor: "#214C74" }}
-            >
-              Log in
-            </Button>
-            <Divider type="vertical" />
-            <Button
-              type="primary"
-              size={100}
-              style={{ backgroundColor: "#214C74", borderColor: "#214C74" }}
-            >
-              Log out
-            </Button>
-          </div>
-        </Col>
-      </Row>
+      <EnTete />
 
       <Row></Row>
 
@@ -157,23 +105,43 @@ function Accueil(props) {
             defaultOpenKeys={["sub1"]}
           >
             <Menu.Item key="1" icon={<MailOutlined />}>
-              Accueil
+              <Link to="/">Accueil</Link>
             </Menu.Item>
             <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
-              <Menu.Item key="3">THEME 1</Menu.Item>
-              <Menu.Item key="4">THEME 2</Menu.Item>
+              <Menu.Item key="3">
+                <Link to="/">Politique</Link>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Link to="/">Culture</Link>
+              </Menu.Item>
+              <Menu.Item key="4">Débats</Menu.Item>
+              <Menu.Item key="4">Economie / emploi </Menu.Item>
+              <Menu.Item key="4">Education </Menu.Item>
+              <Menu.Item key="4">entreprise/start up </Menu.Item>
+              <Menu.Item key="4">Evenement</Menu.Item>
+              <Menu.Item key="4">Fait Divers / autre </Menu.Item>
+              <Menu.Item key="4">France </Menu.Item>
+              <Menu.Item key="4">Idée</Menu.Item>
+              <Menu.Item key="4">Etranger</Menu.Item>
+              <Menu.Item key="4">Politique</Menu.Item>
+              <Menu.Item key="4">Projet environnement</Menu.Item>
+              <Menu.Item key="4">Santé</Menu.Item>
+              <Menu.Item key="4">Sport</Menu.Item>
+              <Menu.Item key="4">T’as remarqué?</Menu.Item>
+              <Menu.Item key="4">Tourisme / voyage </Menu.Item>
+              <Menu.Item key="4">Transport</Menu.Item>
             </SubMenu>
             <Menu.Item key="2" icon={<CalendarOutlined />}>
-              Mon compte
+              <Link to="/completerProfil">Mon compte</Link>
             </Menu.Item>
 
-            <Menu.Item key="link" icon={<LinkOutlined />}>
+            <Menu.Item key="link" icon={<EditOutlined />}>
               <a
                 href="https://ant.design"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Ant Design
+                Nouvelle publication
               </a>
             </Menu.Item>
           </Menu>
@@ -378,26 +346,26 @@ function Accueil(props) {
           </Divider>
           <p>
             <Tag>
-              <a href="https://"> Politique</a>
+              <a href="https://"> Foot</a>
             </Tag>
             <Tag>
-              <a href="https://"> Education</a>
+              <a href="https://"> stationnement</a>
             </Tag>
             <Tag>
-              <a href="https://"> Sport</a>
+              <a href="https://"> lycee</a>
             </Tag>
             <Tag>
-              <a href="https://"> Projet et environnement </a>
+              <a href="https://"> restaurent </a>
             </Tag>
             <Tag>
-              <a href="https://"> Evenement</a>
+              <a href="https://"> piscine</a>
             </Tag>
             <Tag>
-              <a href="https://"> Culture</a>
+              <a href="https://"> salle de sport</a>
             </Tag>
-            Economie / Entreprise/ emploi /start up / Fait Divers / autre Debats
-            Santé / Transport / Tourisme / voyage / Locale / France / T’as
-            remarqué? / Idée
+            ecole / micro entreprise/ salons /metro / travaux / autre Debats
+            centre de sante / residence/ quaie / stade / insecurité / ville /
+            autre / Idée
           </p>
         </Sider>
       </Layout>

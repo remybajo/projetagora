@@ -41,6 +41,7 @@ import {
   StarOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
+import EnTete from "./EnTete";
 const { Option } = Select;
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -73,31 +74,7 @@ function CompleterProfil(props) {
   return (
     /* header */
     <Layout className="site-layout-background">
-      <Row>
-        <Col span={6}>
-          {" "}
-          <Image className="logo" width={200} src="./image/AGORA.png" />
-        </Col>
-        <Col span={6}></Col>
-        <Col span={6}></Col>
-        <Col span={6} className="social-icons">
-          {" "}
-          <TwitterOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="twitter"
-          />
-          <Divider type="vertical" />
-          <FacebookOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="facebook"
-          />
-          <Divider type="vertical" />
-          <LinkedinOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="linkedin"
-          />
-        </Col>
-      </Row>
+      <EnTete />
       <Content>
         <Row justify="center">
           <Col span="4"></Col>
