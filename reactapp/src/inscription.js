@@ -111,15 +111,8 @@ function Inscription(props) {
   
         <div className="Login-page" >
 
-            <div>
-
-                <Button onClick={() => showModal()} style={{ width: '80px' }} type="secondary" style={{ width: '80px' }}>Sign-up</Button>
-                <Button onClick={() => handleClick()}  style={{ width: '80px' }} type="secondary" style={{ width: '80px' }}>vote</Button>
-            </div>
-            <Modal title="Inscription/Connexion"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}>
+          
+            
                 <div className="Sign">
                     <h3 style={{ color: "white" }}> Je suis déjà inscrit </h3>
 
@@ -152,7 +145,7 @@ function Inscription(props) {
 
                 </div>
                 
-            </Modal>
+
         </div>
     
     );

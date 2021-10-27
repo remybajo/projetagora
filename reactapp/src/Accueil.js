@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import {
   Button,
@@ -17,6 +18,7 @@ import {
   Tag,
   BackTop,
   Badge,
+  Modal,
   Carousel,
 } from "antd";
 import "antd/dist/antd.css";
@@ -37,6 +39,7 @@ import {
   AppstoreOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
+import Inscription from "./inscription";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -74,9 +77,29 @@ const IconText = ({ icon, text }) => (
 
 
 function Accueil(props) {
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [inscription, setInscription] = useState()
 
+  //fonction du modal
+  var showModal = () => {
+    setIsModalVisible(true);
+};
+
+const handleOk = e => {
+    setIsModalVisible(false);
+};
+
+const handleCancel = e => {
+    setIsModalVisible(false);
+};
+
+  var handleClick = async () => {
+           if (props.token == null){
+             showModal()
+           } else {
+          
+           return <Redirect to='/' />
+            }}
   
   var redirection = async () => {
     console.log("coucou!!")
@@ -90,13 +113,19 @@ function Accueil(props) {
 
     if(inscription){ return <Redirect to='/inscription'/>}
   
-
+  
 
 
   return (
-    
+   
     /* header */
     <Layout className="site-layout-background">
+      <Modal title="Inscription/Connexion" style={{ displayflex :1, width: 150}}
+            
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}>
+         <Inscription/> </Modal>
       <Row>
         <Col span={6}>
           {" "}
@@ -127,13 +156,13 @@ function Accueil(props) {
           />
           <div>
             {" "}
-            <Button
+            <Button onClick={() => handleClick()}
               icon={<UserOutlined />}
               size={100}
               style={{ Color: "#214C74", borderColor: "#214C74" }}
             >
               Log in
-            </Button>
+            </Button >
             <Divider type="vertical" />
             <Button
               type="primary"
@@ -152,7 +181,7 @@ function Accueil(props) {
         <Sider className="site-layout-background">
           {" "}
           <Menu
-            style={{ width: 256 }}
+            style={{ width: 200 }}
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
           >
@@ -441,4 +470,13 @@ function Accueil(props) {
   );
 }
 
-export default Accueil;
+function mapStateToProps(state){
+  return {token:state.token}
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+ 
+)(Accueil)
+
