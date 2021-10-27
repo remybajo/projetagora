@@ -10,7 +10,7 @@ router.post('/sendVote', async function(req, res, next){
     // if(user != null){
       var newVote = new voteModel({
         //user_id: user._id,
-        //publication_id: req.body.publication,
+        // -bpublication_id: req.body.publication,
         vote: req.body.vote,
         date_vote: req.body.date
       })
