@@ -37,6 +37,7 @@ import {
   AppstoreOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
+import EnTete from "./EnTete";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -91,54 +92,7 @@ function Accueil(props) {
   return (
     /* header */
     <Layout className="site-layout-background">
-      <Row>
-        <Col span={6}>
-          {" "}
-          <Image
-            size={40}
-            className="logo"
-            width={200}
-            src="./image/AGORA.png"
-          />
-        </Col>
-        <Col span={6}></Col>
-        <Col span={6}></Col>
-        <Col span={6} className="social-icons">
-          {" "}
-          <TwitterOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="twitter"
-          />
-          <Divider type="vertical" />
-          <FacebookOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="facebook"
-          />
-          <Divider type="vertical" />
-          <LinkedinOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="linkedin"
-          />
-          <div>
-            {" "}
-            <Button
-              icon={<UserOutlined />}
-              size={100}
-              style={{ Color: "#214C74", borderColor: "#214C74" }}
-            >
-              Log in
-            </Button>
-            <Divider type="vertical" />
-            <Button
-              type="primary"
-              size={100}
-              style={{ backgroundColor: "#214C74", borderColor: "#214C74" }}
-            >
-              Log out
-            </Button>
-          </div>
-        </Col>
-      </Row>
+      <EnTete />
 
       <Row></Row>
 
@@ -151,13 +105,15 @@ function Accueil(props) {
             defaultOpenKeys={["sub1"]}
           >
             <Menu.Item key="1" icon={<MailOutlined />}>
-              <a href="http://localhost:3001/" rel="noopener noreferrer">
-                Accueil
-              </a>
+              <Link to="/">Accueil</Link>
             </Menu.Item>
             <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
-              <Menu.Item key="3">Politique</Menu.Item>
-              <Menu.Item key="4">Culture</Menu.Item>
+              <Menu.Item key="3">
+                <Link to="/">Politique</Link>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Link to="/">Culture</Link>
+              </Menu.Item>
               <Menu.Item key="4">Débats</Menu.Item>
               <Menu.Item key="4">Economie / emploi </Menu.Item>
               <Menu.Item key="4">Education </Menu.Item>
@@ -176,21 +132,16 @@ function Accueil(props) {
               <Menu.Item key="4">Transport</Menu.Item>
             </SubMenu>
             <Menu.Item key="2" icon={<CalendarOutlined />}>
-              <a
-                href="http://localhost:3001/CompleterProfil"
-                rel="noopener noreferrer"
-              >
-                Mon compte
-              </a>
+              <Link to="/completerProfil">Mon compte</Link>
             </Menu.Item>
 
-            <Menu.Item key="link" icon={<LinkOutlined />}>
+            <Menu.Item key="link" icon={<EditOutlined />}>
               <a
                 href="https://ant.design"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Ant Design
+                Nouvelle publication
               </a>
             </Menu.Item>
           </Menu>
