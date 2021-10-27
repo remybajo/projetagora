@@ -17,82 +17,45 @@ function Profilcomp(props) {
     const [listErrorsSignin, setErrorsSignin] = useState([])
     const [listErrorsSignup, setErrorsSignup] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+
+    const [gender, setGender] = useState('')
+    const [dateOfBirth, setDateOfBirth]=useState('')
+    const [csp, setCsp] = useState('')
+    const [civilState, setCivilState] = useState('')
+    const [numberOfcChild , setNumberOfcChild ] = useState('')
+    const [validation , setValidation ] = useState('')
     //Cookies.set('token', props.token)
 
 
-   var handleClick = async () => {
-       if (props.token == null){
-     showModal()
-       } else {
-        // var mycookie = Cookies.get('token');
-        // console.log(mycookie)
-        return <Redirect to='/' />
-       }}
+  
 
         
 
-    var handleSubmitSignup = async () => {
+    var handleSubmitComp = async () => {
 
-        const data = await fetch('/sign-up', {
+        const data = await fetch('/addProfil', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `usernameFromFront=${signUpUsername}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}`
+            body: `genderFromFront=${gender}&dateOfBirth=${dateOfBirth}&csp=${csp}&civilState=${civilState}
+            &child=${numberOfcChild}&token=${props.token}`
+           
         })
-
         const body = await data.json()
         console.log(body)
-        if (body.result == true) {
-            setUserExists(true);
-            props.addToken(body.token)
-        } else {
-            setErrorsSignup(body.error)
-        }
+        
+        if (body.result == true){
+            setValidation(true)
+        return (<Redirect to='/publication' />)}
     }
 
-    var handleSubmitSignin = async () => {
-
-        const data = await fetch('/sign-in', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `emailFromFront=${signInEmail}&passwordFromFront=${signInPassword}`
-        })
-
-        const body = await data.json()
-        console.log(body)
-        if (body.result == true) {
-            setUserExists(true);
-            props.addToken(body.token)
-        } else {
-            setErrorsSignin(body.error)
-        }
-    }
-
-    if (userExists) {
-        return <Redirect to='/' />
-    }
-
-    var tabErrorsSignin = listErrorsSignin.map((error, i) => {
-        return (<p>{error}</p>)
-    })
-
-    var tabErrorsSignup = listErrorsSignup.map((error, i) => {
-        return (<p>{error}</p>)
-    })
+ 
+   
 
 
 
-    var showModal = () => {
-        setIsModalVisible(true);
-    };
 
-    const handleOk = e => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = e => {
-        setIsModalVisible(false);
-    };
-
+  
 
   
 
@@ -105,14 +68,17 @@ function Profilcomp(props) {
                 <div className="Sign">
                     <h3 style={{ color: "white" }}> Je suis déjà inscrit </h3>
 
-                    <Input onChange={(e) => setSignInEmail(e.target.value)} className="Login-input" placeholder="email" />
+                    <Input onChange={(e) => setGender(e.target.value)} className="Login-input" placeholder="gender" />
+                    <Input onChange={(e) => setDateOfBirth(e.target.value)} className="Login-input" placeholder="DateOfBirth" />
+                    <Input onChange={(e) => setCsp(e.target.value)} className="Login-input" placeholder="Csp" />
+                    <Input onChange={(e) => setCivilState(e.target.value)} className="Login-input" placeholder="civil state" />
+                    <Input onChange={(e) => setNumberOfcChild (e.target.value)} className="Login-input" placeholder="number of child" />
+                    <Input onChange={(e) => setValidation(e.target.value)} className="Login-input" placeholder="Validation" />
 
-                    <Input.Password onChange={(e) => setSignInPassword(e.target.value)} className="Login-input" placeholder="password" />
+                    
 
-                    {tabErrorsSignin}
-
-                    <Button onClick={() => handleSubmitSignin()} type="primary" style={{ width: '80px' }}>Sign-in</Button>
-
+                    <Button onClick={() => handleSubmitComp()} type="primary" style={{ width: '80px' }}>Sign-in</Button>
+                    <Button > <Link to="/publication">   publication  </Link></Button>
                 </div>
             
        

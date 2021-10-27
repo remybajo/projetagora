@@ -14,6 +14,14 @@ function Inscription(props) {
     const [signUpVerifPassword, setSignUpVerifPassword] = useState('')
     const [signInEmail, setSignInEmail] = useState('')
     const [signInPassword, setSignInPassword] = useState('')
+
+    const [gender, setGender] = useState('')
+    const [dateOfBirth, setDateOfBirth]=useState('')
+    const [csp, setCsp] = useState('')
+    const [civilState, setCivilState] = useState('')
+    const [numberOfcChild , setNumberOfcChild ] = useState('')
+    const [validation , setValidation ] = useState('')
+
     const [userExists, setUserExists] = useState(false)
     const [listErrorsSignin, setErrorsSignin] = useState([])
     const [listErrorsSignup, setErrorsSignup] = useState([])
@@ -45,6 +53,7 @@ function Inscription(props) {
         if (body.result == true) {
             setUserExists(true);
             props.addToken(body.token)
+            return <Redirect to='/profilcomp' />
         } else {
             setErrorsSignup(body.error)
         }
@@ -69,7 +78,7 @@ function Inscription(props) {
     }
 
     if (userExists) {
-        return <Redirect to='/' />
+        return <Redirect to='/profilcomp' />
     }
 
     var tabErrorsSignin = listErrorsSignin.map((error, i) => {
@@ -142,6 +151,7 @@ function Inscription(props) {
 
 
                 </div>
+                
             </Modal>
         </div>
     
