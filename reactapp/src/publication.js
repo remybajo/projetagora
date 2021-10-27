@@ -64,10 +64,10 @@ function Publication(props) {
 
    
     return (
-      <div>
-      <Layout >
+      
+      <Layout style={{margin:10}}>
 
-      <Row style={{height:'5%', backgroundColor:'#37A4B2'}}>
+      <Row style={{height:'5%', backgroundColor:'#37A4B2', margin:10}}>
         <Col span={4}>
           <Image className="logo" width={150} src="./image/AGORA.png" />
         </Col>
@@ -110,16 +110,19 @@ function Publication(props) {
       </Row>
 
       
-      <Row className="site-layout-background" justify="center" align="top">
-      <Col span={2} >
-          <Menu mode="vertical" defaultSelectedKeys={["2"]}>
+      <Row className="site-layout-background" justify="center" align="top" style={{margin:10}}>
+      
+      <div style={{display:'flex'}}>
+        
+      <Col span={4}  >
+          <Menu mode="vertical" defaultSelectedKeys={["2"]} style={{margin:10}}>
             <Menu.Item key="1">Accueil</Menu.Item>
             <Menu.Item key="2">Thématique</Menu.Item>
             <Menu.Item  key="3">  Profil </Menu.Item>
           </Menu>
         </Col>
 
-        <Col span={10} style={{display:"flex", flexDirection:'column', alignItems:"center", justifyContent:'center'}} >
+        <Col span={10} style={{display:"flex", flexDirection:'column', alignItems:"center", justifyContent:'center', margin:10}} >
 
           <h1 style={{color: "#37A4B2", fontSize:"200%" }}>Que penseriez-vous d'annuler la dette publique ?</h1>
 
@@ -134,8 +137,30 @@ Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralem
 
         </p>
         </Col>
-  
-        <Col span={4} style={{display:'flex', flexDirection:'column', alignItems:'center', backgroundColor:'lightBlue'}}>
+        <Col span={10} style={{display:'flex', flexDirection:'column', backgroundColor:'beige'}}>
+          <h1>Top Commentaires</h1>
+
+        <List
+                  itemLayout="horizontal"
+                  dataSource={data}
+                  renderItem={item => (
+                    <List.Item style={{borderdColor: "#FFC806"}}>
+                      <List.Item.Meta 
+                        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                        auteur={data.auteur}
+                        commentaire={data.commentaire}
+                      />
+                    </List.Item>
+                  )}
+                />
+        </Col>
+
+        </div>
+       
+        </Row>
+        <Row>
+        
+        <Col span={14} style={{display:'flex', alignItems:'center', backgroundColor:'lightBlue'}}>
         <h1>VOTEZ</h1>
           
 
@@ -165,44 +190,27 @@ Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralem
         {message}
   
         </Col>
-        <Col span={8} style={{display:'flex', flexDirection:'column', backgroundColor:'beige'}}>
-          <h1>Top Commentaires</h1>
-
-        <List
-                  itemLayout="horizontal"
-                  dataSource={data}
-                  renderItem={item => (
-                    <List.Item style={{borderdColor: "#FFC806"}}>
-                      <List.Item.Meta 
-                        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                        auteur={data.auteur}
-                        commentaire={data.commentaire}
-                      />
-                    </List.Item>
-                  )}
-                />
-        </Col>
-
+      
+  
         </Row>
-        
+
+        <Row>
+        <Col span={24}>
+          AJOUTEZ UN COMMENTAIRE POUR ETAYER VOTRE VOTE (facultatif)
         <Form.Item>
-          <TextArea rows={4} onChange="{onChange}" placeholder="Tapez votre commentaire" />
+          <TextArea rows={6} onChange="{onChange}" placeholder="Tapez votre commentaire" />
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit" onClick="{onSubmit}" type="primary">
             Envoyer le commentaire
           </Button>
       </Form.Item>
+      </Col>
       
-        <Row>
-        
-        </Row>
-     
+      </Row>
           
       <Footer style={{ textAlign: "center" }}></Footer>
     </Layout>
-
-          </div>
       
       
     )

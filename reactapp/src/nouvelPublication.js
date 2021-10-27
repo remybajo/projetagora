@@ -16,7 +16,8 @@ function NouvelPublication(props) {
   const[contenu, setContenu] = useState('');
   const[motCle, setMotCle] = useState([]);
   const[date, setDate] = useState();
-  const[theme, setTheme] = useState()
+  const[theme, setTheme] = useState();
+  const[redir, setRedir] = useState(false);
 
   
 
@@ -45,14 +46,21 @@ dateKnow()
     })
     const body = await data.json()
     console.log("et dans body?", body)
-
     if (body.result == true) {
-      
       props.addPubliToken(body.publiToken)
-      console.log('ICI APPARAISSENT LES SAINTS PROPS!!!', props)
-      return <Redirect to='/publication' />
+      setRedir(true)
     }
+
+
   }
+
+
+  if (redir == true) {
+      
+
+    console.log('ICI APPARAISSENT LES SAINTS PROPS!!!', props)
+    return <Redirect to='/publication' />
+  } 
 
 
 
