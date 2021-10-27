@@ -45,7 +45,8 @@ function Profilcomp(props) {
         console.log(body)
         
         if (body.result == true){
-            setValidation(true)
+            setValidation(true)}
+            if(validation==true){
         return (<Redirect to='/publication' />)}
     }
 
