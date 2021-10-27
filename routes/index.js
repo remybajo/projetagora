@@ -4,6 +4,7 @@ var router = express.Router();
 var uid2 = require('uid2');
 var bcrypt = require('bcrypt');
 var userModel = require('../models/users')
+var publicationModel = require('../models/publications')
 
 
 //gestion du sign-in
@@ -95,6 +96,65 @@ router.post('/sign-in', async function(req,res,next){
 
 
 })
+
+router.post('/post-publication', async function(req, res, next){
+  var error = []
+  var result = false
+  var publiToken = ''
+  var savePublication
+  var user = await userModel.findOne({token: req.body.token})
+  
+  var idd = user.id
+
+
+  console.log('onclick back', req.body)
+
+
+  if(req.body.titrePublication == ''
+  || req.body.contenuPublication == ''
+  ){
+    error.push('champs vides')
+  }
+
+  if(error.length == 0){
+    var newPublication = new publicationModel({
+      thematique: req.body.themePublication,
+      titre: req.body.titrePublication,
+      texte: req.body.contenuPublication,
+      image: 'une image',
+      date_publication: req.body.datePublication,
+      statut: false,
+      motsCle: req.body.motClePublication,
+      publiToken: uid2(32),
+      user_id: idd,
+    })
+  
+    savePublication = await newPublication.save()
+  
+    
+    if(savePublication){
+      result = true
+      publiToken = savePublication.publiToken
+    }
+  }
+
+  console.log('publiToken', publiToken)
+
+
+
+
+
+
+
+    res.json({result, publiToken})
+  })
+
+  // route qui permet de récupérer les thématiques
+  // router.get('/thematique', async function(req, res, next){
+
+
+  //   res.json({})
+  // })
 
 module.exports = router;
 

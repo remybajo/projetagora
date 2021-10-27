@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, Redirect } from 'react-router-dom'
 import {
   Button,
   Layout,
@@ -28,7 +29,6 @@ import {
   LikeOutlined,
   StarOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
 
 const { Meta } = Card;
@@ -62,8 +62,29 @@ const IconText = ({ icon, text }) => (
 // import {Redirect} from 'react-router-dom';
 // import {connect} from 'react-redux';
 
+
+
 function Accueil(props) {
+
+  const [inscription, setInscription] = useState()
+
+  
+  var redirection = async () => {
+    console.log("coucou!!")
+    // if(inscription == false){
+    setInscription(true)
+    // if(true == true){
+    // return <Redirect to='/inscription'/>}
+    console.log(inscription)
+      console.log("oui, oui, oui, par ici tout va bien")
+      if(inscription){ return <Redirect to='/inscription'/>}
+    }
+  
+
+
+
   return (
+    
     <Layout className="site-layout-background">
       <Row>
         <Col span={6}>
@@ -105,6 +126,7 @@ function Accueil(props) {
             icon={<UserOutlined />}
             size={100}
             style={{ Color: "#214C74", borderColor: "#214C74" }}
+            onClick={() => redirection()}
           >
             Log in
           </Button>
