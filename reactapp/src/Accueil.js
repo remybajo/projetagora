@@ -186,6 +186,34 @@ function Accueil(props) {
               <div className="card-container">
                 <Tabs type="card">
                   <TabPane tab="A la une " key="1">
+
+                  <Carousel autoplay style={{ width: 700}}>
+                  <Card
+                      style={{ width: 700 }}
+                      cover={
+                        <img
+                          alt="avatar"
+                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        />
+                      }
+                      actions={[
+                        <Badge count={1000} overflowCount={999}>
+                          <Avatar icon={<UserOutlined />} />
+                        </Badge>,
+                        <EditOutlined key="edit" />,
+                        <Button type="primary" danger>
+                          Réagir
+                        </Button>,
+                      ]}
+                    >
+                      <Meta
+                        avatar={
+                          <Avatar src="https://joeschmoe.io/api/v1/random" />
+                        }
+                        title="La question ?"
+                        description="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
+                      />
+                    </Card>
                     <Card
                       style={{ width: 700 }}
                       cover={
@@ -212,6 +240,61 @@ function Accueil(props) {
                         description="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
                       />
                     </Card>
+                    <Card
+                      style={{ width: 700 }}
+                      cover={
+                        <img
+                          alt="avatar"
+                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        />
+                      }
+                      actions={[
+                        <Badge count={1000} overflowCount={999}>
+                          <Avatar icon={<UserOutlined />} />
+                        </Badge>,
+                        <EditOutlined key="edit" />,
+                        <Button type="primary" danger>
+                          Réagir
+                        </Button>,
+                      ]}
+                    >
+                      <Meta
+                        avatar={
+                          <Avatar src="https://joeschmoe.io/api/v1/random" />
+                        }
+                        title="La question ?"
+                        description="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
+                      />
+                    </Card>
+                  </Carousel>
+                    {/* <Card
+                      style={{ width: 700 }}
+                      cover={
+                        <img
+                          alt="avatar"
+                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        />
+                      }
+                      actions={[
+                        <Badge count={1000} overflowCount={999}>
+                          <Avatar icon={<UserOutlined />} />
+                        </Badge>,
+                        <EditOutlined key="edit" />,
+                        <Button type="primary" danger>
+                          Réagir
+                        </Button>,
+                      ]}
+                    >
+                      <Meta
+                        avatar={
+                          <Avatar src="https://joeschmoe.io/api/v1/random" />
+                        }
+                        title="La question ?"
+                        description="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
+                      />
+                    </Card> */}
+
+                   
                   </TabPane>
                   <TabPane tab="Les plus populaire" key="2">
                     <p>Content of Tab Pane 2</p>

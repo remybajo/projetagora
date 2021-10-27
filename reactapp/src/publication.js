@@ -139,17 +139,17 @@ function Publication(props) {
       
       <Row className="site-layout-background" justify="center" align="top" style={{margin:10}}>
       
-      <div style={{display:'flex'}}>
+      <div style={{display:'flex', margin:10}}>
         
-      <Col span={4}  >
-          <Menu mode="vertical" defaultSelectedKeys={["2"]} style={{margin:10}}>
+      <Col span={2}  >
+          <Menu mode="vertical" defaultSelectedKeys={["2"]}>
             <Menu.Item key="1">Accueil</Menu.Item>
             <Menu.Item key="2">Thématique</Menu.Item>
             <Menu.Item  key="3">  Profil </Menu.Item>
           </Menu>
         </Col>
 
-        <Col span={10} style={{display:"flex", flexDirection:'column', alignItems:"center", justifyContent:'center', margin:10}} >
+        <Col span={11} style={{display:"flex", flexDirection:'column', alignItems:"center", justifyContent:'center', margin:10}} >
 
           <h1 style={{color: "#37A4B2", fontSize:"200%" }}>Que penseriez-vous d'annuler la dette publique ?</h1>
 
@@ -164,7 +164,7 @@ Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralem
 
         </p>
         </Col>
-        <Col span={10} style={{display:'flex', flexDirection:'column', backgroundColor:'beige'}}>
+        <Col span={11} style={{display:'flex', flexDirection:'column', backgroundColor:'beige', margin:10}}>
           <h1>Top Commentaires</h1>
 
         <List
