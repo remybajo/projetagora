@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from "react-router-dom";
 import {
   Button,
   Layout,
@@ -71,30 +71,24 @@ const IconText = ({ icon, text }) => (
 // import {Redirect} from 'react-router-dom';
 // import {connect} from 'react-redux';
 
-
-
 function Accueil(props) {
+  const [inscription, setInscription] = useState();
 
-  const [inscription, setInscription] = useState()
-
-  
   var redirection = async () => {
-    console.log("coucou!!")
+    console.log("coucou!!");
     // if(inscription == false){
-    setInscription(true)
+    setInscription(true);
     // if(true == true){
     // return <Redirect to='/inscription'/>}
-    console.log(inscription)
-      console.log("oui, oui, oui, par ici tout va bien")
-    }
+    console.log(inscription);
+    console.log("oui, oui, oui, par ici tout va bien");
+  };
 
-    if(inscription){ return <Redirect to='/inscription'/>}
-  
-
-
+  if (inscription) {
+    return <Redirect to="/inscription" />;
+  }
 
   return (
-    
     /* header */
     <Layout className="site-layout-background">
       <Row>
@@ -157,14 +151,37 @@ function Accueil(props) {
             defaultOpenKeys={["sub1"]}
           >
             <Menu.Item key="1" icon={<MailOutlined />}>
-              Accueil
+              <a href="http://localhost:3001/" rel="noopener noreferrer">
+                Accueil
+              </a>
             </Menu.Item>
             <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
-              <Menu.Item key="3">THEME 1</Menu.Item>
-              <Menu.Item key="4">THEME 2</Menu.Item>
+              <Menu.Item key="3">Politique</Menu.Item>
+              <Menu.Item key="4">Culture</Menu.Item>
+              <Menu.Item key="4">Débats</Menu.Item>
+              <Menu.Item key="4">Economie / emploi </Menu.Item>
+              <Menu.Item key="4">Education </Menu.Item>
+              <Menu.Item key="4">entreprise/start up </Menu.Item>
+              <Menu.Item key="4">Evenement</Menu.Item>
+              <Menu.Item key="4">Fait Divers / autre </Menu.Item>
+              <Menu.Item key="4">France </Menu.Item>
+              <Menu.Item key="4">Idée</Menu.Item>
+              <Menu.Item key="4">Etranger</Menu.Item>
+              <Menu.Item key="4">Politique</Menu.Item>
+              <Menu.Item key="4">Projet environnement</Menu.Item>
+              <Menu.Item key="4">Santé</Menu.Item>
+              <Menu.Item key="4">Sport</Menu.Item>
+              <Menu.Item key="4">T’as remarqué?</Menu.Item>
+              <Menu.Item key="4">Tourisme / voyage </Menu.Item>
+              <Menu.Item key="4">Transport</Menu.Item>
             </SubMenu>
             <Menu.Item key="2" icon={<CalendarOutlined />}>
-              Mon compte
+              <a
+                href="http://localhost:3001/CompleterProfil"
+                rel="noopener noreferrer"
+              >
+                Mon compte
+              </a>
             </Menu.Item>
 
             <Menu.Item key="link" icon={<LinkOutlined />}>
@@ -378,26 +395,26 @@ function Accueil(props) {
           </Divider>
           <p>
             <Tag>
-              <a href="https://"> Politique</a>
+              <a href="https://"> Foot</a>
             </Tag>
             <Tag>
-              <a href="https://"> Education</a>
+              <a href="https://"> stationnement</a>
             </Tag>
             <Tag>
-              <a href="https://"> Sport</a>
+              <a href="https://"> lycee</a>
             </Tag>
             <Tag>
-              <a href="https://"> Projet et environnement </a>
+              <a href="https://"> restaurent </a>
             </Tag>
             <Tag>
-              <a href="https://"> Evenement</a>
+              <a href="https://"> piscine</a>
             </Tag>
             <Tag>
-              <a href="https://"> Culture</a>
+              <a href="https://"> salle de sport</a>
             </Tag>
-            Economie / Entreprise/ emploi /start up / Fait Divers / autre Debats
-            Santé / Transport / Tourisme / voyage / Locale / France / T’as
-            remarqué? / Idée
+            ecole / micro entreprise/ salons /metro / travaux / autre Debats
+            centre de sante / residence/ quaie / stade / insecurité / ville /
+            autre / Idée
           </p>
         </Sider>
       </Layout>

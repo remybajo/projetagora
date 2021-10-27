@@ -51,6 +51,10 @@
   border-color: #214C74;
 }
 
+.ant-menu-item-selected {
+  color: #214C74;
+}
+
 /* button formulaire de contact */
 .ant-btn-primary {
   color: #fff;
