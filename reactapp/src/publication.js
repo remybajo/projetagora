@@ -90,8 +90,8 @@ function Publication(props) {
       
       <Layout style={{margin:10}}>
 
-      <Row style={{height:'5%', backgroundColor:'#37A4B2', margin:10}}>
-        <Col span={4}>
+      <Row gutter={{ xs: 22, sm: 12, md: 6}} style={{height:'5%', backgroundColor:'#37A4B2', margin:10}}>
+        <Col span={4} >
           <Image className="logo" width={150} src="./image/AGORA.png" />
         </Col>
       
