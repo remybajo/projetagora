@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Radio, Layout, Menu, Button, Image, Breadcrumb, Card, Avatar, Divider, Row, Col, Tabs, List, Space } from 'antd';
+import { Radio, Layout, Menu, Button, Image, Breadcrumb, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Comment, Form, Input  } from 'antd';
 import { connect } from 'react-redux'
 
 import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined, UserOutlined,
@@ -15,6 +15,7 @@ function Publication(props) {
     const [boutonVali, setBoutonVali] = useState('Valider le choix');
     var date;
     var token = props.token
+    const { TextArea } = Input;
 
     var dateFormat = function(date){
       var newDate = new Date(date);
@@ -59,7 +60,8 @@ function Publication(props) {
   const data = [
     { auteur: 'Ant Design Title 1', commentaire: 'blablabla'},
     { auteur: 'Ant Design Title 2', commentaire: 'blablabla'},
-  ];
+  ]
+
    
     return (
       <div>
@@ -181,6 +183,19 @@ Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralem
                 />
         </Col>
 
+        </Row>
+        
+        <Form.Item>
+          <TextArea rows={4} onChange="{onChange}" placeholder="Tapez votre commentaire" />
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" onClick="{onSubmit}" type="primary">
+            Envoyer le commentaire
+          </Button>
+      </Form.Item>
+      
+        <Row>
+        
         </Row>
      
           
