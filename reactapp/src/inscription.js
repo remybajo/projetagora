@@ -69,7 +69,7 @@ function Inscription(props) {
     }
 
     if (userExists) {
-        return <Redirect to='/' />
+        return <Redirect to='/nouvelPublication' />
     }
 
     var tabErrorsSignin = listErrorsSignin.map((error, i) => {
