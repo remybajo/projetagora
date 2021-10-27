@@ -41,14 +41,16 @@ function Profilcomp(props) {
             &child=${numberOfcChild}&token=${props.token}`
            
         })
+       
         const body = await data.json()
-        console.log(body)
-        
         if (body.result == true){
             setValidation(true)}
+        console.log(body)}
+
+   
             if(validation==true){
-        return (<Redirect to='/publication' />)}
-    }
+        return (<Redirect to='/nouvelPublication' />)}
+    
 
  
    
@@ -79,7 +81,7 @@ function Profilcomp(props) {
                     
 
                     <Button onClick={() => handleSubmitComp()} type="primary" style={{ width: '80px' }}>Sign-in</Button>
-                    <Button > <Link to="/publication">   publication  </Link></Button>
+                    <Button > <Link to="/nouvelPublication">   publication  </Link></Button>
                 </div>
             
        

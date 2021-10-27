@@ -33,9 +33,8 @@ function Inscription(props) {
        if (props.token == null){
      showModal()
        } else {
-        //var mycookie = Cookies.get('token');
-        //console.log(mycookie)
-        return <Redirect to='/' />
+      
+        return <Redirect to='/nouvelPublication' />
        }}
 
         
@@ -47,7 +46,7 @@ function Inscription(props) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `usernameFromFront=${signUpUsername}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}&passwordVerifFromFront=${signUpVerifPassword}`
         })
-        
+
 
         const body = await data.json()
         console.log(body)
