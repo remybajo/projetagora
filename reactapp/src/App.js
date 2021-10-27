@@ -16,6 +16,7 @@ import Test from "./Test";
 import Publication from "./publication";
 import CompleterProfil from "./completerProfil";
 import EnTete from "./EnTete.js";
+import SideBarDroite from "./SideBarDroite";
 //import Cookies from 'js-cookie';
 
 const store = createStore(combineReducers({ token, publiToken }));
@@ -38,6 +39,7 @@ function App(props) {
           />
           <Route component={CompleterProfil} path="/completerProfil" exact />
           <Route component={EnTete} path="/EnTete" exact />
+          <Route component={SideBarDroite} path="/SideBarDroite" exact />
         </Switch>
       </Router>
     </Provider>

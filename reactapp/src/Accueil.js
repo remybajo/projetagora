@@ -21,6 +21,7 @@ import {
   Carousel,
 } from "antd";
 import "antd/dist/antd.css";
+import { connect } from "react-redux";
 import {
   SettingOutlined,
   EditOutlined,
@@ -39,6 +40,7 @@ import {
   LinkOutlined,
 } from "@ant-design/icons";
 import EnTete from "./EnTete";
+import SideBarDroite from "./SideBarDroite";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
