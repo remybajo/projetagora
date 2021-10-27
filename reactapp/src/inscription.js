@@ -34,7 +34,7 @@ function Inscription(props) {
      showModal()
        } else {
       
-        return <Redirect to='/nouvelPublication' />
+        return <Redirect to='/' />
        }}
 
         
@@ -53,7 +53,7 @@ function Inscription(props) {
         if (body.result == true) {
             setUserExists(true);
             props.addToken(body.token)
-            return <Redirect to='/profilcomp' />
+            handleCancel()
         } else {
             setErrorsSignup(body.error)
         }
@@ -75,11 +75,12 @@ function Inscription(props) {
         } else {
             setErrorsSignin(body.error)
         }
+        if (userExists) {
+            setIsModalVisible(false)
+        }
     }
 
-    if (userExists) {
-        return <Redirect to='/profilcomp' />
-    }
+    
 
     var tabErrorsSignin = listErrorsSignin.map((error, i) => {
         return (<p>{error}</p>)
@@ -99,7 +100,7 @@ function Inscription(props) {
         setIsModalVisible(false);
     };
 
-    const handleCancel = e => {
+    var handleCancel = e => {
         setIsModalVisible(false);
     };
 

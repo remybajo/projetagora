@@ -83,24 +83,33 @@ function Accueil(props) {
   //fonction du modal
   var showModal = () => {
     setIsModalVisible(true);
-};
+  };
 
-const handleOk = e => {
+  const handleOk = e => {
     setIsModalVisible(false);
-};
+  };
 
-const handleCancel = e => {
+  const handleCancel = e => {
     setIsModalVisible(false);
-};
+  };
+
+  var handleClickCreer = async () => {
+    if (props.token == null) {
+      showModal()
+    } else {
+      return <Redirect to='/nouvelPublication' />
+    }
+  }
 
   var handleClick = async () => {
-           if (props.token == null){
-             showModal()
-           } else {
-          
-           return <Redirect to='/' />
-            }}
-  
+    if (props.token == null) {
+      showModal()
+    } else {
+
+      return <Redirect to='/' />
+    }
+  }
+
   var redirection = async () => {
     console.log("coucou!!")
     // if(inscription == false){
@@ -108,24 +117,24 @@ const handleCancel = e => {
     // if(true == true){
     // return <Redirect to='/inscription'/>}
     console.log(inscription)
-      console.log("oui, oui, oui, par ici tout va bien")
-    }
+    console.log("oui, oui, oui, par ici tout va bien")
+  }
 
-    if(inscription){ return <Redirect to='/inscription'/>}
-  
-  
+  if (inscription) { return <Redirect to='/inscription' /> }
+
+
 
 
   return (
-   
+
     /* header */
     <Layout className="site-layout-background">
-      <Modal title="Inscription/Connexion" style={{ displayflex :1, width: 150}}
-            
-            visible={isModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}>
-         <Inscription/> </Modal>
+      <Modal title="Inscription/Connexion" style={{ displayflex: 1, width: 150 }}
+
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}>
+        <Inscription /> </Modal>
       <Row>
         <Col span={6}>
           {" "}
@@ -470,13 +479,13 @@ const handleCancel = e => {
   );
 }
 
-function mapStateToProps(state){
-  return {token:state.token}
+function mapStateToProps(state) {
+  return { token: state.token }
 }
 
 export default connect(
   mapStateToProps,
   null,
- 
+
 )(Accueil)
 
