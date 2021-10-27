@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { Radio, Layout, Menu, Button, Image } from 'antd';
+import { Radio, Layout, Menu, Button, Image, Breadcrumb, Card, Avatar, Divider, Row, Col, Tabs, List, Space } from 'antd';
 import { connect } from 'react-redux'
 
-
+import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined, UserOutlined,
+  MessageOutlined, LikeOutlined, StarOutlined} from "@ant-design/icons";
 
 function Publication(props) {
 
@@ -55,28 +56,72 @@ function Publication(props) {
     console.log(vote);
   }
 
- 
+  const data = [
+    { auteur: 'Ant Design Title 1', commentaire: 'blablabla'},
+    { auteur: 'Ant Design Title 2', commentaire: 'blablabla'},
+  ];
    
     return (
       <div>
-      <Layout>
-      <Header className="header">header</Header>
-      <Image width={50} src="reactapp/public/AGORA.png" />
+      <Layout >
 
-      <Menu mode="horizontal" defaultSelectedKeys={["2"]}>
-        <Menu.Item key="1">Accueil</Menu.Item>
-        <Menu.Item key="2">Thématique</Menu.Item>
-        <Menu.Item key="3">Profil</Menu.Item>
-        <Button>
-        </Button>
-      </Menu>
+      <Row style={{height:'5%', backgroundColor:'#37A4B2'}}>
+        <Col span={4}>
+          <Image className="logo" width={150} src="./image/AGORA.png" />
+        </Col>
+      
 
-      <Layout>
-        <Content style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+        <Col span={6}>
+          <Button
+            icon={<UserOutlined />}
+            size={100}
+            style={{ Color: "#214C74", borderColor: "#214C74" }}
+          >
+            Log in
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="primary"
+            size={100}
+            style={{ backgroundColor: "#214C74", borderColor: "#214C74" }}
+          >
+            Log out
+          </Button>
+        </Col>
+        <Col span={6} className="social-icons">
+          {" "}
+          <TwitterOutlined
+            style={{ fontSize: "20px", color: "#214C74" }}
+            key="twitter"
+          />
+          <Divider type="vertical" />
+          <FacebookOutlined
+            style={{ fontSize: "20px", color: "#214C74" }}
+            key="facebook"
+          />
+          <Divider type="vertical" />
+          <LinkedinOutlined
+            style={{ fontSize: "20px", color: "#214C74" }}
+            key="linkedin"
+          />
+        </Col>
+      </Row>
 
-          <img src="../image/alaska.jpg" style={{width: "30%"}}/>
+      
+      <Row className="site-layout-background" justify="center" align="top">
+      <Col span={2} >
+          <Menu mode="vertical" defaultSelectedKeys={["2"]}>
+            <Menu.Item key="1">Accueil</Menu.Item>
+            <Menu.Item key="2">Thématique</Menu.Item>
+            <Menu.Item  key="3">  Profil </Menu.Item>
+          </Menu>
+        </Col>
 
-          <h1 style={{backgroundColor: "#37A4B2", color:"white", position:"absolute", fontSize:"200%"}}>Que penseriez-vous d'annuler la dette publique ?</h1>
+        <Col span={10} style={{display:"flex", flexDirection:'column', alignItems:"center", justifyContent:'center'}} >
+
+          <h1 style={{color: "#37A4B2", fontSize:"200%" }}>Que penseriez-vous d'annuler la dette publique ?</h1>
+
+          <img src="../image/alaska.jpg" style={{width: "30%", position:"relative"}}/>
 
           <p>
 Par Marion Simon-Rainaud
@@ -86,15 +131,25 @@ La sortie du tunnel pandémique semble encore lointaine, et pourtant, des voix s
 Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralement explosé en 2020 en franchissant largement la barre symbolique des 100 % du PIB pour s'établir à près de 120 %, contre 98 % en 2019. En quarante ans, le poids de la dette a été multiplié par six, puisqu'il s'établissait à 20 % du PIB en 1980. « La France vit au-dessus de ses moyens », « la dette est un fardeau pour les générations futures », a-t-on l'habitude d'entendre. Mais la question peut se poser en d'autres termes : la capacité d'un pays à rembourser dépend de sa capacité à se faire financer dans les années futures, c'est-à-dire la possibilité d'emprunter à nouveau. Mais, derrière le débat des chiffres, se cachent en fait plusieurs visions de la dette, et par extension de la société.
 
         </p>
+        </Col>
   
-        
+        <Col span={4} style={{display:'flex', flexDirection:'column', alignItems:'center', backgroundColor:'lightBlue'}}>
+        <h1>VOTEZ</h1>
           
-  
-          <Radio.Group defaultValue="a" buttonStyle="solid" style={{ margin: 16, fontWeight: 'bold' }}>
+
+          <Radio.Group defaultValue="a" buttonStyle="solid" style={{ margin: 16, fontWeight: 'bold', display:'flex' }}>
             <Radio.Button disabled={status} style={{ margin: 16, backgroundColor: "#FFC806"}} value="J'Adore" onClick={(e) => setSelection(e.target.value) }>J'Adore</Radio.Button>
+          </Radio.Group>
+          <Radio.Group defaultValue="a" buttonStyle="solid" style={{ margin: 16, fontWeight: 'bold', display:'block' }}>
             <Radio.Button disabled={status} style={{ margin: 16, backgroundColor: "#EDAC06"}} value="Je suis Pour" onClick={(e) => setSelection(e.target.value)}>Je suis Pour</Radio.Button>
+            </Radio.Group>
+          <Radio.Group defaultValue="a" buttonStyle="solid" style={{ margin: 16, fontWeight: 'bold', display:'block' }}>  
             <Radio.Button disabled={status} style={{ margin: 16, backgroundColor: "#DAA419"}} value="Je suis Mitigé(e)" onClick={(e) => setSelection(e.target.value)}>Je suis Mitigé(e)</Radio.Button>
+            </Radio.Group>
+          <Radio.Group defaultValue="a" buttonStyle="solid" style={{ margin: 16, fontWeight: 'bold', display:'block' }}>  
             <Radio.Button disabled={status} style={{ margin: 16, backgroundColor: "#BE833D"}} value="Je suis Contre" onClick={(e) => setSelection(e.target.value)}>Je suis Contre</Radio.Button>
+            </Radio.Group>
+          <Radio.Group defaultValue="a" buttonStyle="solid" style={{ margin: 16, fontWeight: 'bold', display:'block' }}> 
             <Radio.Button disabled={status} style={{ margin: 16, backgroundColor: "#966215"}} value="Je Déteste" onClick={(e) => setSelection(e.target.value)}>Je Déteste</Radio.Button>
           </Radio.Group>
 
@@ -107,8 +162,28 @@ Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralem
 
         {message}
   
-          </Content>
-          </Layout>
+        </Col>
+        <Col span={8} style={{display:'flex', flexDirection:'column', backgroundColor:'beige'}}>
+          <h1>Top Commentaires</h1>
+
+        <List
+                  itemLayout="horizontal"
+                  dataSource={data}
+                  renderItem={item => (
+                    <List.Item style={{borderdColor: "#FFC806"}}>
+                      <List.Item.Meta 
+                        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                        auteur={data.auteur}
+                        commentaire={data.commentaire}
+                      />
+                    </List.Item>
+                  )}
+                />
+        </Col>
+
+        </Row>
+     
+          
       <Footer style={{ textAlign: "center" }}></Footer>
     </Layout>
 
