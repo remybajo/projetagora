@@ -15,6 +15,7 @@ function Publication(props) {
     const [messageCom, setMessageCom] = useState('');
     const [boutonVali, setBoutonVali] = useState('Valider le choix');
     const [comment, setComment] = useState('');
+    const [boutonValiCom, setBoutonValiCom] = useState('Envoyer le commentaire');
     var date;
     var dateComment;
     var token = props.token
@@ -76,12 +77,15 @@ function Publication(props) {
   var commentValidation = () => {
     console.log("commentaire: ", comment)
     if (!comment) {
-      setMessageCom("Veuillez choisir une option de vote avant de valider.")
+      setMessageCom("Aucun commentaire saisi")
     } else {
       dateComment = dateFormat(Date.now());
       console.log("date commentaire: ",dateComment);
       sendComment();
-      setMessageCom("Votre commentaire a bien été envoyé.")
+      setMessageCom("Votre commentaire a bien été envoyé.");
+      setComment('');
+      setBoutonValiCom('');
+      setBoutonValiCom("Annuler le commentaire");
     }
   }
 
@@ -90,8 +94,8 @@ function Publication(props) {
       
       <Layout style={{margin:10}}>
 
-      <Row style={{height:'5%', backgroundColor:'#37A4B2', margin:10}}>
-        <Col span={4}>
+      <Row gutter={{ xs: 22, sm: 12, md: 6}} style={{height:'5%', backgroundColor:'#37A4B2', margin:10}}>
+        <Col span={4} >
           <Image className="logo" width={150} src="./image/AGORA.png" />
         </Col>
       
@@ -221,11 +225,11 @@ Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralem
         <Col span={24}>
           AJOUTEZ UN COMMENTAIRE POUR ETAYER VOTRE VOTE (facultatif)
         <Form.Item>
-          <TextArea rows={5} onChange={(e) => setComment(e.target.value)} placeholder="Tapez votre commentaire" />
+          <TextArea rows={5} onChange={(e) => setComment(e.target.value)} placeholder="Tapez votre commentaire" value={comment} />
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit" onClick="{onSubmit}" type="primary" onClick={()=> commentValidation()}>
-            Envoyer le commentaire
+          {boutonValiCom}
           </Button>
       </Form.Item>
       {messageCom}
