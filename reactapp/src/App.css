@@ -89,7 +89,7 @@ h4 {
 .Sign {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: column;
     justify-content: center;
     padding-bottom: 15px;
     border-radius: 5%;
