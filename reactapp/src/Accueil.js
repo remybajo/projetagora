@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from "react-router-dom";
 import {
   Button,
   Layout,
@@ -17,9 +17,11 @@ import {
   Tag,
   BackTop,
   Badge,
+  Modal,
   Carousel,
 } from "antd";
 import "antd/dist/antd.css";
+import { connect } from "react-redux";
 import {
   SettingOutlined,
   EditOutlined,
@@ -37,6 +39,8 @@ import {
   AppstoreOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
+import EnTete from "./EnTete";
+import SideBarDroite from "./SideBarDroite";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -71,113 +75,66 @@ const IconText = ({ icon, text }) => (
 // import {Redirect} from 'react-router-dom';
 // import {connect} from 'react-redux';
 
-
-
 function Accueil(props) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [inscription, setInscription] = useState();
 
-  const [inscription, setInscription] = useState()
+  //fonction du modal
+  var showModal = () => {
+    setIsModalVisible(true);
+  };
 
-  
+  const handleOk = (e) => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = (e) => {
+    setIsModalVisible(false);
+  };
+
+  var handleClickCreer = async () => {
+    if (props.token == null) {
+      showModal();
+    } else {
+      return <Redirect to="/nouvelPublication" />;
+    }
+  };
+
+  var handleClick = async () => {
+    if (props.token == null) {
+      showModal();
+    } else {
+      return <Redirect to="/" />;
+    }
+  };
+
   var redirection = async () => {
-    console.log("coucou!!")
+    console.log("coucou!!");
     // if(inscription == false){
-    setInscription(true)
+    setInscription(true);
     // if(true == true){
     // return <Redirect to='/inscription'/>}
-    console.log(inscription)
-      console.log("oui, oui, oui, par ici tout va bien")
-    }
+    console.log(inscription);
+    console.log("oui, oui, oui, par ici tout va bien");
+  };
 
-    if(inscription){ return <Redirect to='/inscription'/>}
-  
+  if (inscription) {
+    return <Redirect to="/inscription" />;
+  }
 
-
+  if (inscription) {
+    return <Redirect to="/inscription" />;
+  }
 
   return (
-    
     /* header */
     <Layout className="site-layout-background">
-      <Row>
-        <Col span={6}>
-          {" "}
-          <Image
-            size={40}
-            className="logo"
-            width={200}
-            src="./image/AGORA.png"
-          />
-        </Col>
-        <Col span={6}></Col>
-        <Col span={6}></Col>
-        <Col span={6} className="social-icons">
-          {" "}
-          <TwitterOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="twitter"
-          />
-          <Divider type="vertical" />
-          <FacebookOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="facebook"
-          />
-          <Divider type="vertical" />
-          <LinkedinOutlined
-            style={{ fontSize: "20px", color: "#214C74" }}
-            key="linkedin"
-          />
-          <div>
-            {" "}
-            <Button
-              icon={<UserOutlined />}
-              size={100}
-              style={{ Color: "#214C74", borderColor: "#214C74" }}
-            >
-              Log in
-            </Button>
-            <Divider type="vertical" />
-            <Button
-              type="primary"
-              size={100}
-              style={{ backgroundColor: "#214C74", borderColor: "#214C74" }}
-            >
-              Log out
-            </Button>
-          </div>
-        </Col>
-      </Row>
+      <EnTete />
 
       <Row></Row>
 
       <Layout className="site-layout-background">
-        <Sider className="site-layout-background">
-          {" "}
-          <Menu
-            style={{ width: 256 }}
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-          >
-            <Menu.Item key="1" icon={<MailOutlined />}>
-              Accueil
-            </Menu.Item>
-            <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
-              <Menu.Item key="3">THEME 1</Menu.Item>
-              <Menu.Item key="4">THEME 2</Menu.Item>
-            </SubMenu>
-            <Menu.Item key="2" icon={<CalendarOutlined />}>
-              Mon compte
-            </Menu.Item>
-
-            <Menu.Item key="link" icon={<LinkOutlined />}>
-              <a
-                href="https://ant.design"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Ant Design
-              </a>
-            </Menu.Item>
-          </Menu>
-        </Sider>
+        <SideBarDroite />
         <Content
           style={{ padding: "0 24px", minHeight: 280, marginTop: "30px" }}
         >
@@ -461,26 +418,26 @@ function Accueil(props) {
           </Divider>
           <p>
             <Tag>
-              <a href="https://"> Politique</a>
+              <a href="https://"> Foot</a>
             </Tag>
             <Tag>
-              <a href="https://"> Education</a>
+              <a href="https://"> stationnement</a>
             </Tag>
             <Tag>
-              <a href="https://"> Sport</a>
+              <a href="https://"> lycee</a>
             </Tag>
             <Tag>
-              <a href="https://"> Projet et environnement </a>
+              <a href="https://"> restaurent </a>
             </Tag>
             <Tag>
-              <a href="https://"> Evenement</a>
+              <a href="https://"> piscine</a>
             </Tag>
             <Tag>
-              <a href="https://"> Culture</a>
+              <a href="https://"> salle de sport</a>
             </Tag>
-            Economie / Entreprise/ emploi /start up / Fait Divers / autre Debats
-            Santé / Transport / Tourisme / voyage / Locale / France / T’as
-            remarqué? / Idée
+            ecole / micro entreprise/ salons /metro / travaux / autre Debats
+            centre de sante / residence/ quaie / stade / insecurité / ville /
+            autre / Idée
           </p>
         </Sider>
       </Layout>
@@ -524,4 +481,8 @@ function Accueil(props) {
   );
 }
 
-export default Accueil;
+function mapStateToProps(state) {
+  return { token: state.token };
+}
+
+export default connect(mapStateToProps, null)(Accueil);
