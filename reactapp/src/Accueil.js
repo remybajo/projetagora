@@ -77,8 +77,9 @@ function Accueil(props) {
     // return <Redirect to='/inscription'/>}
     console.log(inscription)
       console.log("oui, oui, oui, par ici tout va bien")
-      if(inscription){ return <Redirect to='/inscription'/>}
     }
+
+    if(inscription){ return <Redirect to='/inscription'/>}
   
 
 
