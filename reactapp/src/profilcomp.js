@@ -28,8 +28,6 @@ function Profilcomp(props) {
     //Cookies.set('token', props.token)
 
 
-  
-
         
 
     var handleSubmitComp = async () => {
@@ -49,7 +47,7 @@ function Profilcomp(props) {
 
    
             if(validation==true){
-        return (<Redirect to='/nouvelPublication' />)}
+        return (<Redirect to='/' />)}
     
 
  

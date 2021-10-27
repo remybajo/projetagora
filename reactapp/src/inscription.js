@@ -34,7 +34,7 @@ function Inscription(props) {
      showModal()
        } else {
       
-        return <Redirect to='/nouvelPublication' />
+        return <Redirect to='/' />
        }}
 
         
@@ -53,7 +53,7 @@ function Inscription(props) {
         if (body.result == true) {
             setUserExists(true);
             props.addToken(body.token)
-            return <Redirect to='/profilcomp' />
+            handleCancel()
         } else {
             setErrorsSignup(body.error)
         }
@@ -75,11 +75,12 @@ function Inscription(props) {
         } else {
             setErrorsSignin(body.error)
         }
+        if (userExists) {
+            setIsModalVisible(false)
+        }
     }
 
-    if (userExists) {
-        return <Redirect to='/profilcomp' />
-    }
+    
 
     var tabErrorsSignin = listErrorsSignin.map((error, i) => {
         return (<p>{error}</p>)
@@ -99,7 +100,7 @@ function Inscription(props) {
         setIsModalVisible(false);
     };
 
-    const handleCancel = e => {
+    var handleCancel = e => {
         setIsModalVisible(false);
     };
 
@@ -111,15 +112,8 @@ function Inscription(props) {
   
         <div className="Login-page" >
 
-            <div>
-
-                <Button onClick={() => showModal()} style={{ width: '80px' }} type="secondary" style={{ width: '80px' }}>Sign-up</Button>
-                <Button onClick={() => handleClick()}  style={{ width: '80px' }} type="secondary" style={{ width: '80px' }}>vote</Button>
-            </div>
-            <Modal title="Inscription/Connexion"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}>
+          
+            
                 <div className="Sign">
                     <h3 style={{ color: "white" }}> Je suis déjà inscrit </h3>
 
@@ -152,7 +146,7 @@ function Inscription(props) {
 
                 </div>
                 
-            </Modal>
+
         </div>
     
     );
