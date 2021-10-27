@@ -134,55 +134,7 @@ function Accueil(props) {
       <Row></Row>
 
       <Layout className="site-layout-background">
-        <Sider className="site-layout-background">
-          {" "}
-          <Menu
-            style={{ width: 200 }}
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-          >
-            <Menu.Item key="1" icon={<MailOutlined />}>
-              <Link to="/">Accueil</Link>
-            </Menu.Item>
-            <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
-              <Menu.Item key="3">
-                <Link to="/">Politique</Link>
-              </Menu.Item>
-              <Menu.Item key="4">
-                <Link to="/">Culture</Link>
-              </Menu.Item>
-              <Menu.Item key="4">Débats</Menu.Item>
-              <Menu.Item key="4">Economie / emploi </Menu.Item>
-              <Menu.Item key="4">Education </Menu.Item>
-              <Menu.Item key="4">entreprise/start up </Menu.Item>
-              <Menu.Item key="4">Evenement</Menu.Item>
-              <Menu.Item key="4">Fait Divers / autre </Menu.Item>
-              <Menu.Item key="4">France </Menu.Item>
-              <Menu.Item key="4">Idée</Menu.Item>
-              <Menu.Item key="4">Etranger</Menu.Item>
-              <Menu.Item key="4">Politique</Menu.Item>
-              <Menu.Item key="4">Projet environnement</Menu.Item>
-              <Menu.Item key="4">Santé</Menu.Item>
-              <Menu.Item key="4">Sport</Menu.Item>
-              <Menu.Item key="4">T’as remarqué?</Menu.Item>
-              <Menu.Item key="4">Tourisme / voyage </Menu.Item>
-              <Menu.Item key="4">Transport</Menu.Item>
-            </SubMenu>
-            <Menu.Item key="2" icon={<CalendarOutlined />}>
-              <Link to="/completerProfil">Mon compte</Link>
-            </Menu.Item>
-
-            <Menu.Item key="link" icon={<EditOutlined />}>
-              <a
-                href="https://ant.design"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Nouvelle publication
-              </a>
-            </Menu.Item>
-          </Menu>
-        </Sider>
+        <SideBarDroite />
         <Content
           style={{ padding: "0 24px", minHeight: 280, marginTop: "30px" }}
         >
