@@ -12,8 +12,11 @@ function Publication(props) {
     const [selection, setSelection] = useState('')
     const [status, setStatus] = useState(false);
     const [message, setMessage] = useState('');
+    const [messageCom, setMessageCom] = useState('');
     const [boutonVali, setBoutonVali] = useState('Valider le choix');
+    const [comment, setComment] = useState('');
     var date;
+    var dateComment;
     var token = props.token
     const { TextArea } = Input;
 
@@ -61,6 +64,26 @@ function Publication(props) {
     { auteur: 'Ant Design Title 1', commentaire: 'blablabla'},
     { auteur: 'Ant Design Title 2', commentaire: 'blablabla'},
   ]
+
+  var sendComment = async() => {
+    await fetch('/comments/sendComment', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: `commentaire=${comment}&publication=""&date=${dateComment}&token=""`
+  })
+  }
+
+  var commentValidation = () => {
+    console.log("commentaire: ", comment)
+    if (!comment) {
+      setMessageCom("Veuillez choisir une option de vote avant de valider.")
+    } else {
+      dateComment = dateFormat(Date.now());
+      console.log("date commentaire: ",dateComment);
+      sendComment();
+      setMessageCom("Votre commentaire a bien été envoyé.")
+    }
+  }
 
    
     return (
@@ -198,13 +221,14 @@ Car, dans l'absolu, les chiffres inquiètent. La dette française* a littéralem
         <Col span={24}>
           AJOUTEZ UN COMMENTAIRE POUR ETAYER VOTRE VOTE (facultatif)
         <Form.Item>
-          <TextArea rows={6} onChange="{onChange}" placeholder="Tapez votre commentaire" />
+          <TextArea rows={5} onChange={(e) => setComment(e.target.value)} placeholder="Tapez votre commentaire" />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" onClick="{onSubmit}" type="primary">
+          <Button htmlType="submit" onClick="{onSubmit}" type="primary" onClick={()=> commentValidation()}>
             Envoyer le commentaire
           </Button>
       </Form.Item>
+      {messageCom}
       </Col>
       
       </Row>

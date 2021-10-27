@@ -5,7 +5,7 @@ var voteModel = require('../models/votes')
 
 router.post('/sendVote', async function(req, res, next){
     var result = false
-    // var user = await userModel.findOne({token: req.body.token})
+    var user = await userModel.findOne({token: req.body.token})
   
     // if(user != null){
       var newVote = new voteModel({
