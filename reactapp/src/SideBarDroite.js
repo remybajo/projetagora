@@ -73,17 +73,13 @@ function SideBarDroite(props) {
           <Menu.Item key="4">Transport</Menu.Item>
         </SubMenu>
         <Menu.Item key="2" icon={<CalendarOutlined />}>
-          <Link to="/completerProfil">Mon compte</Link>
+          <Link to="/nouvelPublication">Mon compte</Link>
         </Menu.Item>
 
         <Menu.Item key="link" icon={<EditOutlined />}>
-          <a
-            href="https://ant.design"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nouvelle publication
-          </a>
+          
+        <Link to="/nouvelPublication">Nouvelle publication</Link> 
+          
         </Menu.Item>
       </Menu>
     </Sider>

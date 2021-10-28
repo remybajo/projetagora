@@ -76,37 +76,12 @@ const IconText = ({ icon, text }) => (
 // import {connect} from 'react-redux';
 
 function Accueil(props) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+ 
   const [inscription, setInscription] = useState();
 
-  //fonction du modal
-  var showModal = () => {
-    setIsModalVisible(true);
-  };
+ 
 
-  const handleOk = (e) => {
-    setIsModalVisible(false);
-  };
 
-  const handleCancel = (e) => {
-    setIsModalVisible(false);
-  };
-
-  var handleClickCreer = async () => {
-    if (props.token == null) {
-      showModal();
-    } else {
-      return <Redirect to="/nouvelPublication" />;
-    }
-  };
-
-  var handleClick = async () => {
-    if (props.token == null) {
-      showModal();
-    } else {
-      return <Redirect to="/" />;
-    }
-  };
 
   var redirection = async () => {
     console.log("coucou!!");
