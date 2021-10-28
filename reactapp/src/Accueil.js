@@ -85,8 +85,9 @@ function Accueil(props) {
     return <Redirect to="/inscription" />;
   }
   
-
+  var toRead;
   var publiCards = latest.map((publication,i)=>{
+    toRead = publication[i];
     return (<Card key={i}
     style={{ width: 700 }}
     cover={
@@ -100,8 +101,8 @@ function Accueil(props) {
         <Avatar icon={<UserOutlined />} />
       </Badge>,
       <EditOutlined key="edit" />,
-      <Button type="primary" danger>
-        Réagir
+      <Button type="primary" danger onClick={()=> console.log("click détecté sur: ", toRead._id)}>
+        <Link to={`/publication/${toRead._id}`}>Reagir</Link>
       </Button>,
     ]}
   >
@@ -114,6 +115,7 @@ function Accueil(props) {
     />
   </Card>)
   })
+
 
   return (
     /* header */
@@ -159,6 +161,7 @@ function Accueil(props) {
                           style={{
                             backgroundColor: "#E2A916",
                             borderColor: "#E2A916",
+                            
                           }}
                         >
                           Réagir
@@ -367,8 +370,22 @@ function Accueil(props) {
   );
 }
 
+
 function mapStateToProps(state) {
   return { token: state.token };
 }
 
-export default connect(mapStateToProps, null)(Accueil);
+function mapDispatchToProps(dispatch){
+  return {
+    goToPublication: function(toRead){
+      dispatch({type: 'readPublication',
+        selectPublication: toRead
+      })
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(Accueil);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import {
   Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
   Input,} from "antd";
@@ -13,6 +14,8 @@ import SideBarDroite from "./SideBarDroite";
 function Publication(props) {
   const { Header, Footer, Sider, Content } = Layout;
 
+  var { id } = useParams();
+  const [content, setContent] = useState();
   const [vote, setVote] = useState("");
   const [selection, setSelection] = useState("");
   const [status, setStatus] = useState(false);
@@ -26,24 +29,10 @@ function Publication(props) {
   var token = props.token;
   const { TextArea } = Input;
 
+
   var dateFormat = function (date) {
     var newDate = new Date(date);
-    var format =
-      newDate.getDate() +
-      "/" +
-      (newDate.getMonth() + 1) +
-      "/" +
-      newDate.getFullYear();
-    return format;
-  };
-  var dateFormat = function (date) {
-    var newDate = new Date(date);
-    var format =
-      newDate.getDate() +
-      "/" +
-      (newDate.getMonth() + 1) +
-      "/" +
-      newDate.getFullYear();
+    var format = newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear();
     return format;
   };
 
@@ -51,6 +40,18 @@ function Publication(props) {
     setVote(selection);
     setMessage("");
   }, [selection]);
+
+  // récupérer le contenu de la publication sélectionnée sur l'accueil
+  useEffect(async() => {
+    console.log("id: ", {id})
+    console.log("sans accolades: ",id)
+    const publication = await fetch(`/publications/selectedPublication?id=${id}`)
+    
+    var body = await publication.json();
+    console.log("body received: ", body)
+    setContent(body.publiToDisplay)
+
+  },[])
 
   var sendVote = async () => {
     await fetch("/votes/sendVote", {
@@ -112,26 +113,22 @@ function Publication(props) {
 
   return (
     <Layout style={{ margin: 10 }}>
+    
       <EnTete />
-
+      <Layout>
+        
+        <SideBarDroite/>
+      <Content style={{margin:10}}>   
       <Row
+      
         className="site-layout-background"
         justify="center"
         align="top"
         style={{ margin: 10 }}
       >
         <div style={{ display: "flex" }}>
-          <Col span={4}>
-            <Menu
-              mode="vertical"
-              defaultSelectedKeys={["2"]}
-              style={{ margin: 10 }}
-            >
-              <Menu.Item key="1">Accueil</Menu.Item>
-              <Menu.Item key="2">Thématique</Menu.Item>
-              <Menu.Item key="3"> Profil </Menu.Item>
-            </Menu>
-          </Col>
+
+
 
           <Col
             span={10}
@@ -315,14 +312,15 @@ function Publication(props) {
           {messageCom}
         </Col>
       </Row>
-
+      </Content> 
+      </Layout>
       <Footer style={{ textAlign: "center" }}></Footer>
     </Layout>
   );
 }
 
 function mapStateToProps(state) {
-  return { token: state.token };
+  return { token: state.token};
 }
 
 export default connect(mapStateToProps, null)(Publication);
