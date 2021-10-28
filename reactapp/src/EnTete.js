@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { connect } from 'react-redux'
 import {
   Button,
   Layout,
@@ -11,6 +12,7 @@ import {
   Row,
   Col,
   Tabs,
+  Modal
 } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -30,15 +32,60 @@ import {
   AppstoreOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
+import Inscription from "./inscription";
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
+
+
 function EnTete(props) {
+
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+
+  var showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = (e) => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = (e) => {
+    setIsModalVisible(false);
+  };
+
+
+  var handleClick = async () => {
+   
+    if (props.token == null) {
+      showModal();
+  
+    } else {
+      < Redirect to="/" />
+      
+    }
+  };
+
+  
+
+
+ 
+
   return (
+   
     <Row>
+      <Modal title="connexion/inscription" style={{ displayflex: 1, width: 150 }}
+
+visible={isModalVisible}
+onOk={handleOk}
+onCancel={handleCancel}>
+<Inscription /> </Modal>
+
       <Col span={6}>
         {" "}
         <Image
@@ -69,12 +116,12 @@ function EnTete(props) {
         />
         <div>
           {" "}
-          <Button
+          <Button onClick={() => handleClick()}
             icon={<UserOutlined />}
             size={100}
-            style={{ Color: "#214C74", borderColor: "#214C74" }}
+            style={{ Color: "white", borderColor: "#214C74" }}
           >
-            Log in
+            Log-in
           </Button>
           <Divider type="vertical" />
           <Button
@@ -90,4 +137,6 @@ function EnTete(props) {
   );
 }
 
-export default EnTete;
+
+
+export default EnTete

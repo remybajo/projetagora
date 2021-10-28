@@ -11,6 +11,7 @@ var publicationModel = require('../models/publications')
 router.post('/sign-up', async function (req, res, next) {
 
   var error = []
+
   var result = false
   var saveUser = null
   var token = null
@@ -64,6 +65,7 @@ router.post('/sign-in', async function (req, res, next) {
   var result = false
   var user = null
   var error = []
+
   var token = null
 
   if (req.body.emailFromFront == ''
@@ -92,6 +94,7 @@ router.post('/sign-in', async function (req, res, next) {
       error.push('email incorrect')
     }
   }
+ 
 
 
   res.json({ result, user, error, token })
@@ -123,7 +126,7 @@ router.post('/post-publication', async function(req, res, next){
       thematique: req.body.themePublication,
       titre: req.body.titrePublication,
       texte: req.body.contenuPublication,
-      image: 'une image',
+      image: req.body.image,
       date_publication: req.body.datePublication,
       statut: false,
       motsCle: req.body.motClePublication,
@@ -141,12 +144,6 @@ router.post('/post-publication', async function(req, res, next){
   }
 
   console.log('publiToken', publiToken)
-
-
-
-
-
-
 
     res.json({result, publiToken})
   })

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import token from "./reducers/token";
 import publiToken from "./reducers/publiToken";
+import PageProfil from "./pageprofil";
 import Accueil from "./Accueil";
 import Inscription from "./inscription";
 import Profilcomp from "./profilcomp";
@@ -20,7 +21,7 @@ import SideBarDroite from "./SideBarDroite";
 import PageTheme from "./PageTheme";
 //import Cookies from 'js-cookie';
 
-const store = createStore(combineReducers({ token, publiToken }));
+const store = createStore(combineReducers({ token, publiToken}));
 
 function App(props) {
   return (
@@ -29,7 +30,7 @@ function App(props) {
         <Switch>
           <Route component={Accueil} path="/" exact />
           <Route component={Test} path="/test" exact />
-          <Route component={Inscription} path="/inscription" exact />
+          <Route component={PageProfil} path="/pageprofil" exact />
           <Route component={Profilcomp} path="/profilcomp" exact />
           <Route component={Publication} path="/publication" exact />
           <Route component={Thematique} path="/Thematique" exact />

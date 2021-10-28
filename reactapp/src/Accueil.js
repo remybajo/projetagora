@@ -1,43 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {
-  Button,
-  Layout,
-  Menu,
-  Breadcrumb,
-  Image,
-  Card,
-  Avatar,
-  Divider,
-  Row,
-  Col,
-  Tabs,
-  List,
-  Space,
-  Tag,
-  BackTop,
-  Badge,
-  Modal,
-  Carousel,
-} from "antd";
+import { Button, Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
+  Badge, Modal, Carousel} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
+import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
+  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
 } from "@ant-design/icons";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
@@ -51,6 +19,9 @@ const gridStyle = {
   width: "25%",
   textAlign: "center",
 };
+  
+
+
 
 //questions aléatoires
 const listData = [];
@@ -76,37 +47,25 @@ const IconText = ({ icon, text }) => (
 // import {connect} from 'react-redux';
 
 function Accueil(props) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+ 
   const [inscription, setInscription] = useState();
+  const [latest, setLatest] = useState([]);
 
-  //fonction du modal
-  var showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = (e) => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = (e) => {
-    setIsModalVisible(false);
-  };
-
-  var handleClickCreer = async () => {
-    if (props.token == null) {
-      showModal();
-    } else {
-      return <Redirect to="/nouvelPublication" />;
+ //Récupération les publications à l'initialisation
+  useEffect(()=> {
+    
+    const findPublications = async() => {
+      console.log("init latest: ", latest)
+      const publications = await fetch('publications/lastPublications')
+      const body = await publications.json();
+      console.log(body.latest)
+      setLatest([...latest, body.latest]);      
+      
     }
-  };
+      findPublications()    
+  },[])
 
-  var handleClick = async () => {
-    if (props.token == null) {
-      showModal();
-    } else {
-      return <Redirect to="/" />;
-    }
-  };
+  const [lastPublications, setLastPublications] = useState(latest)
 
   var redirection = async () => {
     console.log("coucou!!");
@@ -125,6 +84,36 @@ function Accueil(props) {
   if (inscription) {
     return <Redirect to="/inscription" />;
   }
+  
+
+  var publiCards = latest.map((publication,i)=>{
+    return (<Card key={i}
+    style={{ width: 700 }}
+    cover={
+      <img
+        alt="avatar"
+        src={publication[i].image}
+      />
+    }
+    actions={[
+      <Badge count={1000} overflowCount={999}>
+        <Avatar icon={<UserOutlined />} />
+      </Badge>,
+      <EditOutlined key="edit" />,
+      <Button type="primary" danger>
+        Réagir
+      </Button>,
+    ]}
+  >
+    <Meta
+      avatar={
+        <Avatar src="https://joeschmoe.io/api/v1/random" />
+      }
+      title={publication[i].titre}
+      description={publication[i].texte}
+    />
+  </Card>)
+  })
 
   return (
     /* header */
@@ -143,32 +132,12 @@ function Accueil(props) {
               <div className="card-container">
                 <Tabs type="card">
                   <TabPane tab="A la une " key="1">
-                    <Card
-                      style={{ width: 700 }}
-                      cover={
-                        <img
-                          alt="avatar"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <Badge count={1000} overflowCount={999}>
-                          <Avatar icon={<UserOutlined />} />
-                        </Badge>,
-                        <EditOutlined key="edit" />,
-                        <Button type="primary" danger>
-                          Réagir
-                        </Button>,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="La question ?"
-                        description="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
-                      />
-                    </Card>
+
+                  <Carousel dotPosition="bottom" dots="true" autoplay style={{ width: 700}}>
+                    {publiCards}
+                  </Carousel>
+                    
+                   
                   </TabPane>
                   <TabPane tab="Les plus populaire" key="2">
                     <p>Content of Tab Pane 2</p>
