@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Input, Button, Modal } from 'antd';
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 //import { CookiesProvider } from "react-cookie";
 //import Cookies from 'js-cookie';
@@ -14,30 +14,17 @@ function Inscription(props) {
     const [signUpVerifPassword, setSignUpVerifPassword] = useState('')
     const [signInEmail, setSignInEmail] = useState('')
     const [signInPassword, setSignInPassword] = useState('')
+    
 
-    const [gender, setGender] = useState('')
-    const [dateOfBirth, setDateOfBirth]=useState('')
-    const [csp, setCsp] = useState('')
-    const [civilState, setCivilState] = useState('')
-    const [numberOfcChild , setNumberOfcChild ] = useState('')
-    const [validation , setValidation ] = useState('')
+
 
     const [userExists, setUserExists] = useState(false)
     const [listErrorsSignin, setErrorsSignin] = useState([])
     const [listErrorsSignup, setErrorsSignup] = useState([])
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isSuccess, setIsSuccess] = useState("");
     //Cookies.set('token', props.token)
 
-
-   var handleClick = async () => {
-       if (props.token == null){
-     showModal()
-       } else {
-      
-        return <Redirect to='/' />
-       }}
-
-        
+    
 
     var handleSubmitSignup = async () => {
 
@@ -53,11 +40,16 @@ function Inscription(props) {
         if (body.result == true) {
             setUserExists(true);
             props.addToken(body.token)
-            handleCancel()
+            setIsSuccess("tu es connecté !")
+            
+          
         } else {
             setErrorsSignup(body.error)
         }
+       
+        
     }
+   
 
     var handleSubmitSignin = async () => {
 
@@ -71,13 +63,13 @@ function Inscription(props) {
         console.log(body)
         if (body.result == true) {
             setUserExists(true);
+            setIsSuccess("tu es connecté !")
             props.addToken(body.token)
+            
         } else {
             setErrorsSignin(body.error)
         }
-        if (userExists) {
-            setIsModalVisible(false)
-        }
+        
     }
 
     
@@ -92,43 +84,35 @@ function Inscription(props) {
 
 
 
-    var showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = e => {
-        setIsModalVisible(false);
-    };
-
-    var handleCancel = e => {
-        setIsModalVisible(false);
-    };
-
+     if (userExists) { 
+      return <Link to={window.location.href}/>
+    }
 
   
 
     return (
         
-  
+        
         <div className="Login-page" >
-
+{isSuccess}
           
             
                 <div className="Sign">
-                    <h3 style={{ color: "white" }}> Je suis déjà inscrit </h3>
+                    <h3 style={{ color: "white", display:'flex', justifyContent:'center' }}> Je suis déjà inscrit </h3>
 
                     <Input onChange={(e) => setSignInEmail(e.target.value)} className="Login-input" placeholder="email" />
 
                     <Input.Password onChange={(e) => setSignInPassword(e.target.value)} className="Login-input" placeholder="password" />
-
+                    <div style={{display:'flex',justifyContent:'center', color:"red"}}>
                     {tabErrorsSignin}
+                    </div>
 
-                    <Button onClick={() => handleSubmitSignin()} type="primary" style={{ width: '80px' }}>Sign-in</Button>
+                    <Button onClick={() => handleSubmitSignin()} type="primary" style={{ backgroundColor:'white', color :"black" }}>Sign-in</Button>
 
                 </div>
                 <div className="Sign">
 
-                    <h3 style={{ color: "white" }}>Je n'ai pas encore de compte </h3>
+                    <h3 style={{ color: "white", display:'flex', justifyContent:'center' }}> Je n'ai pas de compte </h3>
 
                     <Input onChange={(e) => setSignUpUsername(e.target.value)} className="Login-input" placeholder="username" />
 
@@ -138,11 +122,11 @@ function Inscription(props) {
 
                     <Input.Password onChange={(e) => setSignUpVerifPassword(e.target.value)} className="Login-input" placeholder="verif password" />
 
+                    <div style={{display:'flex',justifyContent:'center', color:"red"}}>
                     {tabErrorsSignup}
+                    </div>
 
-                    <Button onClick={() => handleSubmitSignup()} style={{ width: '80px' }} type="primary" style={{ width: '80px' }}>Sign-up</Button>
-
-
+                    <Button onClick={() => handleSubmitSignup()} style={{ backgroundColor:'white', color :"black" }} type="primary" >Sign-up</Button>
 
                 </div>
                 
@@ -159,11 +143,13 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch) {
     return {
         addToken: function (token) {
-            dispatch({ type: 'addToken', token: token })
-        }
-    }
+            dispatch({ type: 'addToken', token: token },
+           
+            )
+           
+        
+    }}
 }
-
 
 
 export default connect(

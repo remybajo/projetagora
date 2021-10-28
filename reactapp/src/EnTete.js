@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { connect } from 'react-redux'
 import {
   Button,
   Layout,
@@ -38,8 +39,14 @@ const { SubMenu } = Menu;
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
+
+
 function EnTete(props) {
+
+
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+
   var showModal = () => {
     setIsModalVisible(true);
   };
@@ -53,18 +60,26 @@ function EnTete(props) {
   };
 
 
-
   var handleClick = async () => {
+   
     if (props.token == null) {
       showModal();
+  
     } else {
-      return <Redirect to="/" />;
+      < Redirect to="/" />
+      
     }
   };
+
+  
+
+
+ 
+
   return (
    
     <Row>
-      <Modal title="Inscription/Connexion" style={{ displayflex: 1, width: 150 }}
+      <Modal title="connexion/inscription" style={{ displayflex: 1, width: 150 }}
 
 visible={isModalVisible}
 onOk={handleOk}
@@ -104,9 +119,9 @@ onCancel={handleCancel}>
           <Button onClick={() => handleClick()}
             icon={<UserOutlined />}
             size={100}
-            style={{ Color: "#214C74", borderColor: "#214C74" }}
+            style={{ Color: "white", borderColor: "#214C74" }}
           >
-            Log in
+            Log-in
           </Button>
           <Divider type="vertical" />
           <Button
@@ -122,4 +137,6 @@ onCancel={handleCancel}>
   );
 }
 
-export default EnTete;
+
+
+export default EnTete
