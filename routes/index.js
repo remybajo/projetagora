@@ -145,6 +145,11 @@ router.post('/post-publication', async function(req, res, next){
     res.json({result, publiToken})
   })
 
+  router.get('/publicationdb', async function(req, res, next){
+    var publiEnCour = await publicationModel.findOne({publiToken: req.body.publiToken})
+      res.json({publiEnCour})
+    })
+
   // route qui permet de récupérer les thématiques
   // router.get('/thematique', async function(req, res, next){
 

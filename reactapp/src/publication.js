@@ -38,16 +38,7 @@ function Publication(props) {
       newDate.getFullYear();
     return format;
   };
-  var dateFormat = function (date) {
-    var newDate = new Date(date);
-    var format =
-      newDate.getDate() +
-      "/" +
-      (newDate.getMonth() + 1) +
-      "/" +
-      newDate.getFullYear();
-    return format;
-  };
+
 
   useEffect(() => {
     setVote(selection);
@@ -154,7 +145,7 @@ function Publication(props) {
             }}
           >
             <h1 style={{ color: "#37A4B2", fontSize: "200%" }}>
-              Que penseriez-vous d'annuler la dette publique ?
+              {currentPubli}
             </h1>
 
             <img
@@ -163,25 +154,7 @@ function Publication(props) {
             />
 
             <p>
-              Par Marion Simon-Rainaud Publié le 18 févr. 2021 à 7:00Mis à jour
-              le 18 févr. 2021 à 15:44 La sortie du tunnel pandémique semble
-              encore lointaine, et pourtant, des voix s'élèvent déjà pour penser
-              « l'après », et notamment sur le plan économique. En ce moment, la
-              dette publique est des sujets qui alimentent le plus les plateaux
-              télé, les fréquences radios et les colonnes des journaux. Car,
-              dans l'absolu, les chiffres inquiètent. La dette française* a
-              littéralement explosé en 2020 en franchissant largement la barre
-              symbolique des 100 % du PIB pour s'établir à près de 120 %, contre
-              98 % en 2019. En quarante ans, le poids de la dette a été
-              multiplié par six, puisqu'il s'établissait à 20 % du PIB en 1980.
-              « La France vit au-dessus de ses moyens », « la dette est un
-              fardeau pour les générations futures », a-t-on l'habitude
-              d'entendre. Mais la question peut se poser en d'autres termes : la
-              capacité d'un pays à rembourser dépend de sa capacité à se faire
-              financer dans les années futures, c'est-à-dire la possibilité
-              d'emprunter à nouveau. Mais, derrière le débat des chiffres, se
-              cachent en fait plusieurs visions de la dette, et par extension de
-              la société.
+            {currentPubli}
             </p>
           </Col>
           <Col
