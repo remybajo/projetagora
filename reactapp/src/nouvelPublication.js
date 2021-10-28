@@ -304,11 +304,11 @@ function NouvelPublication(props) {
       <EnTete />
 
       <Row>
-      <Col span={4}>>
+      <Col span={4}>
       <SideBarDroite />
       </Col>
 
-      <Col span={16} align="center">>
+      <Col span={16} align="center">
       <div style={{border: "1px solid black", width: "640px", height:"360px", display:"center"}}>
         {illustration}
       </div>
