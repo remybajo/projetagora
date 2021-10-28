@@ -28,6 +28,8 @@ function Publication(props) {
   var publiToken = props.publiToken
   const { TextArea } = Input;
 
+  console.log(publiToken)
+
   var dateFormat = function (date) {
     var newDate = new Date(date);
     var format =
@@ -43,15 +45,29 @@ function Publication(props) {
   useEffect(() => {
     setVote(selection);
     setMessage("");
-    var affichePubli = async() => {
-      var publiEC = await fetch('/publicationdb')
-      const publi = await publiEC.json()
-      console.log("ma publi",publi)
+
+    var cherche = async () => {
+      const publiEC = await fetch("/publicationdb", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `token=${props.token}&publiToken=${props.publiToken}`,
+      });
+      const publi = await publiEC.json();
+      console.log("et dans publi?", publi);
       setCurrentPubli(publi.publiEnCour)
-      console.log("mon current", currentPubli)
-    }
-    affichePubli()
+      }
+    cherche()
+
+
+    
+
   }, [selection]);
+
+
+
+console.log("mon current", currentPubli)
+
+
 
   var sendVote = async () => {
     await fetch("/votes/sendVote", {

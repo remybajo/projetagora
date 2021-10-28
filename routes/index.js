@@ -109,9 +109,6 @@ router.post('/post-publication', async function(req, res, next){
   var idd = user.id
 
 
-  console.log('onclick back', req.body)
-
-
   if(req.body.titrePublication == ''
   || req.body.contenuPublication == ''
   ){
@@ -140,13 +137,13 @@ router.post('/post-publication', async function(req, res, next){
     }
   }
 
-  console.log('publiToken', publiToken)
-
     res.json({result, publiToken})
   })
 
-  router.get('/publicationdb', async function(req, res, next){
+  router.post('/publicationdb', async function(req, res, next){
     var publiEnCour = await publicationModel.findOne({publiToken: req.body.publiToken})
+    console.log('ce qui est trouvé dans publiEnCour', publiEnCour)
+    console.log('ce qui est trouvé dans req.body', publiEnCour, req.body)
       res.json({publiEnCour})
     })
 
