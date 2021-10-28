@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var votesRouter = require('./routes/votes');
+var publicationsRouter = require('./routes/publications');
 var commentsRouter = require('./routes/comments');
 
 require('./models/connection')
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/publications', publicationsRouter);
 app.use('/votes', votesRouter);
 app.use('/comments', commentsRouter);
 

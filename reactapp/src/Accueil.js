@@ -1,43 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {
-  Button,
-  Layout,
-  Menu,
-  Breadcrumb,
-  Image,
-  Card,
-  Avatar,
-  Divider,
-  Row,
-  Col,
-  Tabs,
-  List,
-  Space,
-  Tag,
-  BackTop,
-  Badge,
-  Modal,
-  Carousel,
-} from "antd";
+import { Button, Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
+  Badge, Modal, Carousel} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
+import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
+  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
 } from "@ant-design/icons";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
@@ -51,6 +19,9 @@ const gridStyle = {
   width: "25%",
   textAlign: "center",
 };
+  
+
+
 
 //questions aléatoires
 const listData = [];
@@ -79,7 +50,17 @@ function Accueil(props) {
  
   const [inscription, setInscription] = useState();
 
- 
+ //Récupération les publications à l'initialisation
+  useEffect(()=> {
+    const findPublications = async() => {
+      const publications = await fetch('publications/lastPublications')
+      const body = await publications.json()
+      console.log("result: ",body.result) 
+      var latest = body.latest;
+      console.log("latest: ", latest)
+    }
+      findPublications()    
+  },[])
 
 
 
@@ -199,33 +180,7 @@ function Accueil(props) {
                       />
                     </Card>
                   </Carousel>
-                    {/* <Card
-                      style={{ width: 700 }}
-                      cover={
-                        <img
-                          alt="avatar"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <Badge count={1000} overflowCount={999}>
-                          <Avatar icon={<UserOutlined />} />
-                        </Badge>,
-                        <EditOutlined key="edit" />,
-                        <Button type="primary" danger>
-                          Réagir
-                        </Button>,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="La question ?"
-                        description="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
-                      />
-                    </Card> */}
-
+                    
                    
                   </TabPane>
                   <TabPane tab="Les plus populaire" key="2">
