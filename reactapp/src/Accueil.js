@@ -102,7 +102,7 @@ function Accueil(props) {
       </Badge>,
       <EditOutlined key="edit" />,
       <Button type="primary" danger onClick={()=> console.log("click détecté sur: ", toRead._id)}>
-        <Link to={`/publication/${toRead._id}`}>Reagir</Link>
+        <Link to={`/publication/${toRead._id}`}> Reagir </Link>
       </Button>,
     ]}
   >
