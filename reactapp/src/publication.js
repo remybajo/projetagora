@@ -21,9 +21,11 @@ function Publication(props) {
   const [boutonVali, setBoutonVali] = useState("Valider le choix");
   const [comment, setComment] = useState("");
   const [boutonValiCom, setBoutonValiCom] = useState("Envoyer le commentaire");
+  const [currentPubli, setCurrentPubli] = useState()
   var date;
   var dateComment;
   var token = props.token;
+  var publiToken = props.publiToken
   const { TextArea } = Input;
 
   var dateFormat = function (date) {
@@ -50,6 +52,14 @@ function Publication(props) {
   useEffect(() => {
     setVote(selection);
     setMessage("");
+    var affichePubli = async() => {
+      var publiEC = await fetch('/publicationdb')
+      const publi = await publiEC.json()
+      console.log("ma publi",publi)
+      setCurrentPubli(publi.publiEnCour)
+      console.log("mon current", currentPubli)
+    }
+    affichePubli()
   }, [selection]);
 
   var sendVote = async () => {

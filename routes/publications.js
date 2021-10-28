@@ -5,6 +5,7 @@ var publicationModel = require('../models/publications')
 
 router.get('/lastPublications', async function(req, res, next){
  
+    var result
     var publications = await publicationModel.find().sort({date_publication: -1});
     var latest = publications.slice(0,3)
     console.log(latest)
