@@ -7,6 +7,7 @@ router.get('/lastPublications', async function(req, res, next){
  
     var publications = await publicationModel.find().sort({date_publication: -1});
     var latest = publications.slice(0,3)
+    console.log(latest)
   
     if(latest.length == 3){
         result = true
