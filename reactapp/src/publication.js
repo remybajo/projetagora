@@ -305,7 +305,7 @@ function Publication(props) {
 }
 
 function mapStateToProps(state) {
-  return { token: state.token };
+  return { token: state.token, publiToken: state.publiToken };
 }
 
 export default connect(mapStateToProps, null)(Publication);
