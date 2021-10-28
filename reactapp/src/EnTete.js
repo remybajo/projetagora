@@ -12,7 +12,8 @@ import {
   Row,
   Col,
   Tabs,
-  Modal
+  Modal,
+  
 } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -79,6 +80,7 @@ function EnTete(props) {
   return (
    
     <Row>
+   
       <Modal title="connexion/inscription" style={{ displayflex: 1, width: 150 }}
 
 visible={isModalVisible}
@@ -133,6 +135,7 @@ onCancel={handleCancel}>
           </Button>
         </div>
       </Col>
+     
     </Row>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Button, Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
+import {Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
   Badge, Modal} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
@@ -9,6 +9,7 @@ import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, Twit
 } from "@ant-design/icons";
 
 import Carousel from 'react-bootstrap/Carousel';
+import Button from 'react-bootstrap/Button'
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
@@ -131,10 +132,10 @@ function Accueil(props) {
                       alt="First slide"
 
                     />
-                    <Carousel.Caption style={{display:'flex',flexDirection:'column' ,width:"80%",height:"20%", backgroundColor:"gray", padding:0, margin:0}}>
+                    <Carousel.Caption style={{display:'flex',flexDirection:'column' ,width:"80%",height:"30%", backgroundColor:"lightBlue", padding:0, margin:0}}>
                       <h3>{publication[i].titre}</h3>
                       <p>{publication[i].texte}</p>
-                      <Button>REAGIR</Button>
+                      <Button type="button" class="btn-danger">REAGIR</Button>
                     </Carousel.Caption>
                   </Carousel.Item>)
                              
@@ -145,9 +146,8 @@ function Accueil(props) {
   return (
     /* header */
     <Layout className="site-layout-background">
-      <EnTete />
+      <EnTete/>
 
-  
       <Layout className="site-layout-background">
         <SideBarDroite />
         <Content
@@ -159,7 +159,7 @@ function Accueil(props) {
                 <Tabs type="card">
                   <TabPane tab="A la une " key="1" >
 
-                  <Carousel style={{width:700}}>
+                  <Carousel style={{width:900, padding:15}}>
                     {publiCards}
                   
                   </Carousel>
@@ -167,13 +167,14 @@ function Accueil(props) {
                    
                   </TabPane>
                   <TabPane tab="Les plus populaire" key="2">
+
+                  <Carousel style={{width:900}}>
+                    {publiCards}
                   
+                  </Carousel>
+
                   </TabPane>
-                  <TabPane tab="Tab Title 3" key="3">
-                    <p>Content of Tab Pane 3</p>
-                    
-                  </TabPane>
-                </Tabs>
+                 </Tabs> 
                 </Row>
             
             <Row justify="center" >
