@@ -1,38 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
-  Radio,
-  Layout,
-  Menu,
-  Button,
-  Image,
-  Breadcrumb,
-  Card,
-  Avatar,
-  Divider,
-  Row,
-  Col,
-  Tabs,
-  List,
-  Space,
-  Comment,
-  Form,
-  Input,
-} from "antd";
+  Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
+  Input,} from "antd";
 import { connect } from "react-redux";
 
-import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
-} from "@ant-design/icons";
+import {  SettingOutlined,  EditOutlined,  EllipsisOutlined,  DownloadOutlined,  TwitterOutlined,  FacebookOutlined,  LinkedinOutlined,
+  UserOutlined,  MessageOutlined,  LikeOutlined,  StarOutlined,} from "@ant-design/icons";
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";

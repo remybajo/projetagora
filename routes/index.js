@@ -123,7 +123,7 @@ router.post('/post-publication', async function(req, res, next){
       thematique: req.body.themePublication,
       titre: req.body.titrePublication,
       texte: req.body.contenuPublication,
-      image: 'une image',
+      image: req.body.image,
       date_publication: req.body.datePublication,
       statut: false,
       motsCle: req.body.motClePublication,
@@ -141,12 +141,6 @@ router.post('/post-publication', async function(req, res, next){
   }
 
   console.log('publiToken', publiToken)
-
-
-
-
-
-
 
     res.json({result, publiToken})
   })
