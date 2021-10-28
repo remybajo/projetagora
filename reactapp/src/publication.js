@@ -145,7 +145,7 @@ function Publication(props) {
             }}
           >
             <h1 style={{ color: "#37A4B2", fontSize: "200%" }}>
-              {currentPubli}
+              {currentPubli.titre}
             </h1>
 
             <img
@@ -154,7 +154,7 @@ function Publication(props) {
             />
 
             <p>
-            {currentPubli}
+            {currentPubli.texte}
             </p>
           </Col>
           <Col
