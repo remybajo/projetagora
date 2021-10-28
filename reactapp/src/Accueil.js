@@ -97,9 +97,7 @@ function Accueil(props) {
     return <Redirect to="/inscription" />;
   }
 
-  if (inscription) {
-    return <Redirect to="/inscription" />;
-  }
+ 
 
   return (
     /* header */
