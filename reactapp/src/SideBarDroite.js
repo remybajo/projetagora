@@ -41,7 +41,7 @@ function SideBarDroite(props) {
     <Sider className="site-layout-background">
       {" "}
       <Menu
-        style={{ width: 256 }}
+        style={{ width: 200 }}
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}
       >
