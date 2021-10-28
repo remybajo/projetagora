@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Layout, Card, Row } from "antd";
 import "antd/dist/antd.css";
-import { PlusOutlined, PlusCircleFilled } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 const { Header, Content, Footer, Sider } = Layout;
 
 const { Meta } = Card;
@@ -80,18 +80,10 @@ function Thematique(props) {
               justifyContent: "center",
               width: "75em",
               textAlign: "center",
-              display: "flex",
             }}
           >
-            <Col span="22">
-              <h3>titre</h3>
-              <h3>description</h3>
-            </Col>
-            <Col span="2">
-              <PlusCircleFilled
-                style={{ fontSize: "30px", color: "#214C74" }}
-              />
-            </Col>
+            <h3>titre</h3>
+            <h3>description</h3>
           </div>
         </Card>
         <Card
@@ -110,7 +102,7 @@ function Thematique(props) {
             />
           }
         >
-          <div
+          <Row
             style={{
               justifyContent: "center",
               width: "75em",
@@ -120,14 +112,11 @@ function Thematique(props) {
           >
             <Col span="22">
               <h3>titre</h3>
-              <h3>description</h3>
             </Col>
             <Col span="2">
-              <PlusCircleFilled
-                style={{ fontSize: "30px", color: "#214C74" }}
-              />
+              <PlusOutlined />
             </Col>
-          </div>
+          </Row>
         </Card>
       </Row>
     </>

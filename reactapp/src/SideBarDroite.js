@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import Inscription from "./inscription";
+import { connect } from 'react-redux'
 import {
   Button,
   Layout,
@@ -11,6 +13,7 @@ import {
   Row,
   Col,
   Tabs,
+  Modal
 } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -36,9 +39,38 @@ const { SubMenu } = Menu;
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
+
 function SideBarDroite(props) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  var showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = (e) => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = (e) => {
+    setIsModalVisible(false);
+  };
+
+  var handleClick = async () => {
+    if (props.token == null) {
+      showModal();
+    } else {
+      <Link to="/nouvelPublication"></Link>
+    }}
+    
+ 
   return (
     <Sider className="site-layout-background">
+      <Modal title="connexion/inscription" style={{ displayflex: 1, width: 150 }}
+
+visible={isModalVisible}
+onOk={handleOk}
+onCancel={handleCancel}>
+<Inscription /> </Modal>
       {" "}
       <Menu
         style={{ width: 200 }}
@@ -72,8 +104,8 @@ function SideBarDroite(props) {
           <Menu.Item key="4">Tourisme / voyage </Menu.Item>
           <Menu.Item key="4">Transport</Menu.Item>
         </SubMenu>
-        <Menu.Item key="2" icon={<CalendarOutlined />}>
-          <Link to="/nouvelPublication">Mon compte</Link>
+        <Menu.Item  onClick={() => handleClick()} key="2" icon={<CalendarOutlined  />}  >
+        <Link to="/completerProfil">Mon compte</Link>   
         </Menu.Item>
 
         <Menu.Item key="link" icon={<EditOutlined />}>
@@ -86,4 +118,12 @@ function SideBarDroite(props) {
   );
 }
 
-export default SideBarDroite;
+function mapStateToProps(state){
+  return {token:state.token}
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+ 
+)(SideBarDroite) ;
