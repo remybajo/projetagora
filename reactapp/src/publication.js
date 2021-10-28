@@ -21,7 +21,8 @@ function Publication(props) {
   const [boutonVali, setBoutonVali] = useState("Valider le choix");
   const [comment, setComment] = useState("");
   const [boutonValiCom, setBoutonValiCom] = useState("Envoyer le commentaire");
-  const [currentPubli, setCurrentPubli] = useState()
+  const [currentPubli, setCurrentPubli] = useState();
+  const [publiExist, setPubliExist] = useState(false);
   var date;
   var dateComment;
   var token = props.token;
@@ -45,7 +46,11 @@ function Publication(props) {
   useEffect(() => {
     setVote(selection);
     setMessage("");
+    }, [selection]);
 
+
+
+  useEffect(() => {
     var cherche = async () => {
       const publiEC = await fetch("/publicationdb", {
         method: "POST",
@@ -56,12 +61,12 @@ function Publication(props) {
       console.log("et dans publi?", publi);
       setCurrentPubli(publi.publiEnCour)
       }
+
     cherche()
+  }, [])
 
 
-    
 
-  }, [selection]);
 
 
 
