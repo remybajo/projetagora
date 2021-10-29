@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
+import {render} from 'react-dom'
 import './App.css';
-import { Input, Button, Modal, InputNumber, Form } from 'antd';
+import { Input, Button, Modal, InputNumber, Form, Radio, Select, Cascader } from 'antd';
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+
+import querystring from 'querystring';
+
+const { Option } = Select;
 //import { CookiesProvider } from "react-cookie";
 //import Cookies from 'js-cookie';
 
-function Profilcomp(props) {
 
-    const [signUpUsername, setSignUpUsername] = useState('')
-    const [signUpEmail, setSignUpEmail] = useState('')
-    const [signUpPassword, setSignUpPassword] = useState('')
-    const [signInEmail, setSignInEmail] = useState('')
-    const [signInPassword, setSignInPassword] = useState('')
-    const [userExists, setUserExists] = useState(false)
-    const [listErrorsSignin, setErrorsSignin] = useState([])
-    const [listErrorsSignup, setErrorsSignup] = useState([])
-    const [isModalVisible, setIsModalVisible] = useState(false);
+
+function Profilcomp(props) {
 
 
     const [gender, setGender] = useState('')
-    const [dateOfBirth, setDateOfBirth]=useState('')
+    const [dateOfBirth, setDateOfBirth] = useState('')
     const [csp, setCsp] = useState('')
     const [civilState, setCivilState] = useState('')
-    const [numberOfcChild , setNumberOfcChild ] = useState('')
-    const [validation , setValidation ] = useState('')
+    const [numberOfcChild, setNumberOfcChild] = useState('')
+    const [validation, setValidation] = useState('')
     //Cookies.set('token', props.token)
 
+  
 
-        
+
+
+      
 
     var handleSubmitComp = async () => {
 
@@ -37,64 +37,151 @@ function Profilcomp(props) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `genderFromFront=${gender}&dateOfBirth=${dateOfBirth}&csp=${csp}&civilState=${civilState}
             &child=${numberOfcChild}&token=${props.token}`
-           
+
         })
-       
+
         const body = await data.json()
-        if (body.result == true){
-            setValidation(true)}
-        console.log(body)}
-
-   
-            if(validation==true){
-        return (<Redirect to='/' />)}
-    
-
- 
-   
+        if (body.result == true) {
+            setValidation(true)
+        }
+        console.log(body)
+    }
 
 
+    if (validation == true) {
+        return (<Redirect to='/pageprofil' />)
+    }
 
+    //selection du genre //
+    const Genre = [
+        {
+            value: "homme",
+            label: "homme",
+        },
+        {
+            value: "femme",
+            label: "femme",
+        }, {
+            value: "autres",
+            label: "autres",
+        }]
 
-  
+    function onChange(value) {
+        var Genre = value;
+        setGender(Genre);
+    }
+    // selection CSP
+    const categorie = [
+        {
+            value: "salarié",
+            label: "salarié",
+        },
+        {
+            value: "cadre",
+            label: "cadre",
+        }, {
+            value: "sans emploi",
+            label: "sans emploi",
+        }, {
+            value: "Personne au foyer",
+            label: "Personne au foyer",
+        },
+        {
+            value: "profession libérale",
+            label: "profession libérale",
+        }, {
+            value: "Chef d'entreprise",
+            label: "Chef d'entreprise",
+        }]
 
-  
+    function onCategorie(value) {
+        var categorie = value;
+        setCsp(categorie);
+    }
+
+    // civil
+    const Statut = [
+        {
+            value: "marié",
+            label: "marié",
+        },
+        {
+            value: "célibataire",
+            label: "célibataire",
+        }, {
+            value: "en couple",
+            label: "en couple",
+        }, {
+            value: "pacsé",
+            label: "pacsé",
+        }]
+
+    function onStatut(value) {
+        var Statut = value;
+        setCivilState(Statut);
+    }
 
     return (
+
+
+        <div className="info" style={{display:'flex', justifyContent:"center", alignItems:"center"}} >
+
+
+            <div className="Sign">
+                <h3 style={{ color: "white", display:'flex', justifyContent:"center" }}> Compléter mon profil </h3>
+
+
+
+                <Cascader style={{ display:'flex', justifyContent:"center", alignItems:"center" }}
+                    className="cascade"
+                    options={Genre}
+                    onChange={onChange}
+                    placeholder="Genre"
+                />
+
+
+                <Form.Item name="input-number" noStyle style={{ display:'flex', justifyContent:"center", alignItems:"center" }}>
+                    <InputNumber min={1930} max={2010} onSelect={(e) => setDateOfBirth(e.target.value)} className="Login-input" placeholder="DateOfBirth" />
+                </Form.Item>
+
+                <Cascader
+                    className="cascade"
+                    options={categorie}
+                    onChange={onCategorie}
+                    placeholder="Please select"
+                />
+
         
-  
-        <div className="info" >
 
-           
-                <div className="Sign">
-                    <h3 style={{ color: "white" }}> Je suis déjà inscrit </h3>
 
-                    <Input onChange={(e) => setGender(e.target.value)} className="Login-input" placeholder="gender" />
-                    <Form.Item name="input-number" noStyle>
-               
-         
-                    <InputNumber min={0} max={10} onChange={(e) => setDateOfBirth(e.target.value)} className="Login-input" placeholder="DateOfBirth" />
-                    </Form.Item>
-                    <Input onChange={(e) => setCsp(e.target.value)} className="Login-input" placeholder="Csp" />
-                    <Input onChange={(e) => setCivilState(e.target.value)} className="Login-input" placeholder="civil state" />
-                    <InputNumber onChange={(e) => setNumberOfcChild (e.target.value)} className="Login-input" placeholder="number of child" />
-                    <Input onChange={(e) => setValidation(e.target.value)} className="Login-input" placeholder="Validation" />
+                <Cascader
+                    className="cascade"
+                    options={Statut}
+                    onChange={onStatut}
+                    placeholder="Please select"
+                />
 
-                    
-
-                    <Button onClick={() => handleSubmitComp()} type="primary" style={{ width: '80px' }}>Sign-in</Button>
-                    <Button > <Link to="/nouvelPublication">   publication  </Link></Button>
-                </div>
-            
        
+                <Form.Item name="input-number" noStyle>
+                    <InputNumber min={0} max={10} onSelect={(e) => setNumberOfcChild(e.target.value)} className="Login-input" placeholder="number of child" />
+                </Form.Item>
+
+
+
+
+                <Button onClick={() => handleSubmitComp()}  >Valider les informations </Button>
+                
+            </div>
+
+
         </div>
-    
+
     );
 }
 
-function mapStateToProps(state){
-    return {token:state.token}
-  }
+function mapStateToProps(state) {
+    return { token: state.token }
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -109,5 +196,5 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-   
+
 )(Profilcomp)

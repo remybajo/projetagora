@@ -14,6 +14,7 @@
     "http-errors": "~1.6.3",
     "mongoose": "^6.0.12",
     "morgan": "~1.9.1",
+    "react-city-picker": "^1.0.6",
     "sync-request": "^6.1.0",
     "uid2": "^1.0.0"
   }
