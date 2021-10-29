@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import {
   Button,
   Layout,
@@ -13,7 +13,6 @@ import {
   Col,
   Tabs,
   Modal,
-  
 } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -40,13 +39,8 @@ const { SubMenu } = Menu;
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
-
-
 function EnTete(props) {
-
-
   const [isModalVisible, setIsModalVisible] = useState(false);
-
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -60,33 +54,25 @@ function EnTete(props) {
     setIsModalVisible(false);
   };
 
-
   var handleClick = async () => {
-   
     if (props.token == null) {
       showModal();
-  
     } else {
-      < Redirect to="/" />
-      
+      <Redirect to="/" />;
     }
   };
 
-  
-
-
- 
-
   return (
-   
     <Row>
-   
-      <Modal title="connexion/inscription" style={{ displayflex: 1, width: 150 }}
-
-visible={isModalVisible}
-onOk={handleOk}
-onCancel={handleCancel}>
-<Inscription /> </Modal>
+      <Modal
+        title="connexion/inscription"
+        style={{ displayflex: 1, width: 150 }}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Inscription />{" "}
+      </Modal>
 
       <Col span={6}>
         {" "}
@@ -116,9 +102,10 @@ onCancel={handleCancel}>
           style={{ fontSize: "20px", color: "#214C74" }}
           key="linkedin"
         />
-        <div>
+        <div style={{ marginTop: 30 }}>
           {" "}
-          <Button onClick={() => handleClick()}
+          <Button
+            onClick={() => handleClick()}
             icon={<UserOutlined />}
             size={100}
             style={{ Color: "white", borderColor: "#214C74" }}
@@ -135,11 +122,8 @@ onCancel={handleCancel}>
           </Button>
         </div>
       </Col>
-     
     </Row>
   );
 }
 
-
-
-export default EnTete
+export default EnTete;

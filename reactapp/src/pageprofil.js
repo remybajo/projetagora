@@ -18,13 +18,18 @@ import {
   Modal,
   Carousel,
   Statistic,
+  Skeleton,
+  message,
 } from "antd";
 import "antd/dist/antd.css";
 
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+import React, { useState, useEffect } from "react";
+
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
@@ -45,6 +50,31 @@ const data = [
 ];
 
 function PageProfil(props) {
+  const [loading, setLoading] = useState(false);
+  const [dataL, setDataL] = useState([]);
+
+  const loadMoreData = () => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    fetch(
+      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
+    )
+      .then((res) => res.json())
+      .then((body) => {
+        setDataL([...dataL, ...body.results]);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    loadMoreData();
+  }, []);
+
   return (
     <Layout className="site-layout-background">
       <EnTete />
@@ -85,55 +115,118 @@ function PageProfil(props) {
           <div className="card-container" style={{ marginBottom: "30px" }}>
             <Tabs type="card">
               <TabPane tab="Mes publications sauvegardées" key="1">
-                <List
-                  itemLayout="horizontal"
-                  dataSource={data}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title={<a href="https://ant.design">{item.title}</a>}
-                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                      />
-                    </List.Item>
-                  )}
-                />
+                <div
+                  id="scrollableDiv"
+                  style={{
+                    height: 700,
+                    overflow: "auto",
+                    padding: "0 16px",
+                    border: "1px solid rgba(140, 140, 140, 0.35)",
+                  }}
+                >
+                  <InfiniteScroll
+                    dataLength={dataL.length}
+                    next={loadMoreData}
+                    hasMore={dataL.length < 50}
+                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    endMessage={
+                      <Divider plain>It is all, nothing more 🤐</Divider>
+                    }
+                    scrollableTarget="scrollableDiv"
+                  >
+                    <List
+                      dataSource={dataL}
+                      renderItem={(item) => (
+                        <List.Item key={item.id}>
+                          <List.Item.Meta
+                            avatar={<Avatar src={item.picture.large} />}
+                            title={
+                              <a href="https://ant.design">{item.name.last}</a>
+                            }
+                            description={item.email}
+                          />
+                          <div>Content</div>
+                        </List.Item>
+                      )}
+                    />
+                  </InfiniteScroll>
+                </div>
               </TabPane>
               <TabPane tab="Mes publications commentés" key="2">
-                <List
-                  itemLayout="horizontal"
-                  dataSource={data}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title={<a href="https://ant.design">{item.title}</a>}
-                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                      />
-                    </List.Item>
-                  )}
-                />
+                <div
+                  id="scrollableDiv"
+                  style={{
+                    height: 400,
+                    overflow: "auto",
+                    padding: "0 16px",
+                    border: "1px solid rgba(140, 140, 140, 0.35)",
+                  }}
+                >
+                  <InfiniteScroll
+                    dataLength={dataL.length}
+                    next={loadMoreData}
+                    hasMore={dataL.length < 50}
+                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    endMessage={
+                      <Divider plain>It is all, nothing more 🤐</Divider>
+                    }
+                    scrollableTarget="scrollableDiv"
+                  >
+                    <List
+                      dataSource={dataL}
+                      renderItem={(item) => (
+                        <List.Item key={item.id}>
+                          <List.Item.Meta
+                            avatar={<Avatar src={item.picture.large} />}
+                            title={
+                              <a href="https://ant.design">{item.name.last}</a>
+                            }
+                            description={item.email}
+                          />
+                          <div>Content</div>
+                        </List.Item>
+                      )}
+                    />
+                  </InfiniteScroll>
+                </div>
               </TabPane>
               <TabPane tab="Mes publications publiées" key="3">
-                <List
-                  itemLayout="horizontal"
-                  dataSource={data}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="Quel avenir pour l'éducation"
-                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                      />
-                    </List.Item>
-                  )}
-                />
+                <div
+                  id="scrollableDiv"
+                  style={{
+                    height: 400,
+                    overflow: "auto",
+                    padding: "0 16px",
+                    border: "1px solid rgba(140, 140, 140, 0.35)",
+                  }}
+                >
+                  <InfiniteScroll
+                    dataLength={dataL.length}
+                    next={loadMoreData}
+                    hasMore={dataL.length < 50}
+                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    endMessage={
+                      <Divider plain>It is all, nothing more 🤐</Divider>
+                    }
+                    scrollableTarget="scrollableDiv"
+                  >
+                    <List
+                      dataSource={dataL}
+                      renderItem={(item) => (
+                        <List.Item key={item.id}>
+                          <List.Item.Meta
+                            avatar={<Avatar src={item.picture.large} />}
+                            title={
+                              <a href="https://ant.design">{item.name.last}</a>
+                            }
+                            description={item.email}
+                          />
+                          <div>Content</div>
+                        </List.Item>
+                      )}
+                    />
+                  </InfiniteScroll>
+                </div>
               </TabPane>
             </Tabs>
           </div>
@@ -165,7 +258,6 @@ function PageProfil(props) {
               </Col>
             </Row>
           </div>
-          ,
         </Content>
       </Layout>
     </Layout>
