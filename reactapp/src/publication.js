@@ -57,14 +57,12 @@ function Publication(props) {
     setContent(body.publiToDisplay)
     }
     getSelectedPublication()
-    console.log("see content: ",content)
-    
   },[])  
     
 
   useEffect(()=> {
     const getComments = async() => {
-      const comments = await fetch('comments/showComments')
+      const comments = await fetch(`comments/showComments?id=${id}`)
       const body = await comments.json();
       console.log("body comments: ",body.comments)
       setCommentairesList([...commentairesList, body.comments]);      
@@ -76,7 +74,7 @@ function Publication(props) {
     await fetch("/votes/sendVote", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `vote=${vote}&publication=""&date=${date}&token=""`,
+      body: `vote=${vote}&publication=${id}&date=${date}&token=${token}`,
     });
   };
 
@@ -102,16 +100,12 @@ function Publication(props) {
     console.log(vote);
   };
 
-  const data = [
-    { auteur: "Ant Design Title 1", commentaire: "blablabla" },
-    { auteur: "Ant Design Title 2", commentaire: "blablabla" },
-  ];
-
+ 
   var sendComment = async () => {
     await fetch("/comments/sendComment", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `commentaire=${comment}&publication=""&date=${dateComment}&token=""`,
+      body: `commentaire=${comment}&publication=${id}&date=${dateComment}&token=${token}`,
     });
   };
 
@@ -143,11 +137,9 @@ function Publication(props) {
         className="site-layout-background"
         justify="center"
         align="top"
-        style={{ margin: 5 }}
+        style={{ margin: 0, padding:0 }}
       >
-        <div style={{ display: "flex" }}>
-
-
+        <div style={{ width:"100%", display: "flex" }}>
 
           <Col
             span={12} className="gutter-row"
@@ -157,7 +149,8 @@ function Publication(props) {
               alignItems: "center",
               justifyContent: "center",
               margin: 5,
-              border:'2px dashed lightcoral'
+              border:'2px solid #37A4B2',
+              
             }}
           >
             <h1 style={{ color: "#37A4B2", fontSize: "200%" }}>
@@ -166,7 +159,7 @@ function Publication(props) {
 
             <img
               src={content.image}
-              style={{ width: "30%", position: "relative" }}
+              style={{ width: "70%", position: "relative" }}
             />
 
             <p>{content.texte}</p>
@@ -177,11 +170,11 @@ function Publication(props) {
               display: "flex",
               flexDirection: "column",
               backgroundColor:"#FFFFFF",
-              border: "2px dashed blue",
+              border: "2px solid beige",
               margin:5
             }}
           >
-            <h1>Top Commentaires</h1>
+            <h5>Top Commentaires</h5>
           
             <List
               itemLayout="horizontal"

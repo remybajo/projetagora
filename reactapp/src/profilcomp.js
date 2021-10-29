@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Input, Button, Modal } from 'antd';
+import { Input, Button, Modal, InputNumber, Form } from 'antd';
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 //import { CookiesProvider } from "react-cookie";
@@ -70,10 +70,14 @@ function Profilcomp(props) {
                     <h3 style={{ color: "white" }}> Je suis déjà inscrit </h3>
 
                     <Input onChange={(e) => setGender(e.target.value)} className="Login-input" placeholder="gender" />
-                    <Input onChange={(e) => setDateOfBirth(e.target.value)} className="Login-input" placeholder="DateOfBirth" />
+                    <Form.Item name="input-number" noStyle>
+               
+         
+                    <InputNumber min={0} max={10} onChange={(e) => setDateOfBirth(e.target.value)} className="Login-input" placeholder="DateOfBirth" />
+                    </Form.Item>
                     <Input onChange={(e) => setCsp(e.target.value)} className="Login-input" placeholder="Csp" />
                     <Input onChange={(e) => setCivilState(e.target.value)} className="Login-input" placeholder="civil state" />
-                    <Input onChange={(e) => setNumberOfcChild (e.target.value)} className="Login-input" placeholder="number of child" />
+                    <InputNumber onChange={(e) => setNumberOfcChild (e.target.value)} className="Login-input" placeholder="number of child" />
                     <Input onChange={(e) => setValidation(e.target.value)} className="Login-input" placeholder="Validation" />
 
                     

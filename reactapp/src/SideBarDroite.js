@@ -42,6 +42,8 @@ const { TabPane } = Tabs;
 
 function SideBarDroite(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isConnect, setIsConnect] = useState(false)
+  const [isConnectProfil, setIsConnectProfil] = useState(false)
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -56,11 +58,38 @@ function SideBarDroite(props) {
   };
 
   var handleClick = async () => {
-    if (props.token == null) {
-      showModal();
-    } else {
-      <Link to="/nouvelPublication"></Link>
+    if (props.token == null){
+    showModal()  
+ } else{
+   setIsConnect(true)
+  }}
+
+  if (isConnect){
+    return <Redirect to="/pageprofil" />;
+  }
+
+  var handleClickPubli = (e) => {
+    if (props.token == null){
+      showModal()  
+   } else{
+     setIsConnectProfil(true)
     }}
+  
+    if (isConnectProfil){
+      return <Redirect to="/nouvelPublication" />;
+    }
+  
+
+  
+
+
+   
+
+
+  
+
+ 
+  
     
  
   return (
@@ -105,12 +134,12 @@ onCancel={handleCancel}>
           <Menu.Item key="4">Transport</Menu.Item>
         </SubMenu>
         <Menu.Item  onClick={() => handleClick()} key="2" icon={<CalendarOutlined  />}  >
-        <Link to="/completerProfil">Mon compte</Link>   
+        Mon compte
         </Menu.Item>
 
-        <Menu.Item key="link" icon={<EditOutlined />}>
+        <Menu.Item  onClick={() => handleClickPubli()} key="link" icon={<EditOutlined />}>
           
-        <Link to="/nouvelPublication">Nouvelle publication</Link> 
+        Nouvelle publication
           
         </Menu.Item>
       </Menu>
