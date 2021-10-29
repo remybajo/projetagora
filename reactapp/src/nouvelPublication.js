@@ -367,7 +367,7 @@ function NouvelPublication(props) {
       />
       <div className="monbouton">
         <Button className="bouton" onClick={() => postPublication()}>
-          publier
+          Publier
         </Button>
       </div>
     </div>

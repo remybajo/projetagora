@@ -3,6 +3,7 @@ var router = express.Router();
 var userModel = require('../models/users')
 var publicationModel = require('../models/publications')
 
+
 router.get('/lastPublications', async function(req, res, next){
  
     var publications = await publicationModel.find().sort({date_publication: -1});
@@ -16,13 +17,14 @@ router.get('/lastPublications', async function(req, res, next){
 
 })
 
-router.get('/selectedPublications', async function(req, res, next){
+var id;
+router.get('/selectedPublication', async function(req, res, next){
 
-  var id = req.query.id;
+  id = req.query.id;
   console.log("check id: ",id)
 
   var publication = await publicationModel.findById(id);
-  publiToDisplay = publication
+  var publiToDisplay = publication
 
   if(publiToDisplay){
     result = true

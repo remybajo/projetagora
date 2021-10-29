@@ -2,15 +2,21 @@
    
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Button, Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
-  Badge, Modal, Carousel} from "antd";
+import {Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
+  Badge, Modal} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
   UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
 } from "@ant-design/icons";
+
+import Carousel from 'react-bootstrap/Carousel';
+import Button from 'react-bootstrap/Button'
+
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+
+
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -87,125 +93,92 @@ function Accueil(props) {
     return <Redirect to="/inscription" />;
   }
   
+  var toRead;
+  // var publiCards = latest.map((publication,i)=>{
+  //   toRead = publication[i];
+  //   return (<Card key={i}
+  //   style={{ width: 700 }}
+  //   cover={
+  //     <img
+  //       alt="avatar"
+  //       src={publication[i].image}
+  //     />
+  //   }
+  //   actions={[
+  //     <Badge count={1000} overflowCount={999}>
+  //       <Avatar icon={<UserOutlined />} />
+  //     </Badge>,
+  //     <EditOutlined key="edit" />,
+  //     <Button type="primary" danger onClick={()=> console.log("click détecté sur: ", toRead._id)}>
+  //       <Link to={`/publication/${toRead._id}`}>Reagir</Link>
+  //     </Button>
+  //   ]}
+  // >
+  //   <Meta
+  //     avatar={
+  //       <Avatar src="https://joeschmoe.io/api/v1/random" />
+  //     }
+  //     title={publication[i].titre}
+  //     description={publication[i].texte}
+  //   />
+  // </Card>)
+  // })
 
   var publiCards = latest.map((publication,i)=>{
-    return (<Card key={i}
-    style={{ width: 700 }}
-    cover={
-      <img
-        alt="avatar"
-        src={publication[i].image}
-      />
-    }
-    actions={[
-      <Badge count={1000} overflowCount={999}>
-        <Avatar icon={<UserOutlined />} />
-      </Badge>,
-      <EditOutlined key="edit" />,
-      <Button type="primary" danger>
-        Réagir
-      </Button>,
-    ]}
-  >
-    <Meta
-      avatar={
-        <Avatar src="https://joeschmoe.io/api/v1/random" />
-      }
-      title={publication[i].titre}
-      description={publication[i].texte}
-    />
-  </Card>)
+      toRead = publication[i];
+      return (
+        <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={publication[i].image}
+                      alt="First slide"
+
+                    />
+                    <Carousel.Caption style={{display:'flex',flexDirection:'column' ,width:"80%",height:"30%", backgroundColor:"lightBlue", padding:0, margin:0}}>
+                      <h3>{publication[i].titre}</h3>
+                      <p>{publication[i].texte}</p>
+                    <Link to={`/publication/${toRead._id}`}><Button type="button" class="btn-danger">REAGIR</Button></Link>
+                    </Carousel.Caption>
+                  </Carousel.Item>)
+                             
+            
   })
 
   return (
     /* header */
     <Layout className="site-layout-background">
-      <EnTete />
-
-      <Row></Row>
+      <EnTete/>
 
       <Layout className="site-layout-background">
         <SideBarDroite />
         <Content
           style={{ padding: "0 24px", minHeight: 280, marginTop: "30px" }}
         >
-          <div>
-            <Row justify="center">
-              <div className="card-container">
+          
+            
+              <Row justify="center" >
                 <Tabs type="card">
-                  <TabPane tab="A la une " key="1">
+                  <TabPane tab="A la une " key="1" >
 
-                  <Carousel dotPosition="bottom" dots="true" autoplay style={{ width: 700}}>
+                  <Carousel style={{width:900, padding:15}}>
                     {publiCards}
+                  
                   </Carousel>
                     
                    
                   </TabPane>
                   <TabPane tab="Les plus populaire" key="2">
-                    <p>Content of Tab Pane 2</p>
-                    <Card
-                      style={{ width: 800 }}
-                      cover={
-                        <img
-                          alt="example"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <Badge count={1000} overflowCount={999}>
-                          <Avatar icon={<UserOutlined />} />
-                        </Badge>,
-                        <EditOutlined key="edit" />,
 
-                        <Button
-                          style={{
-                            backgroundColor: "#E2A916",
-                            borderColor: "#E2A916",
-                          }}
-                        >
-                          Réagir
-                        </Button>,
-                        ,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="Card title"
-                        description="This is the description"
-                      />
-                    </Card>
+                  <Carousel style={{width:900}}>
+                    {publiCards}
+                  
+                  </Carousel>
+
                   </TabPane>
-                  <TabPane tab="Tab Title 3" key="3">
-                    <p>Content of Tab Pane 3</p>
-                    <Card
-                      style={{ width: 800 }}
-                      cover={
-                        <img
-                          alt="example"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" />,
-                        <EllipsisOutlined key="ellipsis" />,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="Card title"
-                        description="This is the description"
-                      />
-                    </Card>
-                  </TabPane>
-                </Tabs>
-              </div>
-            </Row>
-            <Row justify="center">
+                 </Tabs> 
+                </Row>
+            
+            <Row justify="center" >
               <Col span="2"></Col>
               <Col span="20">
                 <h1
@@ -225,7 +198,7 @@ function Accueil(props) {
               </Col>
               <Col span="2"></Col>
             </Row>
-          </div>
+          
           <List
             itemLayout="vertical"
             size="large"
@@ -298,7 +271,7 @@ function Accueil(props) {
             <Card.Grid style={gridStyle}>Sport</Card.Grid>
             <Card.Grid style={gridStyle}>Tourisme</Card.Grid>
           </Card>
-        </Content>
+        </Content> 
 
         <Sider className="sidebar-layout-background" width={200} height={300}>
           <Divider orientation="left" plain>
