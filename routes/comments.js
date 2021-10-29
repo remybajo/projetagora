@@ -30,8 +30,8 @@ router.post('/sendComment', async function(req, res, next){
 
   router.get('/showComments', async function(req, res, next){
  
-    var comments = await commentModel.find().sort({date: -1});
-    console.log(comments)
+    var comments = await commentModel.findOne({publication_id: req.query.id});
+    console.log("selected comment: ",comments)
   
     if(comments){
         result = true

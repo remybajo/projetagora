@@ -62,7 +62,7 @@ function Publication(props) {
 
   useEffect(()=> {
     const getComments = async() => {
-      const comments = await fetch('comments/showComments')
+      const comments = await fetch(`comments/showComments?id=${id}`)
       const body = await comments.json();
       console.log("body comments: ",body.comments)
       setCommentairesList([...commentairesList, body.comments]);      
