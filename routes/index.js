@@ -135,17 +135,19 @@ router.post('/post-publication', async function(req, res, next){
     })
   
     savePublication = await newPublication.save()
-  
+ 
+var id = ''    
     
     if(savePublication){
       result = true
       publiToken = savePublication.publiToken
+      id = savePublication.id
     }
   }
 
-  console.log('publiToken', publiToken)
+  console.log('publiID', id)
 
-    res.json({result, publiToken})
+    res.json({result, publiToken, id})
   })
 
   // route qui permet de récupérer les thématiques

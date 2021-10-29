@@ -83,6 +83,11 @@ const IconText = ({ icon, text }) => (
 function Accueil(props) {
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
+  // const [publiToken, setPubliToken] = useState();
+  // const [publicationALaUne, setpublicationALaUne] = useState(pourLaUneJ);
+  // const [populaire, setPopulaire] = useState(false)
+  // const [atteindreArticle, setAtteindreArticle] = useState(false)
+  // var pourLaUneJ = publicationALaUne
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -93,29 +98,52 @@ function Accueil(props) {
       setLatest([...latest, body.latest]);
     };
     findPublications();
+    // cherche()
   }, []);
+
+  
+  // var cherche = async () => {
+  //   const pourLaUne = await fetch("/publicationalaune");
+  //   pourLaUneJ = await pourLaUne.json();
+  //   setpublicationALaUne(pourLaUneJ.publiaccueil)
+  //   console.log("et dans publicationALaUne?", publicationALaUne);
+  //   }
 
   const [lastPublications, setLastPublications] = useState(latest);
 
-  var redirection = async () => {
-    console.log("coucou!!");
-    // if(inscription == false){
-    setInscription(true);
-    // if(true == true){
-    // return <Redirect to='/inscription'/>}
-    console.log(inscription);
-    console.log("oui, oui, oui, par ici tout va bien");
-  };
+  // var lienarticle = () => {
+  //   props.addPubliToken(publicationALaUne.publiToken);
+  //   setAtteindreArticle(true)
+  // }
 
-  if (inscription) {
-    return <Redirect to="/inscription" />;
-  }
+  // if (atteindreArticle) {
+  //   return <Redirect to="/publication" />;
+  // }
 
-  if (inscription) {
-    return <Redirect to="/inscription" />;
-  }
+  // if (inscription) {
+  //   return <Redirect to="/inscription" />;
+  // }
+  
+
+
 
   var toRead;
+
+
+  // if(publicationALaUne){
+  //   var title = publicationALaUne.titre
+  //   var description = publicationALaUne.texte
+  //   var image = publicationALaUne.image
+  // }
+
+  //   if(populaire){
+  //     var title = publicationALaUne.titre
+  //     var description = publicationALaUne.texte
+  //     var image = publicationALaUne.image
+  //     console.log('autre tab')
+  //   }
+
+
   var publiCards = latest.map((publication, i) => {
     toRead = publication[i];
     return (
@@ -147,6 +175,12 @@ function Accueil(props) {
       </Carousel.Item>
     );
   });
+
+  // var handleClick = () => {
+  //   setPopulaire(true)
+  //   setpublicationALaUne(false)
+  //   console.log("mon handleClick")
+  // }
 
   return (
     /* header */
@@ -344,7 +378,11 @@ function mapDispatchToProps(dispatch) {
     goToPublication: function (toRead) {
       dispatch({ type: "readPublication", selectPublication: toRead });
     },
+    addPubliToken: function (publiToken) {
+      dispatch({ type: "addPubliToken", publiToken: publiToken });
+    },
   };
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Accueil);

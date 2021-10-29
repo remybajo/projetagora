@@ -25,6 +25,8 @@ function Publication(props) {
   const [comment, setComment] = useState("");
   const [boutonValiCom, setBoutonValiCom] = useState("Envoyer le commentaire");
   const [commentairesList, setCommentairesList] = useState([]);
+  const [currentPubli, setCurrentPubli] = useState();
+  const [publiExist, setPubliExist] = useState(false);
   var date;
   var dateComment;
   var token = props.token;
@@ -57,7 +59,22 @@ function Publication(props) {
     setContent(body.publiToDisplay)
     }
     getSelectedPublication()
-  },[])  
+    /*cherche()*/
+    console.log("see content: ",content)
+    
+  },[])
+
+  // var cherche = async () => {
+  //   const publiEC = await fetch("/publicationdb", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  //     body: `publiToken=${props.publiToken}`,
+  //   });
+  //   var publi = await publiEC.json();
+  //   if(publi){
+  //     setCurrentPubli(publi.publiEnCour)
+  //   console.log("mon currentPubli", publi)
+  //   }}
     
   const getComments = async() => {
     console.log("id pour comments: ", id)
@@ -130,6 +147,11 @@ function Publication(props) {
     }
   };
 
+  // if(currentPubli){
+  //   var titre = currentPubli.titre
+  //   var texte = currentPubli.texte
+  //   var image = currentPubli.image}
+
   return (
     <Layout style={{ margin: 10 }}>
     
@@ -169,6 +191,7 @@ function Publication(props) {
             />
 
             <p>{content.texte}</p>
+            
           </Col>
           <Col
             span={12} className="gutter-row"
@@ -323,7 +346,7 @@ function Publication(props) {
 }
 
 function mapStateToProps(state) {
-  return { token: state.token};
+  return { token: state.token, publiToken: state.publiToken };
 }
 
 export default connect(mapStateToProps, null)(Publication);
