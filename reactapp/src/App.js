@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import "./App.css";
 
 import { Provider } from "react-redux";
@@ -32,7 +33,7 @@ function App(props) {
           <Route component={Test} path="/test" exact />
           <Route component={PageProfil} path="/pageprofil" exact />
           <Route component={Profilcomp} path="/profilcomp" exact />
-          <Route component={Publication} path="/publication" exact />
+          <Route component={Publication} path="/publication/:id" exact />
           <Route component={Thematique} path="/Thematique" exact />
           <Route
             component={nouvelPublication}

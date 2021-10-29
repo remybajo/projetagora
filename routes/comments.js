@@ -27,4 +27,16 @@ router.post('/sendComment', async function(req, res, next){
     res.json(result)
   })
 
+  router.get('/showComments', async function(req, res, next){
+ 
+    var comments = await commentModel.find().sort({date: -1});
+    console.log(comments)
+  
+    if(comments){
+        result = true
+      }
+
+    res.json({result, comments})
+})
+
 module.exports = router;

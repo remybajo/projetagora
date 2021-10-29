@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import {
   Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
   Input,} from "antd";
@@ -13,6 +14,8 @@ import SideBarDroite from "./SideBarDroite";
 function Publication(props) {
   const { Header, Footer, Sider, Content } = Layout;
 
+  var { id } = useParams();
+  
   const [vote, setVote] = useState("");
   const [selection, setSelection] = useState("");
   const [status, setStatus] = useState(false);
@@ -21,29 +24,19 @@ function Publication(props) {
   const [boutonVali, setBoutonVali] = useState("Valider le choix");
   const [comment, setComment] = useState("");
   const [boutonValiCom, setBoutonValiCom] = useState("Envoyer le commentaire");
+  const [commentairesList, setCommentairesList] = useState([]);
   var date;
   var dateComment;
   var token = props.token;
   const { TextArea } = Input;
 
+  const [content, setContent] = useState({_id: "",thematique:"", titre:"" ,texte: "", image: "", date_publication: '', statut: "", motsCle: '',
+  publiToken: "", user_id: "", __v: ""});
+
+
   var dateFormat = function (date) {
     var newDate = new Date(date);
-    var format =
-      newDate.getDate() +
-      "/" +
-      (newDate.getMonth() + 1) +
-      "/" +
-      newDate.getFullYear();
-    return format;
-  };
-  var dateFormat = function (date) {
-    var newDate = new Date(date);
-    var format =
-      newDate.getDate() +
-      "/" +
-      (newDate.getMonth() + 1) +
-      "/" +
-      newDate.getFullYear();
+    var format = newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear();
     return format;
   };
 
@@ -51,6 +44,33 @@ function Publication(props) {
     setVote(selection);
     setMessage("");
   }, [selection]);
+
+  //récupérer le contenu de la publication sélectionnée sur l'accueil
+  useEffect(async() => {
+    console.log("id: ", {id})
+    console.log("sans accolades: ",id)
+    const getSelectedPublication = async() => {
+      const publication = await fetch(`/publications/selectedPublication?id=${id}`)
+    
+    var body = await publication.json();
+    console.log("body received: ", body.publiToDisplay)
+    setContent(body.publiToDisplay)
+    }
+    getSelectedPublication()
+    console.log("see content: ",content)
+    
+  },[])  
+    
+
+  useEffect(()=> {
+    const getComments = async() => {
+      const comments = await fetch('comments/showComments')
+      const body = await comments.json();
+      console.log("body comments: ",body.comments)
+      setCommentairesList([...commentairesList, body.comments]);      
+    }
+      getComments()    
+  },[])
 
   var sendVote = async () => {
     await fetch("/votes/sendVote", {
@@ -112,87 +132,67 @@ function Publication(props) {
 
   return (
     <Layout style={{ margin: 10 }}>
+    
       <EnTete />
-
+      <Layout>
+        
+        <SideBarDroite/>
+      <Content style={{margin:10}}>   
       <Row
+        gutter={{ xs: 24, sm: 24, md: 12 }}
         className="site-layout-background"
         justify="center"
         align="top"
-        style={{ margin: 10 }}
+        style={{ margin: 5 }}
       >
         <div style={{ display: "flex" }}>
-          <Col span={4}>
-            <Menu
-              mode="vertical"
-              defaultSelectedKeys={["2"]}
-              style={{ margin: 10 }}
-            >
-              <Menu.Item key="1">Accueil</Menu.Item>
-              <Menu.Item key="2">Thématique</Menu.Item>
-              <Menu.Item key="3"> Profil </Menu.Item>
-            </Menu>
-          </Col>
+
+
 
           <Col
-            span={10}
+            span={12} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              margin: 10,
+              margin: 5,
+              border:'2px dashed lightcoral'
             }}
           >
             <h1 style={{ color: "#37A4B2", fontSize: "200%" }}>
-              Que penseriez-vous d'annuler la dette publique ?
+              {content.titre}
             </h1>
 
             <img
-              src="../image/alaska.jpg"
+              src={content.image}
               style={{ width: "30%", position: "relative" }}
             />
 
-            <p>
-              Par Marion Simon-Rainaud Publié le 18 févr. 2021 à 7:00Mis à jour
-              le 18 févr. 2021 à 15:44 La sortie du tunnel pandémique semble
-              encore lointaine, et pourtant, des voix s'élèvent déjà pour penser
-              « l'après », et notamment sur le plan économique. En ce moment, la
-              dette publique est des sujets qui alimentent le plus les plateaux
-              télé, les fréquences radios et les colonnes des journaux. Car,
-              dans l'absolu, les chiffres inquiètent. La dette française* a
-              littéralement explosé en 2020 en franchissant largement la barre
-              symbolique des 100 % du PIB pour s'établir à près de 120 %, contre
-              98 % en 2019. En quarante ans, le poids de la dette a été
-              multiplié par six, puisqu'il s'établissait à 20 % du PIB en 1980.
-              « La France vit au-dessus de ses moyens », « la dette est un
-              fardeau pour les générations futures », a-t-on l'habitude
-              d'entendre. Mais la question peut se poser en d'autres termes : la
-              capacité d'un pays à rembourser dépend de sa capacité à se faire
-              financer dans les années futures, c'est-à-dire la possibilité
-              d'emprunter à nouveau. Mais, derrière le débat des chiffres, se
-              cachent en fait plusieurs visions de la dette, et par extension de
-              la société.
-            </p>
+            <p>{content.texte}</p>
           </Col>
           <Col
-            span={10}
+            span={12} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "beige",
+              backgroundColor:"#FFFFFF",
+              border: "2px dashed blue",
+              margin:5
             }}
           >
             <h1>Top Commentaires</h1>
-
+          
             <List
               itemLayout="horizontal"
-              dataSource={data}
+              dataSource={commentairesList}
               renderItem={(item) => (
                 <List.Item style={{ borderdColor: "#FFC806" }}>
                   <List.Item.Meta
                     avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    auteur={data.auteur}
-                    commentaire={data.commentaire}
+                    auteur={commentairesList._id}
+                    commentaire={commentairesList.commentaire}
+                    date = {commentairesList.date}
                   />
                 </List.Item>
               )}
@@ -200,12 +200,13 @@ function Publication(props) {
           </Col>
         </div>
       </Row>
-      <Row>
+      <Row gutter={{ xs: 24, sm: 24, md: 12 }}>
         <Col
-          span={14}
+        className="gutter-row"
+          span={24}
           style={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "center",            
             backgroundColor: "lightBlue",
           }}
         >
@@ -292,7 +293,7 @@ function Publication(props) {
       </Row>
 
       <Row>
-        <Col span={24}>
+        <Col span={24} className="gutter-row"> 
           AJOUTEZ UN COMMENTAIRE POUR ETAYER VOTRE VOTE (facultatif)
           <Form.Item>
             <TextArea
@@ -315,14 +316,15 @@ function Publication(props) {
           {messageCom}
         </Col>
       </Row>
-
+      </Content> 
+      </Layout>
       <Footer style={{ textAlign: "center" }}></Footer>
     </Layout>
   );
 }
 
 function mapStateToProps(state) {
-  return { token: state.token };
+  return { token: state.token};
 }
 
 export default connect(mapStateToProps, null)(Publication);

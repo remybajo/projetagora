@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
-  Button,
   Layout,
   Menu,
   Breadcrumb,
@@ -18,7 +17,6 @@ import {
   BackTop,
   Badge,
   Modal,
-  Carousel,
 } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
@@ -39,8 +37,13 @@ import {
   AppstoreOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
+
+import Carousel from "react-bootstrap/Carousel";
+import Button from "react-bootstrap/Button";
+
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -111,28 +114,66 @@ function Accueil(props) {
     return <Redirect to="/inscription" />;
   }
 
+  var toRead;
+  // var publiCards = latest.map((publication,i)=>{
+  //   toRead = publication[i];
+  //   return (<Card key={i}
+  //   style={{ width: 700 }}
+  //   cover={
+  //     <img
+  //       alt="avatar"
+  //       src={publication[i].image}
+  //     />
+  //   }
+  //   actions={[
+  //     <Badge count={1000} overflowCount={999}>
+  //       <Avatar icon={<UserOutlined />} />
+  //     </Badge>,
+  //     <EditOutlined key="edit" />,
+  //     <Button type="primary" danger onClick={()=> console.log("click détecté sur: ", toRead._id)}>
+  //       <Link to={`/publication/${toRead._id}`}>Reagir</Link>
+  //     </Button>
+  //   ]}
+  // >
+  //   <Meta
+  //     avatar={
+  //       <Avatar src="https://joeschmoe.io/api/v1/random" />
+  //     }
+  //     title={publication[i].titre}
+  //     description={publication[i].texte}
+  //   />
+  // </Card>)
+  // })
+
   var publiCards = latest.map((publication, i) => {
+    toRead = publication[i];
     return (
-      <Card
-        key={i}
-        style={{ width: 800 }}
-        cover={<img alt="avatar" src={publication[i].image} />}
-        actions={[
-          <Badge count={1000} overflowCount={999}>
-            <Avatar icon={<UserOutlined />} />
-          </Badge>,
-          <EditOutlined key="edit" />,
-          <Button type="primary" danger>
-            Réagir
-          </Button>,
-        ]}
-      >
-        <Meta
-          avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-          title={publication[i].titre}
-          description={publication[i].texte}
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={publication[i].image}
+          alt="First slide"
         />
-      </Card>
+        <Carousel.Caption
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "80%",
+            height: "30%",
+            backgroundColor: "lightBlue",
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          <h3>{publication[i].titre}</h3>
+          <p>{publication[i].texte}</p>
+          <Link to={`/publication/${toRead._id}`}>
+            <Button type="button" class="btn-danger">
+              REAGIR
+            </Button>
+          </Link>
+        </Carousel.Caption>
+      </Carousel.Item>
     );
   });
 
@@ -141,57 +182,45 @@ function Accueil(props) {
     <Layout className="site-layout-background">
       <EnTete />
 
-      <Row></Row>
-
       <Layout className="site-layout-background">
         <SideBarDroite />
         <Content
           style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
-          <div>
-            <Row justify="center">
-              <div className="card-container">
-                <Tabs type="card">
-                  <TabPane tab="Tab Title 1" key="1">
-                    <p>Content of Tab Pane 1</p>
-                    <p>Content of Tab Pane 1</p>
-                    <p>Content of Tab Pane 1</p>
-                  </TabPane>
-                  <TabPane tab="Tab Title 2" key="2">
-                    <p>Content of Tab Pane 2</p>
-                    <p>Content of Tab Pane 2</p>
-                    <p>Content of Tab Pane 2</p>
-                  </TabPane>
-                  <TabPane tab="Tab Title 3" key="3">
-                    <p>Content of Tab Pane 3</p>
-                    <p>Content of Tab Pane 3</p>
-                    <p>Content of Tab Pane 3</p>
-                  </TabPane>
-                </Tabs>
-              </div>
-              ,
-            </Row>
-            <Row justify="center">
-              <Col span="2"></Col>
-              <Col span="20">
-                <h1
-                  style={{
-                    backgroundColor: "#214C74",
-                    marginTop: "50px",
-                    marginBottom: "50px",
-                    color: "white",
-                    width: "100%",
-                    textAlign: "center",
-                    height: 50,
-                    justifyContent: "center",
-                  }}
-                >
-                  Les questions
-                </h1>
-              </Col>
-              <Col span="2"></Col>
-            </Row>
-          </div>
+          <Row justify="center">
+            <Tabs type="card">
+              <TabPane tab="A la une " key="1">
+                <Carousel style={{ width: 900, padding: 15 }}>
+                  {publiCards}
+                </Carousel>
+              </TabPane>
+              <TabPane tab="Les plus populaire" key="2">
+                <Carousel style={{ width: 900 }}>{publiCards}</Carousel>
+              </TabPane>
+            </Tabs>
+          </Row>
+
+          <Row justify="center">
+            <Col span="2"></Col>
+            <Col span="20">
+              <h1
+                style={{
+                  backgroundColor: "#214C74",
+                  marginTop: "50px",
+                  marginBottom: "50px",
+                  color: "white",
+                  width: "100%",
+                  textAlign: "center",
+                  height: 50,
+                  justifyContent: "center",
+                }}
+              >
+                Les questions
+              </h1>
+            </Col>
+            <Col span="2"></Col>
+          </Row>
+
           <List
             itemLayout="vertical"
             size="large"
@@ -339,4 +368,12 @@ function mapStateToProps(state) {
   return { token: state.token };
 }
 
-export default connect(mapStateToProps, null)(Accueil);
+function mapDispatchToProps(dispatch) {
+  return {
+    goToPublication: function (toRead) {
+      dispatch({ type: "readPublication", selectPublication: toRead });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Accueil);
