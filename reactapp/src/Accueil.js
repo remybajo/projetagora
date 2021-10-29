@@ -2,20 +2,49 @@
    
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
-  Badge, Modal} from "antd";
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Image,
+  Card,
+  Avatar,
+  Divider,
+  Row,
+  Col,
+  Tabs,
+  List,
+  Space,
+  Tag,
+  BackTop,
+  Badge,
+  Modal,
+} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
-  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
+import {
+  SettingOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+  DownloadOutlined,
+  TwitterOutlined,
+  FacebookOutlined,
+  LinkedinOutlined,
+  UserOutlined,
+  MessageOutlined,
+  LikeOutlined,
+  StarOutlined,
+  MailOutlined,
+  CalendarOutlined,
+  AppstoreOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
 
-import Carousel from 'react-bootstrap/Carousel';
-import Button from 'react-bootstrap/Button'
+import Carousel from "react-bootstrap/Carousel";
+import Button from "react-bootstrap/Button";
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
-
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -27,9 +56,6 @@ const gridStyle = {
   width: "25%",
   textAlign: "center",
 };
-  
-
-
 
 //questions aléatoires
 const listData = [];
@@ -55,25 +81,22 @@ const IconText = ({ icon, text }) => (
 // import {connect} from 'react-redux';
 
 function Accueil(props) {
- 
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
 
- //Récupération les publications à l'initialisation
-  useEffect(()=> {
-    
-    const findPublications = async() => {
-      console.log("init latest: ", latest)
-      const publications = await fetch('publications/lastPublications')
+  //Récupération les publications à l'initialisation
+  useEffect(() => {
+    const findPublications = async () => {
+      console.log("init latest: ", latest);
+      const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
-      console.log(body.latest)
-      setLatest([...latest, body.latest]);      
-      
-    }
-      findPublications()    
-  },[])
+      console.log(body.latest);
+      setLatest([...latest, body.latest]);
+    };
+    findPublications();
+  }, []);
 
-  const [lastPublications, setLastPublications] = useState(latest)
+  const [lastPublications, setLastPublications] = useState(latest);
 
   var redirection = async () => {
     console.log("coucou!!");
@@ -92,7 +115,7 @@ function Accueil(props) {
   if (inscription) {
     return <Redirect to="/inscription" />;
   }
-  
+
   var toRead;
   // var publiCards = latest.map((publication,i)=>{
   //   toRead = publication[i];
@@ -124,81 +147,82 @@ function Accueil(props) {
   // </Card>)
   // })
 
-  var publiCards = latest.map((publication,i)=>{
-      toRead = publication[i];
-      return (
-        <Carousel.Item>
-                    <img
-                      className="d-block w-100"
-                      src={publication[i].image}
-                      alt="First slide"
-
-                    />
-                    <Carousel.Caption style={{display:'flex',flexDirection:'column' ,width:"80%",height:"30%", backgroundColor:"lightBlue", padding:0, margin:0}}>
-                      <h3>{publication[i].titre}</h3>
-                      <p>{publication[i].texte}</p>
-                    <Link to={`/publication/${toRead._id}`}><Button type="button" class="btn-danger">REAGIR</Button></Link>
-                    </Carousel.Caption>
-                  </Carousel.Item>)
-                             
-            
-  })
+  var publiCards = latest.map((publication, i) => {
+    toRead = publication[i];
+    return (
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={publication[i].image}
+          alt="First slide"
+        />
+        <Carousel.Caption
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "80%",
+            height: "30%",
+            backgroundColor: "lightBlue",
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          <h3>{publication[i].titre}</h3>
+          <p>{publication[i].texte}</p>
+          <Link to={`/publication/${toRead._id}`}>
+            <Button type="button" class="btn-danger">
+              REAGIR
+            </Button>
+          </Link>
+        </Carousel.Caption>
+      </Carousel.Item>
+    );
+  });
 
   return (
     /* header */
     <Layout className="site-layout-background">
-      <EnTete/>
+      <EnTete />
 
       <Layout className="site-layout-background">
         <SideBarDroite />
         <Content
-          style={{ padding: "0 24px", minHeight: 280, marginTop: "30px" }}
+          style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
-          
-            
-              <Row justify="center" >
-                <Tabs type="card">
-                  <TabPane tab="A la une " key="1" >
+          <Row justify="center">
+            <Tabs type="card">
+              <TabPane tab="A la une " key="1">
+                <Carousel style={{ width: 900, padding: 15 }}>
+                  {publiCards}
+                </Carousel>
+              </TabPane>
+              <TabPane tab="Les plus populaire" key="2">
+                <Carousel style={{ width: 900 }}>{publiCards}</Carousel>
+              </TabPane>
+            </Tabs>
+          </Row>
 
-                  <Carousel style={{width:900, padding:15}}>
-                    {publiCards}
-                  
-                  </Carousel>
-                    
-                   
-                  </TabPane>
-                  <TabPane tab="Les plus populaire" key="2">
+          <Row justify="center">
+            <Col span="2"></Col>
+            <Col span="20">
+              <h1
+                style={{
+                  backgroundColor: "#214C74",
+                  marginTop: "50px",
+                  marginBottom: "50px",
+                  color: "white",
+                  width: "100%",
+                  textAlign: "center",
+                  height: 50,
+                  justifyContent: "center",
+                }}
+              >
+                Les questions
+              </h1>
+            </Col>
+            <Col span="2"></Col>
+          </Row>
 
-                  <Carousel style={{width:900}}>
-                    {publiCards}
-                  
-                  </Carousel>
-
-                  </TabPane>
-                 </Tabs> 
-                </Row>
-            
-            <Row justify="center" >
-              <Col span="2"></Col>
-              <Col span="20">
-                <h1
-                  style={{
-                    backgroundColor: "#214C74",
-                    marginTop: "50px",
-                    marginBottom: "50px",
-                    color: "white",
-                    width: "100%",
-                    textAlign: "center",
-                    height: 50,
-                    justifyContent: "center",
-                  }}
-                >
-                  Les questions
-                </h1>
-              </Col>
-              <Col span="2"></Col>
-            </Row>
-          
           <List
             itemLayout="vertical"
             size="large"
@@ -271,7 +295,7 @@ function Accueil(props) {
             <Card.Grid style={gridStyle}>Sport</Card.Grid>
             <Card.Grid style={gridStyle}>Tourisme</Card.Grid>
           </Card>
-        </Content> 
+        </Content>
 
         <Sider className="sidebar-layout-background" width={200} height={300}>
           <Divider orientation="left" plain>
@@ -346,4 +370,12 @@ function mapStateToProps(state) {
   return { token: state.token };
 }
 
-export default connect(mapStateToProps, null)(Accueil);
+function mapDispatchToProps(dispatch) {
+  return {
+    goToPublication: function (toRead) {
+      dispatch({ type: "readPublication", selectPublication: toRead });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Accueil);

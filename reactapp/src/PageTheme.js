@@ -32,6 +32,7 @@ import {
   CalendarOutlined,
   AppstoreOutlined,
   LinkOutlined,
+  ArrowRightOutlined,
 } from "@ant-design/icons";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
@@ -101,7 +102,7 @@ function PageTheme(props) {
             dataSource={listData}
             footer={
               <div>
-                <b>ant design</b> footer part
+                <b>Voir le reste des commentaires</b> <ArrowRightOutlined />
               </div>
             }
             renderItem={(item) => (
@@ -143,7 +144,39 @@ function PageTheme(props) {
           />
         </Content>
       </Layout>
-      <Footer>footer</Footer>
+      <Footer>
+        {" "}
+        <Row>
+          <Col span={8}>
+            NOTRE GROUPE
+            <ul class="un">
+              <li>A propos</li>
+              <li>Notre vision</li>
+              <li>Contact</li>
+            </ul>
+          </Col>
+          <Col span={8}>
+            {" "}
+            ASSISTANCE
+            <ul class="un">
+              <li>Aide</li>
+              <li>Guide</li>
+              <li>Mentions legales</li>
+              <li>CGU</li>
+              <li>Cookies</li>
+            </ul>
+          </Col>
+          <Col span={8}>
+            {" "}
+            RESEAUX SOCIAUX
+            <ul class="un">
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>Twitter</li>
+            </ul>
+          </Col>
+        </Row>
+      </Footer>
     </Layout>
   );
 }
