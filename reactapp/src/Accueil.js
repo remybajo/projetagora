@@ -83,11 +83,11 @@ const IconText = ({ icon, text }) => (
 function Accueil(props) {
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
-  const [publiToken, setPubliToken] = useState();
-  const [publicationALaUne, setpublicationALaUne] = useState(pourLaUneJ);
-  const [populaire, setPopulaire] = useState(false)
-  const [atteindreArticle, setAtteindreArticle] = useState(false)
-  var pourLaUneJ = publicationALaUne
+  // const [publiToken, setPubliToken] = useState();
+  // const [publicationALaUne, setpublicationALaUne] = useState(pourLaUneJ);
+  // const [populaire, setPopulaire] = useState(false)
+  // const [atteindreArticle, setAtteindreArticle] = useState(false)
+  // var pourLaUneJ = publicationALaUne
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -99,31 +99,31 @@ function Accueil(props) {
       setLatest([...latest, body.latest]);
     };
     findPublications();
-    cherche()
+    // cherche()
   }, []);
 
   
-  var cherche = async () => {
-    const pourLaUne = await fetch("/publicationalaune");
-    pourLaUneJ = await pourLaUne.json();
-    setpublicationALaUne(pourLaUneJ.publiaccueil)
-    console.log("et dans publicationALaUne?", publicationALaUne);
-    }
+  // var cherche = async () => {
+  //   const pourLaUne = await fetch("/publicationalaune");
+  //   pourLaUneJ = await pourLaUne.json();
+  //   setpublicationALaUne(pourLaUneJ.publiaccueil)
+  //   console.log("et dans publicationALaUne?", publicationALaUne);
+  //   }
 
   const [lastPublications, setLastPublications] = useState(latest);
 
-  var lienarticle = () => {
-    props.addPubliToken(publicationALaUne.publiToken);
-    setAtteindreArticle(true)
-  }
+  // var lienarticle = () => {
+  //   props.addPubliToken(publicationALaUne.publiToken);
+  //   setAtteindreArticle(true)
+  // }
 
-  if (atteindreArticle) {
-    return <Redirect to="/publication" />;
-  }
+  // if (atteindreArticle) {
+  //   return <Redirect to="/publication" />;
+  // }
 
-  if (inscription) {
-    return <Redirect to="/inscription" />;
-  }
+  // if (inscription) {
+  //   return <Redirect to="/inscription" />;
+  // }
   
 
 
@@ -168,7 +168,7 @@ function Accueil(props) {
           <h3>{publication[i].titre}</h3>
           <p>{publication[i].texte}</p>
           <Link to={`/publication/${toRead._id}`}>
-            <Button type="button" class="btn-danger" onClick={(() => lienarticle())}>
+            <Button type="button" class="btn-danger">
               REAGIR
             </Button>
           </Link>
@@ -379,15 +379,11 @@ function mapDispatchToProps(dispatch) {
     goToPublication: function (toRead) {
       dispatch({ type: "readPublication", selectPublication: toRead });
     },
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
     addPubliToken: function (publiToken) {
       dispatch({ type: "addPubliToken", publiToken: publiToken });
     },
   };
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Accueil);
