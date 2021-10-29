@@ -1,14 +1,49 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Button, Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop,
-  Badge, Modal, Carousel} from "antd";
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Image,
+  Card,
+  Avatar,
+  Divider,
+  Row,
+  Col,
+  Tabs,
+  List,
+  Space,
+  Tag,
+  BackTop,
+  Badge,
+  Modal,
+} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
-  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
+import {
+  SettingOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+  DownloadOutlined,
+  TwitterOutlined,
+  FacebookOutlined,
+  LinkedinOutlined,
+  UserOutlined,
+  MessageOutlined,
+  LikeOutlined,
+  StarOutlined,
+  MailOutlined,
+  CalendarOutlined,
+  AppstoreOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
+
+import Carousel from "react-bootstrap/Carousel";
+import Button from "react-bootstrap/Button";
+
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -19,9 +54,6 @@ const gridStyle = {
   width: "25%",
   textAlign: "center",
 };
-  
-
-
 
 //questions aléatoires
 const listData = [];
@@ -47,25 +79,22 @@ const IconText = ({ icon, text }) => (
 // import {connect} from 'react-redux';
 
 function Accueil(props) {
- 
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
 
- //Récupération les publications à l'initialisation
-  useEffect(()=> {
-    
-    const findPublications = async() => {
-      console.log("init latest: ", latest)
-      const publications = await fetch('publications/lastPublications')
+  //Récupération les publications à l'initialisation
+  useEffect(() => {
+    const findPublications = async () => {
+      console.log("init latest: ", latest);
+      const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
-      console.log(body.latest)
-      setLatest([...latest, body.latest]);      
-      
-    }
-      findPublications()    
-  },[])
+      console.log(body.latest);
+      setLatest([...latest, body.latest]);
+    };
+    findPublications();
+  }, []);
 
-  const [lastPublications, setLastPublications] = useState(latest)
+  const [lastPublications, setLastPublications] = useState(latest);
 
   var redirection = async () => {
     console.log("coucou!!");
@@ -84,149 +113,114 @@ function Accueil(props) {
   if (inscription) {
     return <Redirect to="/inscription" />;
   }
-  
-  var toRead;
-  var publiCards = latest.map((publication,i)=>{
-    toRead = publication[i];
-    return (<Card key={i}
-    style={{ width: 700 }}
-    cover={
-      <img
-        alt="avatar"
-        src={publication[i].image}
-      />
-    }
-    actions={[
-      <Badge count={1000} overflowCount={999}>
-        <Avatar icon={<UserOutlined />} />
-      </Badge>,
-      <EditOutlined key="edit" />,
-      <Button type="primary" danger onClick={()=> console.log("click détecté sur: ", toRead._id)}>
-        <Link to={`/publication/${toRead._id}`}>Reagir</Link>
-      </Button>,
-    ]}
-  >
-    <Meta
-      avatar={
-        <Avatar src="https://joeschmoe.io/api/v1/random" />
-      }
-      title={publication[i].titre}
-      description={publication[i].texte}
-    />
-  </Card>)
-  })
 
+  var toRead;
+  // var publiCards = latest.map((publication,i)=>{
+  //   toRead = publication[i];
+  //   return (<Card key={i}
+  //   style={{ width: 700 }}
+  //   cover={
+  //     <img
+  //       alt="avatar"
+  //       src={publication[i].image}
+  //     />
+  //   }
+  //   actions={[
+  //     <Badge count={1000} overflowCount={999}>
+  //       <Avatar icon={<UserOutlined />} />
+  //     </Badge>,
+  //     <EditOutlined key="edit" />,
+  //     <Button type="primary" danger onClick={()=> console.log("click détecté sur: ", toRead._id)}>
+  //       <Link to={`/publication/${toRead._id}`}>Reagir</Link>
+  //     </Button>
+  //   ]}
+  // >
+  //   <Meta
+  //     avatar={
+  //       <Avatar src="https://joeschmoe.io/api/v1/random" />
+  //     }
+  //     title={publication[i].titre}
+  //     description={publication[i].texte}
+  //   />
+  // </Card>)
+  // })
+
+  var publiCards = latest.map((publication, i) => {
+    toRead = publication[i];
+    return (
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={publication[i].image}
+          alt="First slide"
+        />
+        <Carousel.Caption
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "80%",
+            height: "30%",
+            backgroundColor: "lightBlue",
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          <h3>{publication[i].titre}</h3>
+          <p>{publication[i].texte}</p>
+          <Link to={`/publication/${toRead._id}`}>
+            <Button type="button" class="btn-danger">
+              REAGIR
+            </Button>
+          </Link>
+        </Carousel.Caption>
+      </Carousel.Item>
+    );
+  });
 
   return (
     /* header */
     <Layout className="site-layout-background">
       <EnTete />
 
-      <Row></Row>
-
       <Layout className="site-layout-background">
         <SideBarDroite />
         <Content
-          style={{ padding: "0 24px", minHeight: 280, marginTop: "30px" }}
+          style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
-          <div>
-            <Row justify="center">
-              <div className="card-container">
-                <Tabs type="card">
-                  <TabPane tab="A la une " key="1">
+          <Row justify="center">
+            <Tabs type="card">
+              <TabPane tab="A la une " key="1">
+                <Carousel style={{ width: 900, padding: 15 }}>
+                  {publiCards}
+                </Carousel>
+              </TabPane>
+              <TabPane tab="Les plus populaire" key="2">
+                <Carousel style={{ width: 900 }}>{publiCards}</Carousel>
+              </TabPane>
+            </Tabs>
+          </Row>
 
-                  <Carousel dotPosition="bottom" dots="true" autoplay style={{ width: 700}}>
-                    {publiCards}
-                  </Carousel>
-                    
-                   
-                  </TabPane>
-                  <TabPane tab="Les plus populaire" key="2">
-                    <p>Content of Tab Pane 2</p>
-                    <Card
-                      style={{ width: 800 }}
-                      cover={
-                        <img
-                          alt="example"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <Badge count={1000} overflowCount={999}>
-                          <Avatar icon={<UserOutlined />} />
-                        </Badge>,
-                        <EditOutlined key="edit" />,
+          <Row justify="center">
+            <Col span="2"></Col>
+            <Col span="20">
+              <h1
+                style={{
+                  backgroundColor: "#214C74",
+                  marginTop: "50px",
+                  marginBottom: "50px",
+                  color: "white",
+                  width: "100%",
+                  textAlign: "center",
+                  height: 50,
+                  justifyContent: "center",
+                }}
+              >
+                Les questions
+              </h1>
+            </Col>
+            <Col span="2"></Col>
+          </Row>
 
-                        <Button
-                          style={{
-                            backgroundColor: "#E2A916",
-                            borderColor: "#E2A916",
-                            
-                          }}
-                        >
-                          Réagir
-                        </Button>,
-                        ,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="Card title"
-                        description="This is the description"
-                      />
-                    </Card>
-                  </TabPane>
-                  <TabPane tab="Tab Title 3" key="3">
-                    <p>Content of Tab Pane 3</p>
-                    <Card
-                      style={{ width: 800 }}
-                      cover={
-                        <img
-                          alt="example"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" />,
-                        <EllipsisOutlined key="ellipsis" />,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="Card title"
-                        description="This is the description"
-                      />
-                    </Card>
-                  </TabPane>
-                </Tabs>
-              </div>
-            </Row>
-            <Row justify="center">
-              <Col span="2"></Col>
-              <Col span="20">
-                <h1
-                  style={{
-                    backgroundColor: "#214C74",
-                    marginTop: "50px",
-                    marginBottom: "50px",
-                    color: "white",
-                    width: "100%",
-                    textAlign: "center",
-                    height: 50,
-                    justifyContent: "center",
-                  }}
-                >
-                  Les questions
-                </h1>
-              </Col>
-              <Col span="2"></Col>
-            </Row>
-          </div>
           <List
             itemLayout="vertical"
             size="large"
@@ -370,22 +364,16 @@ function Accueil(props) {
   );
 }
 
-
 function mapStateToProps(state) {
   return { token: state.token };
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
   return {
-    goToPublication: function(toRead){
-      dispatch({type: 'readPublication',
-        selectPublication: toRead
-      })
-    }
-  }
+    goToPublication: function (toRead) {
+      dispatch({ type: "readPublication", selectPublication: toRead });
+    },
+  };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-  )(Accueil);
+export default connect(mapStateToProps, mapDispatchToProps)(Accueil);

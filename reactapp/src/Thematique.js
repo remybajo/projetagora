@@ -1,7 +1,7 @@
 import React from "react";
-import { Col, Layout, Card, Row } from "antd";
+import { Col, Layout, Card, Row, Button } from "antd";
 import "antd/dist/antd.css";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 const { Header, Content, Footer, Sider } = Layout;
 
 const { Meta } = Card;
@@ -55,8 +55,14 @@ function Thematique(props) {
               textAlign: "center",
             }}
           >
-            <h3>titre</h3>
-            <h3>description</h3>
+            <h3>
+              EMPLOI{" "}
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<SearchOutlined style={{ fontSize: "10px" }} />}
+              ></Button>
+            </h3>
           </div>
         </Card>
         <Card
@@ -82,8 +88,14 @@ function Thematique(props) {
               textAlign: "center",
             }}
           >
-            <h3>titre</h3>
-            <h3>description</h3>
+            <h3>
+              POLITIQUE{" "}
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<SearchOutlined style={{ fontSize: "10px" }} />}
+              ></Button>
+            </h3>
           </div>
         </Card>
         <Card
@@ -102,7 +114,7 @@ function Thematique(props) {
             />
           }
         >
-          <Row
+          <Card
             style={{
               justifyContent: "center",
               width: "75em",
@@ -110,15 +122,65 @@ function Thematique(props) {
               display: "flex",
             }}
           >
-            <Col span="22">
-              <h3>titre</h3>
-            </Col>
-            <Col span="2">
-              <PlusOutlined />
-            </Col>
-          </Row>
+            <h3>
+              EDUCATION{" "}
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<SearchOutlined style={{ fontSize: "10px" }} />}
+              ></Button>
+            </h3>
+          </Card>
         </Card>
       </Row>
+      <div
+        style={{
+          backgroundColor: "#FFF",
+          color: "black",
+        }}
+      >
+        <Row>
+          <Col
+            span={8}
+            style={{
+              backgroundColor: "grey",
+              color: "black",
+              width: "100%",
+              textAlign: "center",
+
+              justifyContent: "center",
+            }}
+          >
+            col-8
+          </Col>
+          <Col
+            span={8}
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              width: "100%",
+              textAlign: "center",
+
+              justifyContent: "center",
+            }}
+          >
+            col-8
+          </Col>
+          <Col
+            span={8}
+            style={{
+              backgroundColor: "grey",
+              color: "black",
+              width: "100%",
+              textAlign: "center",
+
+              justifyContent: "center",
+            }}
+          >
+            col-8
+          </Col>
+        </Row>
+      </div>
     </>
   );
 }
