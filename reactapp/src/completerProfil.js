@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, Redirect } from "react-router-dom";
 import {
   Button,
   Layout,
@@ -79,7 +80,7 @@ function CompleterProfil(props) {
         <Row justify="center">
           <Col span="4"></Col>
           <Col span="16">
-            <h1
+            <h1 
               style={{
                 backgroundColor: "#214C74",
                 color: "white",
@@ -89,7 +90,7 @@ function CompleterProfil(props) {
                 justifyContent: "center",
               }}
             >
-              MON PROFIL
+            <Link to="/profilcomp"> MON PROFIL </Link>
             </h1>
           </Col>
         </Row>
