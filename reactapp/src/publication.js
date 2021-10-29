@@ -26,10 +26,10 @@ function Publication(props) {
   var date;
   var dateComment;
   var token = props.token;
-  var publiToken = props.publiToken
+  // var publiToken = props.publiToken
   const { TextArea } = Input;
 
-  console.log(publiToken)
+  console.log('mes props',props)
 
   var dateFormat = function (date) {
     var newDate = new Date(date);
@@ -49,28 +49,27 @@ function Publication(props) {
     }, [selection]);
 
 
-
   useEffect(() => {
-    var cherche = async () => {
-      const publiEC = await fetch("/publicationdb", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `token=${props.token}&publiToken=${props.publiToken}`,
-      });
-      const publi = await publiEC.json();
-      console.log("et dans publi?", publi);
-      setCurrentPubli(publi.publiEnCour)
-      }
-
     cherche()
   }, [])
 
+  var cherche = async () => {
+    const publiEC = await fetch("/publicationdb", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `publiToken=${props.publiToken}`,
+    });
+    var publi = await publiEC.json();
+    if(publi){
+      setCurrentPubli(publi.publiEnCour)
+    console.log("mon currentPubli", publi)
+    }}
+
+    
 
 
 
 
-
-console.log("mon current", currentPubli)
 
 
 
@@ -132,6 +131,11 @@ console.log("mon current", currentPubli)
     }
   };
 
+  if(currentPubli){
+  var titre = currentPubli.titre
+  var texte = currentPubli.texte
+}
+
   return (
     <Layout style={{ margin: 10 }}>
       <EnTete />
@@ -166,7 +170,7 @@ console.log("mon current", currentPubli)
             }}
           >
             <h1 style={{ color: "#37A4B2", fontSize: "200%" }}>
-              {currentPubli.titre}
+              {titre}
             </h1>
 
             <img
@@ -175,7 +179,7 @@ console.log("mon current", currentPubli)
             />
 
             <p>
-            {currentPubli.texte}
+            {texte}
             </p>
           </Col>
           <Col

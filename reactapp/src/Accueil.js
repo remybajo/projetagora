@@ -47,38 +47,57 @@ const IconText = ({ icon, text }) => (
 // import {connect} from 'react-redux';
 
 function Accueil(props) {
+
+  // console.log('les props de l"accueil', props.publiaccueil)
+
  
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
+  const [publiToken, setPubliToken] = useState()
+  const [publicationALaUne, setpublicationALaUne] = useState(pourLaUneJ);
+  const [populaire, setPopulaire] = useState(false)
+  const [atteindreArticle, setAtteindreArticle] = useState(false)
+  // const []
+  var pourLaUneJ = publicationALaUne
 
  //Récupération les publications à l'initialisation
   useEffect(()=> {
     
-    const findPublications = async() => {
-      console.log("init latest: ", latest)
-      const publications = await fetch('publications/lastPublications')
-      const body = await publications.json();
-      console.log(body.latest)
-      setLatest([...latest, body.latest]);      
+    // const findPublications = async() => {
+    //   console.log("init latest: ", latest)
+    //   const publications = await fetch('publications/lastPublications')
+    //   const body = await publications.json();
+    //   console.log(body.latest)
+    //   setLatest([...latest, body.latest]);      
       
-    }
-      findPublications()    
+    // }
+    //   findPublications()
+
+
+
+  
+      cherche()
   },[])
 
+  var cherche = async () => {
+    const pourLaUne = await fetch("/publicationalaune");
+    pourLaUneJ = await pourLaUne.json();
+    setpublicationALaUne(pourLaUneJ.publiaccueil)
+    console.log("et dans publicationALaUne?", publicationALaUne);
+    }
+
+
+  
   const [lastPublications, setLastPublications] = useState(latest)
 
-  var redirection = async () => {
-    console.log("coucou!!");
-    // if(inscription == false){
-    setInscription(true);
-    // if(true == true){
-    // return <Redirect to='/inscription'/>}
-    console.log(inscription);
-    console.log("oui, oui, oui, par ici tout va bien");
-  };
+  var lienarticle = () => {
+    props.addPubliToken(publicationALaUne.publiToken);
+    setAtteindreArticle(true)
+  }
 
-  if (inscription) {
-    return <Redirect to="/inscription" />;
+
+  if (atteindreArticle) {
+    return <Redirect to="/publication" />;
   }
 
   if (inscription) {
@@ -86,35 +105,58 @@ function Accueil(props) {
   }
   
 
-  var publiCards = latest.map((publication,i)=>{
-    return (<Card key={i}
-    style={{ width: 700 }}
-    cover={
-      <img
-        alt="avatar"
-        src={publication[i].image}
-      />
-    }
-    actions={[
-      <Badge count={1000} overflowCount={999}>
-        <Avatar icon={<UserOutlined />} />
-      </Badge>,
-      <EditOutlined key="edit" />,
-      <Button type="primary" danger>
-        Réagir
-      </Button>,
-    ]}
-  >
-    <Meta
-      avatar={
-        <Avatar src="https://joeschmoe.io/api/v1/random" />
-      }
-      title={publication[i].titre}
-      description={publication[i].texte}
-    />
-  </Card>)
-  })
+  // var publiCards = publicationALaUne.map((publication,i)=>{
+    var publiCard = <Button type="primary" danger>rien</Button>
 
+    if(publicationALaUne){
+    var title = publicationALaUne.titre
+    var description = publicationALaUne.texte
+  }
+
+    if(populaire){
+      var title = publicationALaUne.titre
+      var description = publicationALaUne.texte
+      console.log('autre tab')
+    }
+
+
+    if (publicationALaUne){
+    var publiCard = (<Card key='0'
+                      style={{ width: 700 }}
+                      cover={
+                        <img
+                          alt="avatar"
+                          src={publicationALaUne.image}
+                        />
+                        
+                      }
+                      actions={[
+                        <Badge count={1000} overflowCount={999}>
+                          <Avatar icon={<UserOutlined />} />
+                        </Badge>,
+                        <EditOutlined key="edit" />,
+                        <Button type="primary" danger onClick={(() => lienarticle())}>
+                          Réagir
+                        </Button>,
+                      ]}
+                      >
+                      <Meta
+                        avatar={
+                          <Avatar src="https://joeschmoe.io/api/v1/random" />
+                        }
+                        title={title}
+                        description={description}
+                      />
+                    </Card>)}
+  
+  console.log("et dans publicationALaUne?", publicationALaUne);
+
+  var handleClick = () => {
+  setPopulaire(true)
+  setpublicationALaUne(false)
+  console.log("mon handleClick")
+}
+  
   return (
     /* header */
     <Layout className="site-layout-background">
@@ -134,71 +176,18 @@ function Accueil(props) {
                   <TabPane tab="A la une " key="1">
 
                   <Carousel dotPosition="bottom" dots="true" autoplay style={{ width: 700}}>
-                    {publiCards}
+                    {publiCard}
                   </Carousel>
                     
                    
                   </TabPane>
-                  <TabPane tab="Les plus populaire" key="2">
+                  <TabPane tab="Les plus populaire" key="2" onClick={() => handleClick()}>
                     <p>Content of Tab Pane 2</p>
-                    <Card
-                      style={{ width: 800 }}
-                      cover={
-                        <img
-                          alt="example"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <Badge count={1000} overflowCount={999}>
-                          <Avatar icon={<UserOutlined />} />
-                        </Badge>,
-                        <EditOutlined key="edit" />,
-
-                        <Button
-                          style={{
-                            backgroundColor: "#E2A916",
-                            borderColor: "#E2A916",
-                          }}
-                        >
-                          Réagir
-                        </Button>,
-                        ,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="Card title"
-                        description="This is the description"
-                      />
-                    </Card>
+                    {publiCard}
                   </TabPane>
                   <TabPane tab="Tab Title 3" key="3">
                     <p>Content of Tab Pane 3</p>
-                    <Card
-                      style={{ width: 800 }}
-                      cover={
-                        <img
-                          alt="example"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      }
-                      actions={[
-                        <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" />,
-                        <EllipsisOutlined key="ellipsis" />,
-                      ]}
-                    >
-                      <Meta
-                        avatar={
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        }
-                        title="Card title"
-                        description="This is the description"
-                      />
-                    </Card>
+                    {publiCard}
                   </TabPane>
                 </Tabs>
               </div>
@@ -371,4 +360,12 @@ function mapStateToProps(state) {
   return { token: state.token };
 }
 
-export default connect(mapStateToProps, null)(Accueil);
+function mapDispatchToProps(dispatch) {
+  return {
+    addPubliToken: function (publiToken) {
+      dispatch({ type: "addPubliToken", publiToken: publiToken });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Accueil);

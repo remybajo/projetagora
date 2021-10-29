@@ -147,6 +147,15 @@ router.post('/post-publication', async function(req, res, next){
       res.json({publiEnCour})
     })
 
+    router.get('/publicationalaune', async function(req, res, next){
+      var Npubliaccueil = await publicationModel.find()
+      var publiaccueil = Npubliaccueil[2]
+      console.log('ce qui est trouvé dans publiaccueil', publiaccueil)
+      // console.log('ce qui trouvé dans req.body', publiaccueil, req.body)
+      // console.log('ma donnée date()', date())
+        res.json({publiaccueil})
+      })
+
   // route qui permet de récupérer les thématiques
   // router.get('/thematique', async function(req, res, next){
 
