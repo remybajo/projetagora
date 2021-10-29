@@ -33,8 +33,10 @@ function NouvelPublication(props) {
   const [modal, setModal] = useState(false)
   const [pictureSelected, setPictureSelected] = useState("")
   const [validatePicture, setValidatePicture] = useState(false);
+  const [id, setId] = useState()
   var illustration;
   var border = {border:""};
+  var idP = ''
 
   useEffect(() => {
     var dateKnow = async () => {
@@ -57,16 +59,38 @@ function NouvelPublication(props) {
     });
     const body = await data.json();
     console.log("et dans body?", body);
-    if (body.result == true) {
-      props.addPubliToken(body.publiToken);
-      setRedir(true);
-    }
-  };
+    // if (body.result == true) {
+    //   props.addPubliToken(body.publiToken);
+      idP = body.id
+      // return <Redirect to="/publication" />
+      
+      if (body.result == true) {
+        setRedir(true)}
+        setId(idP)  
+  
 
-  if (redir == true) {
-    console.log("ICI APPARAISSENT LES SAINTS PROPS!!!", props);
-    return <Redirect to="/publication" />;
-  }
+
+    };
+
+
+        if(id){
+          console.log('id', id)
+      return <Redirect to={`/publication/${id}`}/>}
+
+
+/* return <Redirect to={`/publication/${id}`} />} */
+
+
+  // var cherchePubli = async () => {  
+  //   setRedir(true)
+  // if (redir == true) {
+  //   console.log("ICI APPARAISSENT LES SAINTS PROPS!!!", id);
+    // const actual = await fetch (`/selectedPublication?id=${id}`)
+    // const Ractual = await actual.json()
+    //     setId(idP)
+    //   console.log("idd", idP)
+    // return <Redirect to={`/publication/${id}`} />;
+  
 
   const options = [
     {
