@@ -166,20 +166,20 @@ h4 {
 }
 .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
   padding: 16px;
-  background: #fff;
+  background: rgb(196, 196, 196);
 }
 .card-container > .ant-tabs-card > .ant-tabs-nav::before {
   display: none;
 }
 .card-container > .ant-tabs-card .ant-tabs-tab,
 [data-theme='compact'] .card-container > .ant-tabs-card .ant-tabs-tab {
-  background: transparent;
-  border-color: transparent;
+  background: rgb(223, 156, 11);
+  border-color: rgb(223, 156, 11);
 }
 .card-container > .ant-tabs-card .ant-tabs-tab-active,
 [data-theme='compact'] .card-container > .ant-tabs-card .ant-tabs-tab-active {
   background: #fff;
-  border-color: #fff;
+  border-color: rgb(223, 156, 11);
 }
 #components-tabs-demo-card-top .code-box-demo {
   padding: 24px;
@@ -202,5 +202,57 @@ h4 {
 }
 [data-theme='dark'] .card-container > .ant-tabs-card .ant-tabs-tab-active {
   background: #141414;
+  border-color: #141414;
+}
+
+
+  /*tabs */
+
+.card-container p {
+  margin: 0;
+}
+.card-container > .ant-tabs-card .ant-tabs-content {
+  height: 120px;
+  margin-top: -16px;
+}
+.card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
+  padding: 16px;
+  background: rgb(231, 231, 231);
+  border-color: black;
+}
+.card-container > .ant-tabs-card > .ant-tabs-nav::before {
+  display: none;
+}
+.card-container > .ant-tabs-card .ant-tabs-tab,
+[data-theme='compact'] .card-container > .ant-tabs-card .ant-tabs-tab {
+  background: transparent;
+  border-color: black;
+}
+.card-container > .ant-tabs-card .ant-tabs-tab-active,
+[data-theme='compact'] .card-container > .ant-tabs-card .ant-tabs-tab-active {
+  background: rgb(209, 141, 15);
+  border-color: rgb(223, 156, 11);
+}
+.code-box-demo {
+  padding: 24px;
+  overflow: hidden;
+  background: white;
+}
+[data-theme='compact'] .card-container > .ant-tabs-card .ant-tabs-content {
+  height: 120px;
+  margin-top: -8px;
+}
+[data-theme='dark'] .card-container > .ant-tabs-card .ant-tabs-tab {
+  background: transparent;
+  border-color: black;
+}
+[data-theme='dark'] .code-box-demo {
+  background: #000;
+}
+[data-theme='dark'] .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
+  background: #214C74;
+}
+[data-theme='dark'] .card-container > .ant-tabs-card .ant-tabs-tab-active {
+  background: #214C74;
   border-color: #141414;
 }
