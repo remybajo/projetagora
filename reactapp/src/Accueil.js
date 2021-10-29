@@ -135,7 +135,7 @@ function Accueil(props) {
                     <Carousel.Caption style={{display:'flex',flexDirection:'column' ,width:"80%",height:"30%", backgroundColor:"lightBlue", padding:0, margin:0}}>
                       <h3>{publication[i].titre}</h3>
                       <p>{publication[i].texte}</p>
-                      <Button type="button" class="btn-danger">REAGIR</Button>
+                    <Link to={`/publication/${toRead._id}`}><Button type="button" class="btn-danger">REAGIR</Button></Link>
                     </Carousel.Caption>
                   </Carousel.Item>)
                              
