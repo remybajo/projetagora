@@ -42,6 +42,7 @@ const { TabPane } = Tabs;
 
 function SideBarDroite(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isConnect, setIsConnect] = useState(false)
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -56,11 +57,14 @@ function SideBarDroite(props) {
   };
 
   var handleClick = async () => {
-    if (props.token == null) {
+   // if (props.token == null) {//
+      setIsConnect(!isConnect)
+      console.log(isConnect)
       showModal();
-    } else {
-      <Link to="/nouvelPublication"></Link>
-    }}
+      
+    } 
+if (isConnect){
+      <Link to="/completerProfil"> </Link>}
     
  
   return (
@@ -105,7 +109,7 @@ onCancel={handleCancel}>
           <Menu.Item key="4">Transport</Menu.Item>
         </SubMenu>
         <Menu.Item  onClick={() => handleClick()} key="2" icon={<CalendarOutlined  />}  >
-        <Link to="/completerProfil">Mon compte</Link>   
+        Mon compte
         </Menu.Item>
 
         <Menu.Item key="link" icon={<EditOutlined />}>
