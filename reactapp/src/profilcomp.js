@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
+import {render} from 'react-dom'
 import './App.css';
 import { Input, Button, Modal, InputNumber, Form, Radio, Select, Cascader } from 'antd';
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+
+import querystring from 'querystring';
+
 const { Option } = Select;
 //import { CookiesProvider } from "react-cookie";
 //import Cookies from 'js-cookie';
+
+
 
 function Profilcomp(props) {
 
@@ -18,8 +24,11 @@ function Profilcomp(props) {
     const [validation, setValidation] = useState('')
     //Cookies.set('token', props.token)
 
+  
 
 
+
+      
 
     var handleSubmitComp = async () => {
 
@@ -115,15 +124,14 @@ function Profilcomp(props) {
     return (
 
 
-        <div className="info" >
+        <div className="info" style={{display:'flex', justifyContent:"center", alignItems:"center"}} >
 
 
-            <div className="Sign" style={{display:'flex', justifyContent:"center", alignItems:"center"}}>
+            <div className="Sign">
                 <h3 style={{ color: "white", display:'flex', justifyContent:"center" }}> Compléter mon profil </h3>
 
 
 
-                <h4 style={{ color: "red", display:'flex', justifyContent:"center" }}>Genre </h4>
                 <Cascader style={{ display:'flex', justifyContent:"center", alignItems:"center" }}
                     className="cascade"
                     options={Genre}
@@ -132,7 +140,7 @@ function Profilcomp(props) {
                 />
 
 
-                <Form.Item name="input-number" noStyle>
+                <Form.Item name="input-number" noStyle style={{ display:'flex', justifyContent:"center", alignItems:"center" }}>
                     <InputNumber min={1930} max={2010} onSelect={(e) => setDateOfBirth(e.target.value)} className="Login-input" placeholder="DateOfBirth" />
                 </Form.Item>
 
@@ -143,7 +151,7 @@ function Profilcomp(props) {
                     placeholder="Please select"
                 />
 
-
+        
 
 
                 <Cascader

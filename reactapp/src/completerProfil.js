@@ -73,6 +73,7 @@ const props = {
 
 function CompleterProfil(props) {
   return (
+    
     /* header */
     <Layout className="site-layout-background">
       <EnTete />
