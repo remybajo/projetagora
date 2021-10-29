@@ -92,10 +92,9 @@ function Accueil(props) {
   //Récupération les publications à l'initialisation
   useEffect(() => {
     const findPublications = async () => {
-      console.log("init latest: ", latest);
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
-      console.log(body.latest);
+      console.log("3 derniers articles", body.latest);
       setLatest([...latest, body.latest]);
     };
     findPublications();
@@ -193,15 +192,15 @@ function Accueil(props) {
         <Content
           style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
-          <Row justify="center">
-            <Tabs type="card">
+          <Row justify="center" >
+            <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
               <TabPane tab="A la une " key="1">
-                <Carousel style={{ width: 900, padding: 15 }}>
+                <Carousel >
                   {publiCards}
                 </Carousel>
               </TabPane>
               <TabPane tab="Les plus populaire" key="2">
-                <Carousel style={{ width: 900 }}>{publiCards}</Carousel>
+                <Carousel >{publiCards}</Carousel>
               </TabPane>
             </Tabs>
           </Row>
