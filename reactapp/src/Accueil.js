@@ -94,7 +94,7 @@ function Accueil(props) {
     const findPublications = async () => {
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
-      console.log("3 derniers articles", body.latest);
+     // console.log("3 articles", body.latest);
       setLatest([...latest, body.latest]);
     };
     findPublications();
