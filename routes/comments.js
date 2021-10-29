@@ -28,13 +28,16 @@ router.post('/sendComment', async function(req, res, next){
     res.json(result)
   })
 
+  var id;
   router.get('/showComments', async function(req, res, next){
- 
-    var comments = await commentModel.findOne({publication_id: req.query.id});
-    console.log("selected comment: ",comments)
+    id = req.query.id;
+    var result = false;
+    var comments = await commentModel.find({publication_id: id});
+    console.log("selected comment: ", comments)
   
     if(comments){
         result = true
+        console.log("comments result: ",result)
       }
 
     res.json({result, comments})

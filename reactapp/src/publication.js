@@ -59,16 +59,18 @@ function Publication(props) {
     getSelectedPublication()
   },[])  
     
+  const getComments = async() => {
+    console.log("id pour comments: ", id)
+    const comments = await fetch(`comments/showComments?id=${id}`)
+    const body = await comments.json();
+    console.log("body comments: ",body.comments)
+    setCommentairesList([...commentairesList, body.comments]);      
+  }
 
   useEffect(()=> {
-    const getComments = async() => {
-      const comments = await fetch(`comments/showComments?id=${id}`)
-      const body = await comments.json();
-      console.log("body comments: ",body.comments)
-      setCommentairesList([...commentairesList, body.comments]);      
-    }
       getComments()    
   },[])
+
 
   var sendVote = async () => {
     await fetch("/votes/sendVote", {
@@ -108,6 +110,10 @@ function Publication(props) {
       body: `commentaire=${comment}&publication=${id}&date=${dateComment}&token=${token}`,
     });
   };
+
+  useEffect(() => {
+    getComments();
+  }, [comment]);
 
   var commentValidation = () => {
     console.log("commentaire: ", comment);
