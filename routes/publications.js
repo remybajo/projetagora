@@ -19,7 +19,7 @@ router.get('/lastPublications', async function(req, res, next){
 
 var id;
 router.get('/selectedPublication', async function(req, res, next){
-
+  console.log("req.query ",req.query)
   id = req.query.id;
   console.log("check id: ",id)
 
@@ -32,8 +32,20 @@ router.get('/selectedPublication', async function(req, res, next){
 
   console.log("publication selected: ",publiToDisplay)
 
-  res.json({result, publiToDisplay})
+  res.json({result, publiToDisplay, id})
 
+})
+
+router.get('/nouveaute', async function(req, res, next){
+  id = req.query.id;
+
+  var publication = await publicationModel.findById(id);
+  var publiToDisplay = publication
+
+  if(publiToDisplay){
+    result = true
+  }
+  res.json({result, publiToDisplay, id})
 })
 
 module.exports = router;
