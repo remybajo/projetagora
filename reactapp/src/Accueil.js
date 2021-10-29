@@ -87,10 +87,9 @@ function Accueil(props) {
   //Récupération les publications à l'initialisation
   useEffect(() => {
     const findPublications = async () => {
-      console.log("init latest: ", latest);
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
-      console.log(body.latest);
+      console.log("3 derniers articles", body.latest);
       setLatest([...latest, body.latest]);
     };
     findPublications();
@@ -117,36 +116,6 @@ function Accueil(props) {
   }
 
   var toRead;
-  // var publiCards = latest.map((publication,i)=>{
-  //   toRead = publication[i];
-  //   return (<Card key={i}
-  //   style={{ width: 700 }}
-  //   cover={
-  //     <img
-  //       alt="avatar"
-  //       src={publication[i].image}
-  //     />
-  //   }
-  //   actions={[
-  //     <Badge count={1000} overflowCount={999}>
-  //       <Avatar icon={<UserOutlined />} />
-  //     </Badge>,
-  //     <EditOutlined key="edit" />,
-  //     <Button type="primary" danger onClick={()=> console.log("click détecté sur: ", toRead._id)}>
-  //       <Link to={`/publication/${toRead._id}`}>Reagir</Link>
-  //     </Button>
-  //   ]}
-  // >
-  //   <Meta
-  //     avatar={
-  //       <Avatar src="https://joeschmoe.io/api/v1/random" />
-  //     }
-  //     title={publication[i].titre}
-  //     description={publication[i].texte}
-  //   />
-  // </Card>)
-  // })
-
   var publiCards = latest.map((publication, i) => {
     toRead = publication[i];
     return (
@@ -189,15 +158,15 @@ function Accueil(props) {
         <Content
           style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
-          <Row justify="center">
-            <Tabs type="card">
+          <Row justify="center" >
+            <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
               <TabPane tab="A la une " key="1">
-                <Carousel style={{ width: 900, padding: 15 }}>
+                <Carousel >
                   {publiCards}
                 </Carousel>
               </TabPane>
               <TabPane tab="Les plus populaire" key="2">
-                <Carousel style={{ width: 900 }}>{publiCards}</Carousel>
+                <Carousel >{publiCards}</Carousel>
               </TabPane>
             </Tabs>
           </Row>
