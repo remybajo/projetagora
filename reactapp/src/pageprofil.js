@@ -78,7 +78,9 @@ function PageProfil(props) {
 
   return (
     <Layout className="site-layout-background">
-      <EnTete />
+      <EnTete/> 
+
+    
 
       <Row></Row>
 
