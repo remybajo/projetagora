@@ -21,6 +21,7 @@ import {
   Skeleton,
   message,
 } from "antd";
+import { Link, Redirect } from 'react-router-dom'
 import "antd/dist/antd.css";
 
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
@@ -103,13 +104,14 @@ function PageProfil(props) {
             </h1>
             <div>
               {" "}
-              <Button
+              <Link to="/profilcomp">
+              <Button 
                 type="danger"
                 style={{ marginLeft: "500px", marginBottom: "30px" }}
               >
                 {" "}
                 Compléter Mon profil
-              </Button>
+              </Button></Link>
             </div>
           </Col>{" "}
           <div className="card-container" style={{ marginBottom: "30px" }}>
