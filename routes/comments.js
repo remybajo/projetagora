@@ -10,14 +10,15 @@ router.post('/sendComment', async function(req, res, next){
   
     // if(user != null){
       var newComment = new commentModel({
-        //user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-        //publication_id: { type: mongoose.Schema.Types.ObjectId, ref: 'publications' },
+        user_id: user._id,
+        publication_id: req.body.publication,
         commentaire: req.body.commentaire,
         //nb_likes: Number,
         date: req.body.date
     })
   
       var commentSave = await newComment.save()
+      console.log("check commentSave: ",commentSave)
   
       if(commentSave.vote){
         result = true
@@ -27,13 +28,16 @@ router.post('/sendComment', async function(req, res, next){
     res.json(result)
   })
 
+  var id;
   router.get('/showComments', async function(req, res, next){
- 
-    var comments = await commentModel.find().sort({date: -1});
-    console.log(comments)
+    id = req.query.id;
+    var result = false;
+    var comments = await commentModel.find({publication_id: id});
+    console.log("selected comment: ", comments)
   
     if(comments){
         result = true
+        console.log("comments result: ",result)
       }
 
     res.json({result, comments})
