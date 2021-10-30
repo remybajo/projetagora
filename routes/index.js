@@ -183,10 +183,21 @@ var userUpdate = [
 //     res.json({})
 //   })
 
-// récupérer les publications
-// router.get('/publicationdb', async function(req, res, next){
-//     res.json({})
-//   })
+//récupérer les publications
+router.get('/publicationdb', async function(req, res, next){
+
+
+
+  var publicationTheme = await publicationModel.find({thematique : 'Politique'})
+
+console.log(publicationTheme)
+
+
+  
+
+  res.json({publicationTheme})
+  
+ })
 
 // pour ajouter un publication en wishlist [SI]
 // router.post('/addfavori', async function(req, res, next){

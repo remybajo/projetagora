@@ -83,11 +83,9 @@ const IconText = ({ icon, text }) => (
 function Accueil(props) {
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
-  // const [publiToken, setPubliToken] = useState();
-  // const [publicationALaUne, setpublicationALaUne] = useState(pourLaUneJ);
-  // const [populaire, setPopulaire] = useState(false)
-  // const [atteindreArticle, setAtteindreArticle] = useState(false)
-  // var pourLaUneJ = publicationALaUne
+  
+
+
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -95,7 +93,9 @@ function Accueil(props) {
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
      // console.log("3 articles", body.latest);
-      setLatest([...latest, body.latest]);
+      setLatest(body.latest);
+     
+      console.log(body)
     };
     findPublications();
     // cherche()
@@ -145,14 +145,13 @@ function Accueil(props) {
 
 
   var publiCards = latest.map((publication, i) => {
-    toRead = publication[i];
+   toRead = publication;
     return (
       <Carousel.Item>
         <img
           className="d-block w-100"
-          style={{ 
-            width: 300}}
-          src={publication[i].image}
+          
+          src={publication.image}
           alt="First slide"
         />
         <Carousel.Caption
@@ -166,8 +165,8 @@ function Accueil(props) {
             margin: 0,
           }}
         >
-          <h3>{publication[i].titre}</h3>
-          <p>{publication[i].texte}</p>
+          <h3>{publication.titre}</h3>
+          <p>{publication.texte}</p>
           <Link to={`/publication/${toRead._id}`}>
             <Button type="button" class="btn-danger">
               REAGIR

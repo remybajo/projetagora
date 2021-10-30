@@ -19,8 +19,9 @@ router.get('/lastPublications', async function(req, res, next){
 
 })
 
-var id;
+
 router.get('/selectedPublication', async function(req, res, next){
+  var id;
   console.log("req.query ",req.query)
   id = req.query.id;
   console.log("check id: ",id)
@@ -48,6 +49,6 @@ router.get('/nouveaute', async function(req, res, next){
     result = true
   }
   res.json({result, publiToDisplay, id})
-})
+}) 
 
 module.exports = router;

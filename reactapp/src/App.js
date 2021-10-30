@@ -35,6 +35,7 @@ function App(props) {
           <Route component={Profilcomp} path="/profilcomp" exact />
           <Route component={Publication} path="/publication/:id" exact />
           <Route component={Thematique} path="/Thematique" exact />
+         
           <Route
             component={nouvelPublication}
             path="/nouvelPublication"

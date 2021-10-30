@@ -111,7 +111,7 @@ onCancel={handleCancel}>
         </Menu.Item>
         <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
           <Menu.Item key="3">
-            <Link to="/">Politique</Link>
+            <Link to="/PageTheme">Politique</Link>
           </Menu.Item>
           <Menu.Item key="4">
             <Link to="/">Culture</Link>

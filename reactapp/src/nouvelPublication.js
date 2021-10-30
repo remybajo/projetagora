@@ -96,170 +96,47 @@ function NouvelPublication(props) {
     {
       value: "emploi",
       label: "emploi",
-      children: [
-        {
-          value: "opportunité",
-          label: "opportunité",
+     
         },
-        {
-          value: "proposition",
-          label: "proposition",
-        },
-        {
-          value: "dernière nouvelles",
-          label: "dernière nouvelles",
-        },
-      ],
-    },
+   
     {
       value: "Education",
       label: "Education",
-      children: [
-        {
-          value: "école",
-          label: "école",
-        },
-        {
-          value: "Pédagogie",
-          label: "Pédagogie",
-        },
-        {
-          value: "extra-scolaire",
-          label: "extra-scolaire",
-        },
-        {
-          value: "préoccupation",
-          label: "préoccupation",
-        },
-      ],
-    },
-    {
+    },{
       value: "Politique",
       label: "Politique",
-      children: [
-        {
-          value: "prêt de chez vous",
-          label: "prêt de chez vous",
-        },
-        {
-          value: "actualité",
-          label: "actualité",
-        },
-        {
-          value: "information",
-          label: "information",
-        },
+    },
         {
           value: "proposition",
           label: "proposition",
         },
-      ],
-    },
+     
+ 
     {
       value: "Evenement",
       label: "Evenement",
-      children: [
-        {
-          value: "fêtes",
-          label: "fêtes",
-        },
-        {
-          value: "culture",
-          label: "culture",
-        },
-        {
-          value: "rassemblement",
-          label: "rassemblement",
-        },
-      ],
+     
     },
     {
       value: "Environnement",
       label: "Environnement",
-      children: [
-        {
-          value: "nature",
-          label: "nature",
-        },
-        {
-          value: "recyclage",
-          label: "recyclage",
-        },
-        {
-          value: "entraide",
-          label: "entraide",
-        },
-        {
-          value: "consommation local",
-          label: "consommation local",
-        },
-      ],
+    
     },
     {
       value: "Sport",
       label: "Sport",
-      children: [
-        {
-          value: "balle",
-          label: "balle",
-        },
-        {
-          value: "ballon",
-          label: "ballon",
-        },
-        {
-          value: "bagarre",
-          label: "bagarre",
-        },
-        {
-          value: "glissade",
-          label: "glissade",
-        },
-      ],
+      
     },
     {
       value: "Tourisme",
       label: "Tourisme",
-      children: [
-        {
-          value: "en france",
-          label: "en france",
-        },
-        {
-          value: "par là-bas",
-          label: "par là-bas",
-        },
-        {
-          value: "non, pas par là!",
-          label: "non, pas par là!",
-        },
-        {
-          value: "insolite",
-          label: "insolite",
-        },
-      ],
+      
+     
     },
     {
       value: "Tas remarqué?",
       label: "Tas remarqué?",
-      children: [
-        {
-          value: "ou pas?",
-          label: "ou pas?",
-        },
-        {
-          value: "hack du quotidien",
-          label: "hack du quotidien",
-        },
-        {
-          value: "fourre-tout",
-          label: "fourre-tout",
-        },
-        {
-          value: "annonce",
-          label: "annonce",
-        },
-      ],
+      
     },
   ];
 
