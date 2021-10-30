@@ -54,6 +54,36 @@ function PageProfil(props) {
   const [loading, setLoading] = useState(false);
   const [dataL, setDataL] = useState([]);
 
+
+  const [latest, setLatest] = useState([])
+const [themeArticle, setThemeArticle] = useState([])
+
+useEffect(() => {
+  const Profil= async () => {
+    var data = await fetch('/sign-in');
+    const body = await data.json();
+      console.log(body)
+  }
+  Profil();
+  // cherche()
+  
+}, []);
+
+  useEffect(() => {
+    const ProfilComment= async () => {
+      var rawResponse = await fetch('/commentarticle');
+      const response = await rawResponse.json();
+      console.log(response)
+
+     }
+    ProfilComment();
+    // cherche()
+    
+  }, []);
+
+
+  // Antd
+
   const loadMoreData = () => {
     if (loading) {
       return;

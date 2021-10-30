@@ -5,6 +5,8 @@ var uid2 = require('uid2');
 var bcrypt = require('bcrypt');
 var userModel = require('../models/users')
 var publicationModel = require('../models/publications')
+var commentModel = require('../models/comments');
+const { PromiseProvider } = require('mongoose');
 
 
 //gestion du sign-in
@@ -186,8 +188,6 @@ var userUpdate = [
 //récupérer les publications
 router.get('/publicationdb', async function(req, res, next){
 
-
-
   var publicationTheme = await publicationModel.find({thematique : 'Politique'})
 
 console.log(publicationTheme)
@@ -199,10 +199,17 @@ console.log(publicationTheme)
   
  })
 
-// pour ajouter un publication en wishlist [SI]
-// router.post('/addfavori', async function(req, res, next){
-//     res.json({})
-//   })
+// pour retrouver une publication commentée dans le profil
+router.get('/commentarticle', async function(req, res, next){
+  var user = await userModel.findOne({token: req.body.token})
+  if (user) {
+  var userId = user._id;}
+  //var publicationComment = await userModel.find()
+  
+//console.log(publicationComment)
+console.log(userId)
+    res.json({user})
+ })
 
 // pour récupérer les données utilisateurs
 // router.get('/user', async function(req, res, next){
