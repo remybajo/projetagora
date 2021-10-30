@@ -140,7 +140,7 @@ function Accueil(props) {
   //     var title = publicationALaUne.titre
   //     var description = publicationALaUne.texte
   //     var image = publicationALaUne.image
-  //     console.log('autre tab')
+  //     console.lo('autre tab')
   //   }
 
 
@@ -150,6 +150,8 @@ function Accueil(props) {
       <Carousel.Item>
         <img
           className="d-block w-100"
+          style={{ 
+            width: 300}}
           src={publication[i].image}
           alt="First slide"
         />
