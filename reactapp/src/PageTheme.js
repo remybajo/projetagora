@@ -63,7 +63,6 @@ const [themeArticle, setThemeArticle] = useState([])
       const response = await rawResponse.json();
       setLatest(response.publicationTheme);
 
-     console.log(latest)
      console.log(response)
 
      }
@@ -72,16 +71,16 @@ const [themeArticle, setThemeArticle] = useState([])
     
   }, []);
 
-  const [lastPublications, setLastPublications] = useState(latest);
+  //const [lastPublications, setLastPublications] = useState(latest);
   const listData = [];
  var publiCards = latest.map((article, i) => {
  var toRead = article;
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     listData.push({
       
-    //   title: article.titre,
-    //   image: article.image,
-    //   content: article.text
+  //  title: article.titre,
+ //  image: article.image,
+   //  content: article.text
      });
   }
     return (
@@ -89,12 +88,7 @@ const [themeArticle, setThemeArticle] = useState([])
     
       itemLayout="vertical"
       size="large"
-      pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
-        pageSize: 1,
-      }}
+      
       
       dataSource={listData}
       
@@ -169,7 +163,13 @@ const [themeArticle, setThemeArticle] = useState([])
             <b>Voir le reste des commentaires</b> <ArrowRightOutlined />
           </div>
          
-        } />
+        }
+        pagination={{
+          onChange: (page) => {
+         
+          },
+          pageSize: 1,
+        }} />
         </Content>
       
        

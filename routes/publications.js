@@ -12,7 +12,7 @@ router.get('/lastPublications', async function(req, res, next){
     if(latest.length == 3){
         result = true
 
-        console.log(latest)
+       // console.log(latest)
       }
 
     res.json({result, latest})

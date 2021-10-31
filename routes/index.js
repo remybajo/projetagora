@@ -200,15 +200,18 @@ console.log(publicationTheme)
  })
 
 // pour retrouver une publication commentée dans le profil
-router.get('/commentarticle', async function(req, res, next){
-  var user = await userModel.findOne({token: req.body.token})
-  if (user) {
-  var userId = user._id;}
-  //var publicationComment = await userModel.find()
-  
+router.get("/commentarticle", async function(req, res, next){
+ 
+var user = await userModel.findOne({token : req.query.token})
+if (user) {
+var article = await commentModel.find
+({user_id : user._id}).populate('publication_id')}
+console.log(article.publication_id)
+
+//var publicationComment = await userModel.find()
 //console.log(publicationComment)
-console.log(userId)
-    res.json({user})
+
+    res.json({article})
  })
 
 // pour récupérer les données utilisateurs

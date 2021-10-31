@@ -95,7 +95,7 @@ function Accueil(props) {
      // console.log("3 articles", body.latest);
       setLatest(body.latest);
      
-      console.log(body)
+      //console.log(body)
     };
     findPublications();
     // cherche()
