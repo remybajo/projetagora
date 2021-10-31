@@ -63,9 +63,16 @@ const [themeArticle, setThemeArticle] = useState([])
     const ProfilComment= async () => {
       var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
       const response = await rawResponse.json();
-      var articleCom = response.article
- 
-    ProfilComment();}
+      const publication = response.publication
+      console.log(publication)
+      setLatest(publication)
+   
+
+  
+    
+     
+     }
+    ProfilComment();
     // cherche()
     
   }, []);
@@ -97,6 +104,7 @@ const [themeArticle, setThemeArticle] = useState([])
 
 
   var publiCards = latest.map((article, i) => {
+    var toRead = article;
     return (
   <div
                   id="scrollableDiv"
@@ -124,7 +132,7 @@ const [themeArticle, setThemeArticle] = useState([])
                           <List.Item.Meta
                             avatar={<Avatar src={item.picture.large} />}
                             title={
-                              <a href="https://ant.design">{article.titre}</a>
+                              <a href={`/publication/${toRead._id}`}>{article.titre}</a>
                             }
                             description={article.texte}
                           />

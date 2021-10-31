@@ -63,7 +63,7 @@ const [themeArticle, setThemeArticle] = useState([])
       const response = await rawResponse.json();
       setLatest(response.publicationTheme);
 
-     console.log(response)
+     console.log(response.publicationTheme)
 
      }
     Politique();
