@@ -64,17 +64,8 @@ const [themeArticle, setThemeArticle] = useState([])
       var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
       const response = await rawResponse.json();
       var articleCom = response.article
-     // var publication = articleCom.publication_id
-    //  for (let i = 0; i < response.length; i++){
-    //    var publication = response.article.publication_id
-    //  }
-    for (let i = 0; i < articleCom.length; i++){
-      var publication = [articleCom[i].publication_id]
-      console.log(publication)
-    }
-     
-     }
-    ProfilComment();
+ 
+    ProfilComment();}
     // cherche()
     
   }, []);
@@ -225,42 +216,7 @@ const [themeArticle, setThemeArticle] = useState([])
                 </div>
               </TabPane>
               <TabPane tab="Mes publications commentés" key="2">
-                <div
-                  id="scrollableDiv"
-                  style={{
-                    height: 400,
-                    overflow: "auto",
-                    padding: "0 16px",
-                    border: "1px solid rgba(140, 140, 140, 0.35)",
-                  }}
-                >
-                  <InfiniteScroll
-                    dataLength={dataL.length}
-                    next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-                    endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
-                    }
-                    scrollableTarget="scrollableDiv"
-                  >
-                    <List
-                      dataSource={dataL}
-                      renderItem={(item) => (
-                        <List.Item key={item.id}>
-                          <List.Item.Meta
-                            avatar={<Avatar src={item.picture.large} />}
-                            title={
-                              <a href="https://ant.design">{item.name.last}</a>
-                            }
-                            description={item.email}
-                          />
-                          <div>Content</div>
-                        </List.Item>
-                      )}
-                    />
-                  </InfiniteScroll>
-                </div>
+                {publiCards}
               </TabPane>
               <TabPane tab="Mes publications publiées" key="3">
                 <div
