@@ -110,47 +110,34 @@ function NouvelPublication(props) {
     {
       value: "emploi",
       label: "emploi",
-     
-        },
-   
+    },
     {
       value: "Education",
       label: "Education",
-    },{
+    },
+    {
       value: "Politique",
       label: "Politique",
     },
-        {
-          value: "proposition",
-          label: "proposition",
-        },
-     
- 
     {
       value: "Evenement",
       label: "Evenement",
-     
     },
     {
       value: "Environnement",
       label: "Environnement",
-    
     },
     {
       value: "Sport",
       label: "Sport",
-      
     },
     {
       value: "Tourisme",
       label: "Tourisme",
-      
-     
     },
     {
       value: "Tas remarqué?",
       label: "Tas remarqué?",
-      
     },
   ];
 

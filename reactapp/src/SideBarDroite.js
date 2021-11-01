@@ -104,7 +104,7 @@ onCancel={handleCancel}>
       <Menu
         style={{ width: 200 }}
         defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        // defaultOpenKeys={["sub1"]}
       >
         <Menu.Item key="1" icon={<MailOutlined />}>
           <Link to="/">Accueil</Link>

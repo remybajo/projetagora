@@ -40,8 +40,10 @@ const { Meta } = Card;
 const { TabPane } = Tabs;
 
 function EnTete(props) {
+  console.log('les props de la page entete', props)
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const [modal, setModal] = useState(false);
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -59,14 +61,19 @@ function EnTete(props) {
     if (props.token == null) {
       showModal();
     } else {
-      <Redirect to="/" />;
+      setIsModalVisible(!isModalVisible);
     }
   };
+
+
+
+  var connexion = "connexion/inscription"
+
 
   return (
     <Row>
       <Modal
-        title="connexion/inscription"
+        title={connexion}
         style={{ displayflex: 1, width: 150 }}
         visible={isModalVisible}
         onOk={handleOk}
@@ -109,15 +116,16 @@ function EnTete(props) {
             onClick={() => handleClick()}
             icon={<UserOutlined />}
             size={100}
-            style={{ Color: "white", borderColor: "#214C74" }}
+            style={{ Color: "white", borderColor: "#214C74", width: 100 }}
           >
             Log-in
           </Button>
           <Divider type="vertical" />
           <Button
             type="primary"
+            icon={<UserOutlined />}
             size={100}
-            style={{ backgroundColor: "#214C74", borderColor: "#214C74" }}
+            style={{ backgroundColor: "#214C74", borderColor: "#214C74", width: 100 }}
           >
             Log out
           </Button>
@@ -127,4 +135,11 @@ function EnTete(props) {
   );
 }
 
-export default EnTete;
+function mapStateToProps(state){
+  return {token:state.token}
+}
+export default connect(
+  mapStateToProps,
+  null
+ 
+)(EnTete)
