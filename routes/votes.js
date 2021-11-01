@@ -31,4 +31,5 @@ router.post('/sendVote', async function(req, res, next){
     res.json(result)
   })
 
+
 module.exports = router;

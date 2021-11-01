@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import {
   Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
-  Input,} from "antd";
+  Input, Badge, Alert} from "antd";
 import { connect } from "react-redux";
 
-import {  SettingOutlined,  EditOutlined,  EllipsisOutlined,  DownloadOutlined,  TwitterOutlined,  FacebookOutlined,  LinkedinOutlined,
-  UserOutlined,  MessageOutlined,  LikeOutlined,  StarOutlined,} from "@ant-design/icons";
+import { LikeOutlined, LikeFilled} from "@ant-design/icons";
+
+import Plot from 'react-plotly.js';
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
@@ -27,11 +28,19 @@ function Publication(props) {
   const [commentairesList, setCommentairesList] = useState([]);
   const [currentPubli, setCurrentPubli] = useState();
   const [publiExist, setPubliExist] = useState(false);
+  const [list, setList] = useState();
+  const [stats, setStats] = useState();
+  const [alreadyVoted, setAlreadyVoted] = useState(false);
+  const [alreadyCommented, setAlreadyCommented] = useState(false);
+  const [userVote, setUserVote] = useState();
+  const [userComment, setUserComment] = useState("");
+  const [connected, setConnected] = useState(false);
+  const { TextArea } = Input;
+
   var date;
   var dateComment;
   var token = props.token;
-  const { TextArea } = Input;
-
+  
   const [content, setContent] = useState({_id: "",thematique:"", titre:"" ,texte: "", image: "", date_publication: '', statut: "", motsCle: '',
   publiToken: "", user_id: "", __v: ""});
 
@@ -42,53 +51,57 @@ function Publication(props) {
     return format;
   };
 
+
+  //récupérer le contenu de la publication sélectionnée, des commentaires associés et des stats associées
+  useEffect(async() => {
+    console.log("id: ", {id})
+    const getSelectedPublication = async() => {
+      const publication = await fetch(`/publications/selectedPublication?id=${id}&token=${token}`)
+      var body = await publication.json();
+
+      //récupérer la publication
+      setContent(body.publiToDisplay);
+
+      // si l'utilisateur n'est pas loggé, cacher des éléments
+      if(body.userConnected)  {
+        setConnected(true)
+      }
+      // recuperation des commentaires
+      setCommentairesList(body.comments);
+      //recuperations des stats
+      setStats(body.stats);
+      // vérifier si l'utilisateur a déjà voté et récupérer son vote le cas échéant
+      setAlreadyVoted(body.alreadyVoted)
+      setUserVote(body.userVote);
+      setAlreadyCommented(body.alreadyCommented);
+    
+      if (body.alreadyVoted == true) {
+        setStatus(true)
+      }
+      if(body.alreadyCommented == true) {
+        setUserComment(body.userComment)
+      }
+    }
+    // Afficher tout
+    getSelectedPublication(); 
+  
+  },[])
+
+  useEffect(() => {
+    if(token) {
+      setConnected(true)
+    }
+  }, [token])
+
+  
+
+  // mise à jour de la sélection pour le vote
   useEffect(() => {
     setVote(selection);
     setMessage("");
   }, [selection]);
 
-  //récupérer le contenu de la publication sélectionnée sur l'accueil
-  useEffect(async() => {
-    console.log("id: ", {id})
-    console.log("sans accolades: ",id)
-    const getSelectedPublication = async() => {
-      const publication = await fetch(`/publications/selectedPublication?id=${id}`)
-    
-    var body = await publication.json();
-    console.log("body received: ", body.publiToDisplay)
-    setContent(body.publiToDisplay)
-    }
-    getSelectedPublication()
-    /*cherche()*/
-    console.log("see content: ",content)
-    
-  },[])
-
-  // var cherche = async () => {
-  //   const publiEC = await fetch("/publicationdb", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  //     body: `publiToken=${props.publiToken}`,
-  //   });
-  //   var publi = await publiEC.json();
-  //   if(publi){
-  //     setCurrentPubli(publi.publiEnCour)
-  //   console.log("mon currentPubli", publi)
-  //   }}
-    
-  const getComments = async() => {
-    console.log("id pour comments: ", id)
-    const comments = await fetch(`comments/showComments?id=${id}`)
-    const body = await comments.json();
-    console.log("body comments: ",body.comments)
-    setCommentairesList([...commentairesList, body.comments]);      
-  }
-
-  useEffect(()=> {
-      getComments()    
-  },[])
-
-
+  // requête pour l'envoi du vote en bdd - utilisée dans la fonction voteValidation()
   var sendVote = async () => {
     await fetch("/votes/sendVote", {
       method: "POST",
@@ -97,15 +110,15 @@ function Publication(props) {
     });
   };
 
+  // validation du vote au click sur bouton valider
+
   var voteValidation = () => {
     if (!vote) {
-      setMessage("Veuillez choisir une option de vote avant de valider.");
-    } else if (!status && boutonVali != "Annuler le vote") {
+      setMessage(<Alert message="Veuillez choisir une option de vote avant de valider." type="error" showIcon />);
+    } else if (vote && !status) {
       setStatus(true);
-      setMessage(
-        "Votre vote a bien été pris en compte. Merci pour votre participation."
+      setMessage(<Alert message="Votre vote a bien été pris en compte. Merci pour votre participation." type="success" showIcon />
       );
-      setBoutonVali("Annuler le vote");
       date = dateFormat(Date.now());
       console.log("date: ", date);
       sendVote();
@@ -119,7 +132,13 @@ function Publication(props) {
     console.log(vote);
   };
 
- 
+  // useEffect(() => {
+  //   if(message == "Votre vote a bien été pris en compte. Merci pour votre participation.");
+  //   setAlreadyVoted(true)
+  // },[message])
+
+
+ // requête pour envoi du vote en bdd, utilisée dans la fonction commentValidation()
   var sendComment = async () => {
     await fetch("/comments/sendComment", {
       method: "POST",
@@ -128,29 +147,89 @@ function Publication(props) {
     });
   };
 
-  useEffect(() => {
-    getComments();
-  }, [comment]);
 
+  // validation du commentaire pour enregistrement bdd
   var commentValidation = () => {
-    console.log("commentaire: ", comment);
     if (!comment) {
-      setMessageCom("Aucun commentaire saisi");
+      setMessageCom(<Alert message="Aucun commentaire saisi" type="error" showIcon />);
     } else {
       dateComment = dateFormat(Date.now());
       console.log("date commentaire: ", dateComment);
       sendComment();
-      setMessageCom("Votre commentaire a bien été envoyé.");
+      setMessageCom(<Alert message="Votre commentaire a bien été envoyé." type="success" showIcon />);
+      setCommentairesList([...commentairesList, comment])
       setComment("");
       setBoutonValiCom("");
       setBoutonValiCom("Annuler le commentaire");
     }
   };
 
-  // if(currentPubli){
-  //   var titre = currentPubli.titre
-  //   var texte = currentPubli.texte
-  //   var image = currentPubli.image}
+  // useEffect(() => {
+  //   if(messageCom == "Votre commentaire a bien été envoyé.");
+  //   setAlreadyCommented(true);
+  // },[messageCom])
+
+ 
+
+  // supprimer son commentaire
+  var commentSuppr = async () => {
+    setUserComment("");
+    await fetch(`/publications/deleteComment?id=${id}&token=${token}`, {
+      method: 'DELETE'
+    });
+    setMessageCom("Le commentaire a bien été supprimé.")
+    setAlreadyCommented(false)
+  }
+
+  if(commentairesList) {
+    console.log("liste des comments: ",commentairesList);
+    console.log("stats: ", stats);
+  } else {
+    <p>Aucun commentaire publié</p>
+  }
+
+  // mise en forme des arrays pour graphiques
+  //const [labels, setLabels] = useState([]);
+  //const [values, setValues] = useState([]);;
+
+  var labels = [];
+  var values = [];
+
+  if(stats) {
+    
+    stats.map(stat => labels.push(stat._id));
+    stats.map(stat => values.push(stat.userCount));
+    
+    console.log("labels: ", labels);
+    console.log("values: ", values);
+    console.log('labels', Array.isArray(labels));
+    console.log('values', Array.isArray(values))
+    console.log("a voté?", alreadyVoted);
+    console.log("userVote ", userVote);
+    console.log("connected: ", connected);
+    console.log("user comments: ", userComment)
+    console.log("type of stats ", stats[0])
+    console.log("selection: ", selection);
+    console.log("vote: ", vote)
+    console.log("connected? ", connected)
+    
+  }
+
+  var voteArea = () => {
+    if (alreadyVoted == true) {
+      setStatus(true)
+    } 
+  }
+
+
+  var data = [
+    {
+      values: values,
+      labels: labels,
+      type: "pie",
+    },
+  ];
+
 
   return (
     <Layout style={{ margin: 10 }}>
@@ -165,12 +244,12 @@ function Publication(props) {
         className="site-layout-background"
         justify="center"
         align="top"
-        style={{ margin: 0, padding:0 }}
+        style={{ margin: 5, padding:5 }}
       >
         <div style={{ width:"100%", display: "flex" }}>
 
           <Col
-            span={12} className="gutter-row"
+            span={8} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -193,32 +272,63 @@ function Publication(props) {
             <p>{content.texte}</p>
             
           </Col>
+          <Col span={8} className="gutter-row"
+          style={{margin:5}}>
+           
+            <Plot
+            data={data}
+            layout={ {width: 500, height: 500, title: 'Résultat du Vote'} } />
+          
+          </Col>
           <Col
-            span={12} className="gutter-row"
+            span={8} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
               backgroundColor:"#FFFFFF",
               border: "2px solid beige",
-              margin:5
+              padding:20,
+              margin: 5,
+              color:"blue"
             }}
           >
             <h5>Top Commentaires</h5>
-          
+
+            <div>
+              {connected == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
+                </p>
+                
+              :
+
             <List
               itemLayout="horizontal"
               dataSource={commentairesList}
-              renderItem={(item) => (
-                <List.Item style={{ borderdColor: "#FFC806" }}>
+              renderItem={item => (
+                <List.Item>
                   <List.Item.Meta
                     avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    auteur={commentairesList._id}
-                    commentaire={commentairesList.commentaire}
-                    date = {commentairesList.date}
+                    title=""
+                    description={item.commentaire}
                   />
+                  {[
+
+                    <Badge count={2} overflowCount={999}>
+                    <Avatar icon={<LikeFilled/>} />
+                    
+                    <Avatar icon={<LikeOutlined/>} />
+                  </Badge>
+                  
+                  ]}
                 </List.Item>
+                
               )}
             />
+              }
+            </div>
+            
           </Col>
         </div>
       </Row>
@@ -232,8 +342,9 @@ function Publication(props) {
             backgroundColor: "lightBlue",
           }}
         >
-          <h1>VOTEZ</h1>
-
+          <h1>VOTRE VOTE</h1>
+          
+          
           <Radio.Group
             defaultValue="a"
             buttonStyle="solid"
@@ -244,15 +355,9 @@ function Publication(props) {
               style={{ margin: 16, backgroundColor: "#FFC806" }}
               value="J'Adore"
               onClick={(e) => setSelection(e.target.value)}
-            >
-              J'Adore
+            > J'Adore
             </Radio.Button>
-          </Radio.Group>
-          <Radio.Group
-            defaultValue="a"
-            buttonStyle="solid"
-            style={{ margin: 16, fontWeight: "bold", display: "block" }}
-          >
+          
             <Radio.Button
               disabled={status}
               style={{ margin: 16, backgroundColor: "#EDAC06" }}
@@ -261,12 +366,6 @@ function Publication(props) {
             >
               Je suis Pour
             </Radio.Button>
-          </Radio.Group>
-          <Radio.Group
-            defaultValue="a"
-            buttonStyle="solid"
-            style={{ margin: 16, fontWeight: "bold", display: "block" }}
-          >
             <Radio.Button
               disabled={status}
               style={{ margin: 16, backgroundColor: "#DAA419" }}
@@ -275,12 +374,7 @@ function Publication(props) {
             >
               Je suis Mitigé(e)
             </Radio.Button>
-          </Radio.Group>
-          <Radio.Group
-            defaultValue="a"
-            buttonStyle="solid"
-            style={{ margin: 16, fontWeight: "bold", display: "block" }}
-          >
+          
             <Radio.Button
               disabled={status}
               style={{ margin: 16, backgroundColor: "#BE833D" }}
@@ -289,12 +383,7 @@ function Publication(props) {
             >
               Je suis Contre
             </Radio.Button>
-          </Radio.Group>
-          <Radio.Group
-            defaultValue="a"
-            buttonStyle="solid"
-            style={{ margin: 16, fontWeight: "bold", display: "block" }}
-          >
+          
             <Radio.Button
               disabled={status}
               style={{ margin: 16, backgroundColor: "#966215" }}
@@ -303,20 +392,53 @@ function Publication(props) {
             >
               Je Déteste
             </Radio.Button>
-          </Radio.Group>
+            
 
-          <Button type="danger" shape="round" onClick={() => voteValidation()}>
+          <Button type="danger" shape="round" disabled={status} onClick={() => voteValidation()}>
             {" "}
             {boutonVali}
           </Button>
-
           {message}
+          </Radio.Group>
+          <div>
+          {alreadyVoted == true ?
+
+              <p style={{padding:20, fontSize:20}}>
+              Vous avez validez le vote suivant pour cette publication: 
+              <span style={{padding:20, fontWeight:'bold', backgroundColor:"orange"}}>{userVote}</span></p>
+
+            :
+            ""
+          }
+          </div>
+          
+          
         </Col>
       </Row>
 
       <Row>
         <Col span={24} className="gutter-row"> 
-          AJOUTEZ UN COMMENTAIRE POUR ETAYER VOTRE VOTE (facultatif)
+          
+          <div>
+              {alreadyCommented == true ?
+
+                
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',width:"100%", height:"100%"}}>
+                  Votre Commentaire:    
+                <span style={{padding:20, fontWeight:'bold', backgroundColor:"beige"}}>{userComment}</span>
+                <Button
+                  htmlType="submit"
+                  onClick="{onSubmit}"
+                  type="primary"
+                  onClick={() => commentSuppr()}
+                >
+                Supprimer le commentaire
+                </Button> 
+                {messageCom}
+                </p>
+                
+              :
+          <div>
           <Form.Item>
             <TextArea
               rows={5}
@@ -333,9 +455,14 @@ function Publication(props) {
               onClick={() => commentValidation()}
             >
               {boutonValiCom}
-            </Button>
+            </Button> 
           </Form.Item>
           {messageCom}
+          </div>
+           }
+           </div>
+         
+
         </Col>
       </Row>
       </Content> 

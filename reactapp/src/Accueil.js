@@ -1,48 +1,13 @@
-
-   
+ 
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {
-  Layout,
-  Menu,
-  Breadcrumb,
-  Image,
-  Card,
-  Avatar,
-  Divider,
-  Row,
-  Col,
-  Tabs,
-  List,
-  Space,
-  Tag,
-  BackTop,
-  Badge,
-  Modal,
-} from "antd";
+import { Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop, Badge, Modal, 
+  Carousel, Button} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
-} from "@ant-design/icons";
-
-import Carousel from "react-bootstrap/Carousel";
-import Button from "react-bootstrap/Button";
-
+import { SettingOutlined, EditOutlined, EllipsisOutlined, MessageOutlined, LikeOutlined, StarOutlined, UserOutlined,
+  CalendarOutlined} from "@ant-design/icons";
+import Icon from '@ant-design/icons';
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 
@@ -83,104 +48,56 @@ const IconText = ({ icon, text }) => (
 function Accueil(props) {
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
-  // const [publiToken, setPubliToken] = useState();
-  // const [publicationALaUne, setpublicationALaUne] = useState(pourLaUneJ);
-  // const [populaire, setPopulaire] = useState(false)
-  // const [atteindreArticle, setAtteindreArticle] = useState(false)
-  // var pourLaUneJ = publicationALaUne
+  var articles = []
+  //
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
     const findPublications = async () => {
+      console.log("init latest: ", latest)
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
-      console.log("3 latest articles", body.latest);
-      setLatest([...latest, body.latest]);
+      setLatest(body.latest)
     };
     findPublications();
-    // cherche()
+    console.log("check push: ", latest)
   }, []);
 
-  
-  // var cherche = async () => {
-  //   const pourLaUne = await fetch("/publicationalaune");
-  //   pourLaUneJ = await pourLaUne.json();
-  //   setpublicationALaUne(pourLaUneJ.publiaccueil)
-  //   console.log("et dans publicationALaUne?", publicationALaUne);
-  //   }
 
-  const [lastPublications, setLastPublications] = useState(latest);
-
-  // var lienarticle = () => {
-  //   props.addPubliToken(publicationALaUne.publiToken);
-  //   setAtteindreArticle(true)
-  // }
-
-  // if (atteindreArticle) {
-  //   return <Redirect to="/publication" />;
-  // }
-
-  // if (inscription) {
-  //   return <Redirect to="/inscription" />;
-  // }
-  
-
-
-
-  var toRead;
-
-
-  // if(publicationALaUne){
-  //   var title = publicationALaUne.titre
-  //   var description = publicationALaUne.texte
-  //   var image = publicationALaUne.image
-  // }
-
-  //   if(populaire){
-  //     var title = publicationALaUne.titre
-  //     var description = publicationALaUne.texte
-  //     var image = publicationALaUne.image
-  //     console.log('autre tab')
-  //   }
-
-
-  var publiCards = latest.map((publication, i) => {
-    toRead = publication[i];
-    return (
-      <Carousel.Item>
+  // Mise en forme des cards pour affichage des derniers articles publiés sur page d'accueil
+  var publiCards = latest.map((publication,i)=>{
+    return ( <Card
+      style={{ width: 450}}
+      cover={
         <img
-          className="d-block w-100"
-          src={publication[i].image}
-          alt="First slide"
+          alt="example"
+          src={publication.image}
         />
-        <Carousel.Caption
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "80%",
-            height: "30%",
-            backgroundColor: "lightBlue",
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          <h3>{publication[i].titre}</h3>
-          <p>{publication[i].texte}</p>
-          <Link to={`/publication/${toRead._id}`}>
-            <Button type="button" class="btn-danger">
-              REAGIR
-            </Button>
-          </Link>
-        </Carousel.Caption>
-      </Carousel.Item>
-    );
-  });
+      }
+      actions={[
+        <Badge count={1000} overflowCount={999}>
+       <Avatar icon={<UserOutlined />} />
+     </Badge>,
+     <Badge count={1000} overflowCount={999}>
+       <Avatar icon={<LikeOutlined/>} />
+     </Badge>,
+        <p><CalendarOutlined />{publication.date_publication}</p>,
+        <Link to={`/publication/${publication._id}`}><Button type="primary" danger>
+        Réagir
+      </Button></Link>,
+ 
+      ]}
+    >
+      <Meta
+        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+        title={publication.titre}
+        description={publication.texte}
+      />
+    </Card>)
+  })
+ 
+  
 
-  // var handleClick = () => {
-  //   setPopulaire(true)
-  //   setpublicationALaUne(false)
-  //   console.log("mon handleClick")
-  // }
 
   return (
     /* header */
@@ -193,14 +110,16 @@ function Accueil(props) {
           style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
           <Row justify="center" >
-            <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
+            <Tabs type="card">
               <TabPane tab="A la une " key="1">
-                <Carousel >
+              
                   {publiCards}
-                </Carousel>
+            
               </TabPane>
               <TabPane tab="Les plus populaire" key="2">
-                <Carousel >{publiCards}</Carousel>
+            
+                  {publiCards}
+             
               </TabPane>
             </Tabs>
           </Row>
