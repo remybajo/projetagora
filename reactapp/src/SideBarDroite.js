@@ -65,7 +65,7 @@ function SideBarDroite(props) {
   }}
 
   if (isConnect){
-    return <Redirect to="/pageprofil" />;
+    return <Redirect to="/pageprofil2" />;
   }
 
   var handleClickPubli = (e) => {
