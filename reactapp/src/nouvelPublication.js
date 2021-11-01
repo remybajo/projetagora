@@ -57,6 +57,7 @@ function NouvelPublication(props) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `titrePublication=${titre}&contenuPublication=${contenu}&datePublication=${date}&themePublication=${theme}&motClePublication=${motCle}&token=${props.token}&image=${pictureSelected}`,
     });
+
     const body = await data.json();
     console.log("et dans body?", body);
     // if (body.result == true) {
@@ -66,14 +67,27 @@ function NouvelPublication(props) {
       
       if (body.result == true) {
         setRedir(true)}
-        setId(idP)  
-  
+        setId(idP) 
+        
+    //sauvegarde image
+    const sendImage = async () => {
 
-
+      var image = new FormData();
+      image.append('image', {
+        uri: pictureSelected,
+        type: 'image/jpeg',
+        name: 'image.jpg',
+      });
+      
+      let rawResponse = await fetch("/publications/upload", {
+      method: 'post',
+      body: image
+      })
+     }  
+      
     };
 
-
-        if(id){
+            if(id){
           console.log('id', id)
       return <Redirect to={`/publication/${id}`}/>}
 
@@ -182,7 +196,8 @@ function NouvelPublication(props) {
         <CardTitle tag="h5"></CardTitle>
         <CardText></CardText>
       </CardBody>
-      </Card>
+      </Card>;
+    
       
   }
 

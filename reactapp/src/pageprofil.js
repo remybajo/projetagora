@@ -23,13 +23,14 @@ import {
 } from "antd";
 import { Link, Redirect } from 'react-router-dom'
 import "antd/dist/antd.css";
-
+import { connect } from 'react-redux'
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 import React, { useState, useEffect } from "react";
+import { UnavailableForLegalReasons } from "http-errors";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -53,6 +54,31 @@ const data = [
 function PageProfil(props) {
   const [loading, setLoading] = useState(false);
   const [dataL, setDataL] = useState([]);
+const [latest, setLatest] = useState([])
+const [themeArticle, setThemeArticle] = useState([])
+
+
+
+  useEffect(() => {
+    const ProfilComment= async () => {
+      var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
+      const response = await rawResponse.json();
+      const publication = response.publication
+      console.log(publication)
+      setLatest(publication)
+   
+
+  
+    
+     
+     }
+    ProfilComment();
+    // cherche()
+    
+  }, []);
+
+
+  // Antd
 
   const loadMoreData = () => {
     if (loading) {
@@ -76,9 +102,52 @@ function PageProfil(props) {
     loadMoreData();
   }, []);
 
+
+  var publiCards = latest.map((article, i) => {
+    var toRead = article;
+    return (
+  <div
+                  id="scrollableDiv"
+                  style={{
+                    height: 400,
+                    overflow: "auto",
+                    padding: "0 16px",
+                    border: "1px solid rgba(140, 140, 140, 0.35)",
+                  }}
+                >
+                  <InfiniteScroll
+                    dataLength={dataL.length}
+                    next={loadMoreData}
+                    hasMore={dataL.length < 50}
+                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    endMessage={
+                      <Divider plain>It is all, nothing more 🤐</Divider>
+                    }
+                    scrollableTarget="scrollableDiv"
+                  >
+                    <List
+                      dataSource={dataL}
+                      renderItem={(item) => (
+                        <List.Item key={item.id}>
+                          <List.Item.Meta
+                            avatar={<Avatar src={item.picture.large} />}
+                            title={
+                              <a href={`/publication/${toRead._id}`}>{article.titre}</a>
+                            }
+                            description={article.texte}
+                          />
+                          <div>Content</div>
+                        </List.Item>
+                      )}
+                    />
+                  </InfiniteScroll>
+                </div>)})
+
   return (
     <Layout className="site-layout-background">
-      <EnTete />
+      <EnTete/> 
+
+    
 
       <Row></Row>
 
@@ -115,7 +184,9 @@ function PageProfil(props) {
             </div>
           </Col>{" "}
           <div className="card-container" style={{ marginBottom: "30px" }}>
-            <Tabs type="card">
+            <Tabs type="card"
+            style={{height:500,
+              border: "1px solid rgba(140, 140, 140, 0.35)"}}>
               <TabPane tab="Mes publications sauvegardées" key="1">
                 <div
                   id="scrollableDiv"
@@ -155,42 +226,7 @@ function PageProfil(props) {
                 </div>
               </TabPane>
               <TabPane tab="Mes publications commentés" key="2">
-                <div
-                  id="scrollableDiv"
-                  style={{
-                    height: 400,
-                    overflow: "auto",
-                    padding: "0 16px",
-                    border: "1px solid rgba(140, 140, 140, 0.35)",
-                  }}
-                >
-                  <InfiniteScroll
-                    dataLength={dataL.length}
-                    next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-                    endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
-                    }
-                    scrollableTarget="scrollableDiv"
-                  >
-                    <List
-                      dataSource={dataL}
-                      renderItem={(item) => (
-                        <List.Item key={item.id}>
-                          <List.Item.Meta
-                            avatar={<Avatar src={item.picture.large} />}
-                            title={
-                              <a href="https://ant.design">{item.name.last}</a>
-                            }
-                            description={item.email}
-                          />
-                          <div>Content</div>
-                        </List.Item>
-                      )}
-                    />
-                  </InfiniteScroll>
-                </div>
+                {publiCards}
               </TabPane>
               <TabPane tab="Mes publications publiées" key="3">
                 <div
@@ -265,4 +301,14 @@ function PageProfil(props) {
     </Layout>
   );
 }
-export default PageProfil;
+
+function mapStateToProps(state){
+  return {token:state.token}
+}
+
+export default connect(
+  mapStateToProps,
+  null
+  
+ 
+)(PageProfil) ;
