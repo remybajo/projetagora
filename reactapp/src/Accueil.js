@@ -38,7 +38,8 @@ import {
   LinkOutlined,
   DownCircleFilled,
 } from "@ant-design/icons";
-
+import SideBarDroite from "./SideBarDroite";
+import EnTete from "./EnTete";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 
