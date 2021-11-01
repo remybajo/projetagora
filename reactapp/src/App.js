@@ -17,9 +17,11 @@ import nouvelPublication from "./nouvelPublication";
 import Test from "./Test";
 import Publication from "./publication";
 import CompleterProfil from "./completerProfil";
+
 import EnTete from "./EnTete.js";
 import SideBarDroite from "./SideBarDroite";
 import PageTheme from "./PageTheme";
+
 //import Cookies from 'js-cookie';
 
 const store = createStore(combineReducers({ token, publiToken}));
@@ -32,6 +34,8 @@ function App(props) {
           <Route component={Accueil} path="/" exact />
           <Route component={Test} path="/test" exact />
           <Route component={PageProfil} path="/pageprofil" exact />
+       
+          
           <Route component={Profilcomp} path="/profilcomp" exact />
           <Route component={Publication} path="/publication/:id" exact />
           <Route component={Thematique} path="/Thematique" exact />

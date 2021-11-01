@@ -90,7 +90,7 @@ const [themeArticle, setThemeArticle] = useState([])
       size="large"
       
       
-      dataSource={listData}
+      dataSource={latest}
       
       
       renderItem={(item) => (
