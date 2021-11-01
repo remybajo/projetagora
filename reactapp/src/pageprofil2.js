@@ -218,7 +218,7 @@ import {
                             <List.Item.Meta
                    
                               title={
-                                <Link to={`/publication/${latest._id}`}>{item.titre}</Link> 
+                                <Link to={`/publication/${item._id}`}>{item.titre}</Link> 
                               }
                               description={item.texte}
                               
