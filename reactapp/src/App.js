@@ -9,6 +9,7 @@ import { createStore, combineReducers } from "redux";
 import token from "./reducers/token";
 import publiToken from "./reducers/publiToken";
 import PageProfil from "./pageprofil";
+import PageProfil2 from "./pageprofil2";
 import Accueil from "./Accueil";
 import Inscription from "./inscription";
 import Profilcomp from "./profilcomp";
@@ -17,7 +18,7 @@ import nouvelPublication from "./nouvelPublication";
 import Test from "./Test";
 import Publication from "./publication";
 import CompleterProfil from "./completerProfil";
-
+import PageThemeEducation from "./pageThemeEducation";
 import EnTete from "./EnTete.js";
 import SideBarDroite from "./SideBarDroite";
 import PageTheme from "./PageTheme";
@@ -34,6 +35,7 @@ function App(props) {
           <Route component={Accueil} path="/" exact />
           <Route component={Test} path="/test" exact />
           <Route component={PageProfil} path="/pageprofil" exact />
+          <Route component={PageProfil2} path="/pageprofil2" exact />
        
           
           <Route component={Profilcomp} path="/profilcomp" exact />
@@ -49,6 +51,7 @@ function App(props) {
           <Route component={EnTete} path="/EnTete" exact />
           <Route component={SideBarDroite} path="/SideBarDroite" exact />
           <Route component={PageTheme} path="/PageTheme" exact />
+          <Route component={PageThemeEducation} path="/pageThemeEducation" exact />
         </Switch>
       </Router>
     </Provider>

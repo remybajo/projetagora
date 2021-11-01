@@ -206,12 +206,9 @@ var user = await userModel.findOne({token : req.query.token})
 if (user){
 var article = await commentModel.find
 ({user_id : user._id}).populate('publication_id')
-}
 
-//var publicationComment = await userModel.find()
-//console.log(publicationComment)
 for (let i=0; i < article.length; i++){
- publication.push(article[i].publication_id)}
+ publication.push(article[i].publication_id)}}
 console.log(publication)
     
 

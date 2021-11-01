@@ -16,7 +16,9 @@
     "http-errors": "~1.6.3",
     "mongoose": "^6.0.12",
     "morgan": "~1.9.1",
+    "plotly.js": "^2.6.0",
     "react-city-picker": "^1.0.6",
+    "react-plotly.js": "^2.5.1",
     "sync-request": "^6.1.0",
     "uid2": "^1.0.0",
     "uniqid": "^5.4.0"

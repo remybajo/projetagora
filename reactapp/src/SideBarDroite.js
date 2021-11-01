@@ -65,7 +65,7 @@ function SideBarDroite(props) {
   }}
 
   if (isConnect){
-    return <Redirect to="/pageprofil" />;
+    return <Redirect to="/pageprofil2" />;
   }
 
   var handleClickPubli = (e) => {
@@ -104,7 +104,7 @@ onCancel={handleCancel}>
       <Menu
         style={{ width: 200 }}
         defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        // defaultOpenKeys={["sub1"]}
       >
         <Menu.Item key="1" icon={<MailOutlined />}>
           <Link to="/">Accueil</Link>
@@ -118,7 +118,8 @@ onCancel={handleCancel}>
           </Menu.Item>
           <Menu.Item key="4">Débats</Menu.Item>
           <Menu.Item key="4">Economie / emploi </Menu.Item>
-          <Menu.Item key="4">Education </Menu.Item>
+          <Menu.Item key="4">
+          <Link to="/pageThemeEducation">Education </Link></Menu.Item>
           <Menu.Item key="4">entreprise/start up </Menu.Item>
           <Menu.Item key="4">Evenement</Menu.Item>
           <Menu.Item key="4">Fait Divers / autre </Menu.Item>
