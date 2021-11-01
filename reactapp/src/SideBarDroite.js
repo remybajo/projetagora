@@ -118,7 +118,8 @@ onCancel={handleCancel}>
           </Menu.Item>
           <Menu.Item key="4">Débats</Menu.Item>
           <Menu.Item key="4">Economie / emploi </Menu.Item>
-          <Menu.Item key="4">Education </Menu.Item>
+          <Menu.Item key="4">
+          <Link to="/pageThemeEducation">Education </Link></Menu.Item>
           <Menu.Item key="4">entreprise/start up </Menu.Item>
           <Menu.Item key="4">Evenement</Menu.Item>
           <Menu.Item key="4">Fait Divers / autre </Menu.Item>
