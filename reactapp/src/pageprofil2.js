@@ -63,8 +63,9 @@ import {
         var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
         const response = await rawResponse.json();
         const publication = response.publication
-        console.log(publication)
+        
         setLatest(publication)
+     
      
   
     
@@ -98,6 +99,8 @@ import {
       loadMoreData();
     }, []);
     var toRead = latest;
+
+    console.log(latest._id)
     return (
       <Layout className="site-layout-background">
         <EnTete />
@@ -172,7 +175,7 @@ import {
                         dataSource={dataL}
                         renderItem={(item) => (
                           <List.Item key={item.id}>
-                              <Link to={`/publication/${toRead._id}`}>
+                              <Link to={`/publication/${latest._id}`}>
                             <List.Item.Meta
                               avatar={<Avatar src={item.picture.large} />}
                               title={
@@ -215,7 +218,7 @@ import {
                             <List.Item.Meta
                           
                               title={
-                                <a href={`/publication/${toRead._id}`}>{item.titre}</a>
+                                <a href={`/publication/${item._id}`}>{item.titre}</a>
                               }
                               description={item.texte}
                             />
