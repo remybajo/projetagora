@@ -1,50 +1,17 @@
-
-   
+ 
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {
-  Layout,
-  Menu,
-  Breadcrumb,
-  Image,
-  Card,
-  Avatar,
-  Divider,
-  Row,
-  Col,
-  Tabs,
-  List,
-  Space,
-  Tag,
-  BackTop,
-  Badge,
-  Modal,
-} from "antd";
+import { Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop, Badge, Modal} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
-} from "@ant-design/icons";
+import { SettingOutlined, EditOutlined, EllipsisOutlined, MessageOutlined, LikeOutlined, StarOutlined, UserOutlined,
+  CalendarOutlined} from "@ant-design/icons";
+import Icon from '@ant-design/icons';
+import EnTete from "./EnTete";
+import SideBarDroite from "./SideBarDroite";
 
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
-
-import EnTete from "./EnTete";
-import SideBarDroite from "./SideBarDroite";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -84,12 +51,10 @@ function Accueil(props) {
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
   
-
-
-
   //Récupération les publications à l'initialisation
   useEffect(() => {
     const findPublications = async () => {
+      console.log("init latest: ", latest)
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
      // console.log("3 articles", body.latest);
@@ -98,16 +63,14 @@ function Accueil(props) {
       console.log(body)
     };
     findPublications();
-    // cherche()
+    console.log("check push: ", latest)
   }, []);
 
  
   const [lastPublications, setLastPublications] = useState(latest);
 
-
-
   var publiCards = latest.map((publication, i) => {
-toRead = publication;
+  var toRead = publication;
     return (
       <Carousel.Item>
         <img
@@ -151,14 +114,17 @@ toRead = publication;
           style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
           <Row justify="center" >
-            <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
+            <Tabs type="card">
               <TabPane tab="A la une " key="1">
-                <Carousel >
+                <Carousel>
                   {publiCards}
                 </Carousel>
+            
               </TabPane>
               <TabPane tab="Les plus populaire" key="2">
-                <Carousel >{publiCards}</Carousel>
+                <Carousel>
+                    {publiCards}
+                  </Carousel>
               </TabPane>
             </Tabs>
           </Row>
