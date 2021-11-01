@@ -1,5 +1,32 @@
 @import '~antd/dist/antd.css';
 
+#head {
+  display: flex;
+  flex-direction: column;
+  background-image: url("./language-school-01-1400x426.png");
+  height: 300px;
+ 
+  border-bottom: 2px solid #214C74;
+}
+#illustration2 {
+  background-image: url("./language-school-illustration-01.png");
+  height: 600px;
+  
+  
+}
+h3 {
+  display : flex;
+  justify-content: flex-start;
+}
+
+
+.footer {
+ background-image: url("./language-school-illustration-13-1400x411.png");
+ height: 400px;
+filter: brightness(50%);
+  }
+ 
+  
 
 .logo {
   padding-left: 50px;
@@ -217,7 +244,7 @@ h4 {
 }
 .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
   padding: 16px;
-  background: rgb(231, 231, 231);
+  background: transparent;
   border-color: black;
 }
 .card-container > .ant-tabs-card > .ant-tabs-nav::before {

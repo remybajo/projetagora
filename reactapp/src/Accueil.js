@@ -1,5 +1,3 @@
-
-   
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
@@ -38,6 +36,7 @@ import {
   CalendarOutlined,
   AppstoreOutlined,
   LinkOutlined,
+  DownCircleFilled,
 } from "@ant-design/icons";
 
 import Carousel from "react-bootstrap/Carousel";
@@ -101,7 +100,6 @@ function Accueil(props) {
     // cherche()
   }, []);
 
-  
   // var cherche = async () => {
   //   const pourLaUne = await fetch("/publicationalaune");
   //   pourLaUneJ = await pourLaUne.json();
@@ -123,12 +121,8 @@ function Accueil(props) {
   // if (inscription) {
   //   return <Redirect to="/inscription" />;
   // }
-  
-
-
 
   var toRead;
-
 
   // if(publicationALaUne){
   //   var title = publicationALaUne.titre
@@ -142,7 +136,6 @@ function Accueil(props) {
   //     var image = publicationALaUne.image
   //     console.log('autre tab')
   //   }
-
 
   var publiCards = latest.map((publication, i) => {
     toRead = publication[i];
@@ -185,24 +178,86 @@ function Accueil(props) {
   return (
     /* header */
     <Layout className="site-layout-background">
-      <EnTete />
+      <div id="head">
+        <div>
+          <Image
+            preview={false}
+            size={40}
+            className="logo"
+            width={200}
+            src="./image/AGORA.png"
+          />
+        </div>
+        <div>
+          {" "}
+          <p style={{ marginLeft: "50px" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
+          <Button
+            type="primary"
+            size={100}
+            style={{
+              backgroundColor: "rgba(240, 52, 52, 1)",
+              borderColor: "rgba(240, 52, 52, 1)",
+              marginLeft: "50px",
+            }}
+          >
+            Poster votre publication
+          </Button>
+        </div>
+      </div>
 
       <Layout className="site-layout-background">
         <SideBarDroite />
         <Content
           style={{ padding: "0 24px", minHeight: 500, marginTop: "30px" }}
         >
-          <Row justify="center" >
+          <Row justify="center">
             <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
               <TabPane tab="A la une " key="1">
-                <Carousel >
-                  {publiCards}
-                </Carousel>
+                <Carousel>{publiCards}</Carousel>
               </TabPane>
               <TabPane tab="Les plus populaire" key="2">
-                <Carousel >{publiCards}</Carousel>
+                <Carousel>{publiCards}</Carousel>
               </TabPane>
             </Tabs>
+          </Row>
+
+          <Row>
+            <Col
+              justify="start"
+              span={12}
+              style={{
+                backgroundColor: "transparent",
+                textAlign: "center",
+                marginTop: "70px",
+              }}
+            >
+              <h3> Votre publication interesse-t-elle du monde ?</h3>
+              <p>
+                Découvrez les avis des autres utilisateurs... Lorem Ipsum is
+                simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever
+                since the 1500s, when an unknown printer took a galley of type
+                and scrambled it to make a type specimen book. It has survived
+                not only five centuries, but also the leap into electronic
+                typesetting, remaining essentially unchanged. It was popularised
+                in the 1960s with the release of Letraset sheets containing
+                Lorem Ipsum passages, and more recently with desktop publishing
+                software like Aldus PageMaker including versions of Lorem Ipsum.
+              </p>
+              <DownCircleFilled
+                style={{
+                  fontSize: "60px",
+                  color: "#214C74",
+                  marginTop: "50px",
+                }}
+              />
+            </Col>
+            <Col id="illustration2" span={12}>
+              col
+            </Col>
           </Row>
 
           <Row justify="center">
@@ -218,6 +273,7 @@ function Accueil(props) {
                   textAlign: "center",
                   height: 50,
                   justifyContent: "center",
+                  borderRadius: "30px",
                 }}
               >
                 Les questions
@@ -278,7 +334,58 @@ function Accueil(props) {
               </List.Item>
             )}
           />
+          <Row
+            style={{
+              backgroundColor: "blue",
+            }}
+          >
+            <Col
+              span={12}
+              style={{
+                backgroundColor: "transparent",
+                textAlign: "center",
+              }}
+            >
+              {" "}
+              <h3> Votre publication interesse-t-elle du monde ?</h3>
+              <p>
+                Découvrez les avis des autres utilisateurs... Lorem Ipsum is
+                simply dummy text of the printing and typesetting industry.
+              </p>
+            </Col>
 
+            <Col
+              span={12}
+              style={{
+                backgroundColor: "transparent",
+
+                textAlign: "center",
+              }}
+            >
+              <Button
+                type="primary"
+                size={100}
+                style={{
+                  backgroundColor: "rgba(240, 52, 52, 1)",
+                  borderColor: "rgba(240, 52, 52, 1)",
+                  marginLeft: "50px",
+                }}
+              >
+                LOG IN
+              </Button>
+              <Button
+                type="primary"
+                size={100}
+                style={{
+                  backgroundColor: "rgba(140, 52, 52, 1)",
+                  borderColor: "rgba(140, 52, 32, 1)",
+                  marginLeft: "50px",
+                }}
+              >
+                LOG OUT
+              </Button>
+            </Col>
+          </Row>
           <Card
             title="Nos thématiques"
             style={{
@@ -288,9 +395,7 @@ function Accueil(props) {
             }}
           >
             <Card.Grid style={gridStyle}>T’as remarqué?</Card.Grid>
-            <Card.Grid hoverable={false} style={gridStyle}>
-              emploi
-            </Card.Grid>
+            <Card.Grid style={gridStyle}>emploi</Card.Grid>
             <Card.Grid style={gridStyle}>Education</Card.Grid>
             <Card.Grid style={gridStyle}>Politique</Card.Grid>
             <Card.Grid style={gridStyle}>Evenement</Card.Grid>
@@ -299,37 +404,8 @@ function Accueil(props) {
             <Card.Grid style={gridStyle}>Tourisme</Card.Grid>
           </Card>
         </Content>
-
-        <Sider className="sidebar-layout-background" width={200} height={300}>
-          <Divider orientation="left" plain>
-            THÈMES
-          </Divider>
-          <p>
-            <Tag>
-              <a href="https://"> Foot</a>
-            </Tag>
-            <Tag>
-              <a href="https://"> stationnement</a>
-            </Tag>
-            <Tag>
-              <a href="https://"> lycee</a>
-            </Tag>
-            <Tag>
-              <a href="https://"> restaurent </a>
-            </Tag>
-            <Tag>
-              <a href="https://"> piscine</a>
-            </Tag>
-            <Tag>
-              <a href="https://"> salle de sport</a>
-            </Tag>
-            ecole / micro entreprise/ salons /metro / travaux / autre Debats
-            centre de sante / residence/ quaie / stade / insecurité / ville /
-            autre / Idée
-          </p>
-        </Sider>
       </Layout>
-      <Footer style={{ textAlign: "left" }}>
+      <Footer className="footer" style={{ textAlign: "left" }}>
         {" "}
         <Row>
           <Col span={8}>
@@ -383,6 +459,5 @@ function mapDispatchToProps(dispatch) {
     },
   };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Accueil);

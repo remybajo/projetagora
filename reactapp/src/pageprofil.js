@@ -21,7 +21,7 @@ import {
   Skeleton,
   message,
 } from "antd";
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
@@ -105,22 +105,32 @@ function PageProfil(props) {
             <div>
               {" "}
               <Link to="/profilcomp">
-              <Button 
-                type="danger"
-                style={{ marginLeft: "500px", marginBottom: "30px" }}
-              >
-                {" "}
-                Compléter Mon profil
-              </Button></Link>
+                <Button
+                  type="danger"
+                  style={{ marginLeft: "500px", marginBottom: "30px" }}
+                >
+                  {" "}
+                  Compléter Mon profil
+                </Button>
+              </Link>
             </div>
           </Col>{" "}
-          <div className="card-container" style={{ marginBottom: "30px" }}>
-            <Tabs type="card">
+          <div
+            className="card-container"
+            style={{ marginBottom: "30px", height: 600 }}
+          >
+            <Tabs
+              type="card"
+              style={{
+                height: 500,
+                border: "1px solid rgba(140, 140, 140, 0.35)",
+              }}
+            >
               <TabPane tab="Mes publications sauvegardées" key="1">
                 <div
                   id="scrollableDiv"
                   style={{
-                    height: 700,
+                    height: 500,
                     overflow: "auto",
                     padding: "0 16px",
                     border: "1px solid rgba(140, 140, 140, 0.35)",
