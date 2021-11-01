@@ -6,8 +6,19 @@ var voteModel = require('../models/votes')
 var commentModel = require('../models/comments');
 const { isValidObjectId } = require('mongoose');
 
+
 var id;
 var token;
+
+var uniqid = require('uniqid');
+var fs = require('fs');
+
+var cloudinary = require('cloudinary').v2;
+cloudinary.config({ 
+  cloud_name: 'dndcvhxbw',
+ api_key: '466162484392489',
+ api_secret: '-fErMn0jlCeAFf4IiGibqxiEWpY' 
+});
 
 router.get('/lastPublications', async function(req, res, next){
     var result = false;
@@ -141,25 +152,25 @@ router.get('/nouveaute', async function(req, res, next){
 router.post('/upload', async function(req, res, next) {
   console.log('check upload de fichiers: ',req.files.image)
   
-  var copyImage = './tmp/'+uniqid()+'.jpg';
-  var resultCopy = await req.files.avatar.mv(pictureName);
-  // if(!resultCopy) {
-  //   var resultCloudinary = await cloudinary.uploader.upload(pictureName);
-  //   var url = resultCloudinary.url
-  //   console.log("url cloudinary: ", url)
-  //   var options = {
-  //     json: {
-  //       apiKey: "5c0a5d392c1745d2ae84dc0b1483bfd2",
-  //       image: url
-  //     },
-  //    };
+  var pictureName = './tmp/'+uniqid()+'.jpg';
+  var resultCopy = await req.files.image.mv(pictureName);
+  if(!resultCopy) {
+    var resultCloudinary = await cloudinary.uploader.upload(pictureName);
+    var url = resultCloudinary.url
+    console.log("url cloudinary: ", url)
+    var options = {
+      json: {
+        apiKey: "5c0a5d392c1745d2ae84dc0b1483bfd2",
+        image: url
+      },
+     };
     
     
-  //   res.json({result: true, message: 'File uploaded!', url: url, gender:gender, age:age});
-  // } else {
-  //   res.json({error: resultCopy});
+    res.json({result: true, message: 'File uploaded!', url: url, gender:gender, age:age});
+  } else {
+    res.json({error: resultCopy});
   
-  //}
+  }
 
   // fs.unlinkSync(pictureName);
   
