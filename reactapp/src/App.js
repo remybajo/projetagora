@@ -17,7 +17,7 @@ import nouvelPublication from "./nouvelPublication";
 import Test from "./Test";
 import Publication from "./publication";
 import CompleterProfil from "./completerProfil";
-
+import PageThemeEducation from "./pageThemeEducation";
 import EnTete from "./EnTete.js";
 import SideBarDroite from "./SideBarDroite";
 import PageTheme from "./PageTheme";
@@ -49,6 +49,7 @@ function App(props) {
           <Route component={EnTete} path="/EnTete" exact />
           <Route component={SideBarDroite} path="/SideBarDroite" exact />
           <Route component={PageTheme} path="/PageTheme" exact />
+          <Route component={PageThemeEducation} path="/pageThemeEducation" exact />
         </Switch>
       </Router>
     </Provider>

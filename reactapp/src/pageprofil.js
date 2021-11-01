@@ -184,7 +184,9 @@ const [themeArticle, setThemeArticle] = useState([])
             </div>
           </Col>{" "}
           <div className="card-container" style={{ marginBottom: "30px" }}>
-            <Tabs type="card">
+            <Tabs type="card"
+            style={{height:500,
+              border: "1px solid rgba(140, 140, 140, 0.35)"}}>
               <TabPane tab="Mes publications sauvegardées" key="1">
                 <div
                   id="scrollableDiv"
