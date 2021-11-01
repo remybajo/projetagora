@@ -70,17 +70,18 @@ const [themeArticle, setThemeArticle] = useState([])
     const Thematique= async () => {
       var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
       const response = await rawResponse.json();
-      console.log(response)
+      const publica = response.publicationTheme
+      setThemeArticle(publica.Thematique)
       setLatest(response.publicationTheme)
     }
 
      Thematique();
-    // cherche()
-    
+ 
+  
   }, []);
 
 
-  
+
 
   return (
     <Layout className="site-layout-background">
@@ -104,7 +105,8 @@ const [themeArticle, setThemeArticle] = useState([])
                 marginLeft: 200,
               }}
             >
-              {latest.thematique}
+            Politique
+
             </h1>
           </Col>
           <Col span={12}>
