@@ -4,7 +4,7 @@ var userModel = require('../models/users')
 var publicationModel = require('../models/publications')
 var voteModel = require('../models/votes')
 var commentModel = require('../models/comments');
-const { isValidObjectId } = require('mongoose');
+const mongoose = require('mongoose');
 
 
 var id;
@@ -37,6 +37,21 @@ router.get('/lastPublications', async function(req, res, next){
 
 })
 
+router.get('/allPublications', async function(req, res, next){
+  var result = false;
+  var allPublications = await publicationModel.find().sort({date_publication: -1});
+ 
+  if(allPublications){
+      result = true
+
+     // console.log(latest)
+      console.log("all: ", allPublications)
+    }
+
+  res.json({result, allPublications})
+
+})
+
 
 router.get('/selectedPublication', async function(req, res, next){
   var id;
@@ -63,52 +78,52 @@ router.get('/selectedPublication', async function(req, res, next){
   };
   console.log("publication selected: ",publiToDisplay)
 
-  // checker si le user a déjà voté pour cette publication
+  // checker si le user est connecté et récupérer ses infos
   var user;
   var votes
   var userConnected = false;
-  var alreadyVoted;
-  var userVote;
-  var alreadyCommented;
-  var userComment;
-  console.log ("checktoken", req.query.token)
-  
-  if (req.query.token == null) {
-    userConnected = false
-  } else {
+  // var alreadyVoted;
+  // var userVote;
+  // var alreadyCommented;
+  // var userComment;
+
+  if (req.query.token != null) {
     userConnected = true;
-    token = req.query.token;
-    user = await userModel.findOne({token:token})
-    votes = await voteModel.find({publication_id: id, user_id:user._id });
-    
-    if(votes.length == 0){
-      alreadyVoted = false
-    } else {
-      alreadyVoted = true;
-      userVote = votes[0].vote;
-      console.log("vote du user" , userVote)
-    }
-
-    var commented = await commentModel.find({publication_id: id, user_id:user._id });
-    console.log("userComment: ", commented );
-    if(commented.length ==0) {
-      alreadyCommented = false;
-    } else {
-      alreadyCommented = true;
-      userComment = commented[0].commentaire;
-      console.log("user comment: ", userComment)
-    }
-
+    user = await userModel.findOne({token: req.query.token});
+    console.log("user ", user);
   }
   
+  votes = await voteModel.find({publication_id: id});
+    
+  //   if(votes.length == 0){
+  //     alreadyVoted = false
+  //   } else {
+  //     alreadyVoted = true;
+  //     userVote = votes[0].vote;
+  //     console.log("vote du user" , userVote)
+  //   }
+
+  // var commented = await commentModel.find({publication_id: id, user_id:user._id });
+  //   console.log("userComment: ", commented );
+  //   if(commented.length ==0) {
+  //     alreadyCommented = false;
+  //   } else {
+  //     alreadyCommented = true;
+  //     userComment = commented[0].commentaire;
+  //     console.log("user comment: ", userComment)
+  //   }
+
+  
   console.log("user connected: ", userConnected)
+
  
 
   // récupération du résultat du vote pour l'article sélectionné
   // ATENTION LE MATCH NE FONCTIONNE PAS - pas encore de filtre sur l'id
   
+  //var stats = await voteModel.find({publication_id: id})
   var stats = await voteModel.aggregate([ 
-    //{$match:{publication_id: mongoose.Types.ObjectId("617ebaf5a01b376f21183361")}},
+    {$match:{publication_id: mongoose.Types.ObjectId(id)}},
     {$group:{
     _id : "$vote",
      userCount: { $sum: 1 }
@@ -118,8 +133,11 @@ router.get('/selectedPublication', async function(req, res, next){
   
   console.log('stats ', stats)
 
+  
+  
 
-  res.json({result, publiToDisplay, comments, stats, alreadyVoted, userVote, userConnected, alreadyCommented, userComment})
+  //res.json({result, publiToDisplay, comments, stats, alreadyVoted, userVote, userConnected, alreadyCommented, userComment})
+  res.json({result, publiToDisplay, comments, stats, userConnected, user, votes})
 
 })
 

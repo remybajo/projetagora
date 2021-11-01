@@ -41,8 +41,11 @@ function Publication(props) {
   var dateComment;
   var token = props.token;
   
-  const [content, setContent] = useState({_id: "",thematique:"", titre:"" ,texte: "", image: "", date_publication: '', statut: "", motsCle: '',
+  const [content, setContent] = useState({_id:"",thematique:"", titre:"" ,texte: "", image: "", date_publication: '', statut: "", motsCle: '',
   publiToken: "", user_id: "", __v: ""});
+
+  const [user, setUser] = useState({ id:"", username: "",  email: "", password:"", token: "", __v: 0,
+  gender: "", dateOfBirth: null, CSP: "", civilState: "", numberOfcChild: ""});
 
 
   var dateFormat = function (date) {
@@ -63,24 +66,48 @@ function Publication(props) {
       setContent(body.publiToDisplay);
 
       // si l'utilisateur n'est pas loggé, cacher des éléments
-      if(body.userConnected)  {
+      if(token)  {
         setConnected(true)
       }
-      // recuperation des commentaires
+      
+      // recuperation des commentaires liés à la publication
       setCommentairesList(body.comments);
-      //recuperations des stats
+      //recuperations des stats liées à la publication
       setStats(body.stats);
-      // vérifier si l'utilisateur a déjà voté et récupérer son vote le cas échéant
-      setAlreadyVoted(body.alreadyVoted)
-      setUserVote(body.userVote);
-      setAlreadyCommented(body.alreadyCommented);
-    
-      if (body.alreadyVoted == true) {
-        setStatus(true)
+
+      // récupérer les données du user
+      if(token) {
+        if(token == body.user.token){
+          setUser(body.user)
+        }
       }
-      if(body.alreadyCommented == true) {
-        setUserComment(body.userComment)
+
+      //vérifier si l'utilisateur a déjà voté et récupérer son vote le cas échéant
+      if (token) {
+        var voted = body.votes.filter(vote => vote.user_id == body.user._id);
+        if (voted.length > 0) {
+          setAlreadyVoted(true)
+        }
+        // if (body.votes.user_id == body.user._id){
+        //   setAlreadyVoted(body.alreadyVoted);
+        //   setUserVote(body.votes.vote);
+          console.log("a voté? ", voted);
+        // }
+       
       }
+
+      // if (body.comments.user_id == body.user._id){
+      //   setUserVote(body.userVote);
+      //   setAlreadyCommented(body.alreadyCommented);
+      // }
+      
+      
+      // if (body.alreadyVoted == true) {
+      //   setStatus(true)
+      // }
+      // if(body.alreadyCommented == true) {
+      //   setUserComment(body.userComment)
+      // }
     }
     // Afficher tout
     getSelectedPublication(); 
@@ -202,8 +229,7 @@ function Publication(props) {
     
     console.log("labels: ", labels);
     console.log("values: ", values);
-    console.log('labels', Array.isArray(labels));
-    console.log('values', Array.isArray(values))
+  
     console.log("a voté?", alreadyVoted);
     console.log("userVote ", userVote);
     console.log("connected: ", connected);
@@ -212,6 +238,7 @@ function Publication(props) {
     console.log("selection: ", selection);
     console.log("vote: ", vote)
     console.log("connected? ", connected)
+    console.log("user ", user)
     
   }
 

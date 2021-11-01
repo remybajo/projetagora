@@ -50,6 +50,7 @@ const IconText = ({ icon, text }) => (
 function Accueil(props) {
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
+  const [allPublications, setAllPublications] = useState([]);
   
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -59,11 +60,21 @@ function Accueil(props) {
       const body = await publications.json();
      // console.log("3 articles", body.latest);
       setLatest(body.latest);
-     
       console.log(body)
+
+      
     };
     findPublications();
     console.log("check push: ", latest)
+
+    // recup de toutes les publications
+    const allPublications = async() => {
+      const listPublications = await fetch("publications/allPublications");
+      const response = await listPublications.json();
+     console.log("all: ", response.allPublications);
+      setAllPublications(response.allPublications);
+    };
+    allPublications();
   }, []);
 
  
@@ -159,15 +170,15 @@ function Accueil(props) {
               },
               pageSize: 3,
             }}
-            dataSource={listData}
+            dataSource={allPublications}
             footer={
               <div>
                 <b>ant design</b> footer part
               </div>
             }
-            renderItem={(item) => (
+            renderItem={(publication) => (
               <List.Item
-                key={item.title}
+                key={publication.titre}
                 actions={[
                   <IconText
                     icon={StarOutlined}
@@ -189,16 +200,16 @@ function Accueil(props) {
                   <img
                     width={272}
                     alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                    src={publication.image}
                   />
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.avatar} />}
-                  title={<a href={item.href}>{item.title}</a>}
-                  description={item.description}
+                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                  title={<Link to={`/publication/${publication._id}`}>{publication.titre}</Link>}
+                  description={publication.texte}
                 />
-                {item.content}
+                {/* "{item.content}" */}
               </List.Item>
             )}
           />
