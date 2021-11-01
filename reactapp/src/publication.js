@@ -477,3 +477,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, null)(Publication);
+ 

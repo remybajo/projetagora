@@ -212,17 +212,23 @@ import {
                       scrollableTarget="scrollableDiv"
                     >
                       <List
+                      
                         dataSource={latest}
                         renderItem={(item) => (
+                            
                           <List.Item key={item.id}>
+                               
                             <List.Item.Meta
-                          
+                   
                               title={
-                                <a href={`/publication/${item._id}`}>{item.titre}</a>
+                                <Link to={`/publication/${item._id}`}>{item.titre}</Link> 
                               }
                               description={item.texte}
+                              
                             />
+                   
                             <div>Content</div>
+                           
                           </List.Item>
                         )}
                       />
