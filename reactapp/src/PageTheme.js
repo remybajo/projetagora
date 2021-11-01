@@ -1,6 +1,5 @@
-
-import { Link, Redirect } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
+import { Link, Redirect, useParams } from "react-router-dom";
 import {
   Button,
   Layout,
@@ -43,7 +42,17 @@ const { SubMenu } = Menu;
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
-
+const listData = [];
+for (let i = 0; i < 23; i++) {
+  listData.push({
+    href: "https://ant.design",
+    title: `Question ${i + 1}`,
+    avatar: "https://joeschmoe.io/api/v1/random",
+    description: "Badge",
+    content:
+      "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+  });
+}
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -53,83 +62,32 @@ const IconText = ({ icon, text }) => (
 );
 
 function PageTheme(props) {
+  var {theme} = useParams()
+  const [latest, setLatest] = useState([])
+const [themeArticle, setThemeArticle] = useState(theme)
 
-const [latest, setLatest] = useState([])
-const [themeArticle, setThemeArticle] = useState([])
 
   useEffect(() => {
-    const Politique = async () => {
-      var rawResponse = await fetch('/publicationdb');
+    const Thematique= async () => {
+      var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
       const response = await rawResponse.json();
-      setLatest(response.publicationTheme);
+      
+     
+      //setThemeArticle(publica[0].thematique)
+      setLatest(response.publicationTheme)
+      
+    }
 
-     console.log(response.publicationTheme)
-
-     }
-    Politique();
-    // cherche()
-    
+     Thematique();
+ 
+  
   }, []);
 
-  //const [lastPublications, setLastPublications] = useState(latest);
-  const listData = [];
- var publiCards = latest.map((article, i) => {
- var toRead = article;
-  for (let i = 0; i < 1; i++) {
-    listData.push({
-      
-  //  title: article.titre,
- //  image: article.image,
-   //  content: article.text
-     });
-  }
-    return (
-    <List
-    
-      itemLayout="vertical"
-      size="large"
-      
-      
-      dataSource={latest}
-      
-      
-      renderItem={(item) => (
-        <List.Item
-        
-         
-          extra={
-            <img
-              width={272}
-              alt="logo"
-              src={article.image}
-            />
-            
-          }
-        >
-          
-          <List.Item.Meta
-            title={<a href={`/publication/${toRead._id}`}>{article.titre}</a>}
-            description={article.texte}
-          />
+//test
 
-        </List.Item>
-
-        
-        
-        
-      )} 
-    /> 
-   
-  
-    );
-  });
-  
- 
 
   return (
     <Layout className="site-layout-background">
-      
-      
       {" "}
       <EnTete />
       <Layout className="site-layout-background">
@@ -150,29 +108,69 @@ const [themeArticle, setThemeArticle] = useState([])
                 marginLeft: 200,
               }}
             >
-              Politique
+           
+            {themeArticle}
+
             </h1>
           </Col>
           <Col span={12}>
-            <Statistic title="Nombre de Publications" value={publiCards.length} />
+            <Statistic title="Nombre de questions" value={latest.length} />
           </Col>
-         {publiCards}
-         <List
-        footer={
-          <div>
-            <b>Voir le reste des commentaires</b> <ArrowRightOutlined />
-          </div>
-         
-        }
-        pagination={{
-          onChange: (page) => {
-         
-          },
-          pageSize: 1,
-        }} />
+          <List
+            itemLayout="vertical"
+            size="large"
+            pagination={{
+              onChange: (page) => {
+                console.log(page);
+              },
+              pageSize: 3,
+            }}
+            dataSource={latest}
+            footer={
+              <div>
+                <b>Voir le reste des commentaires</b> <ArrowRightOutlined />
+              </div>
+            }
+            renderItem={(item) => (
+              <List.Item
+                key={item.title}
+                actions={[
+                  <IconText
+                    icon={StarOutlined}
+                    text="156"
+                    key="list-vertical-star-o"
+                  />,
+                  <IconText
+                    icon={LikeOutlined}
+                    text="156"
+                    key="list-vertical-like-o"
+                  />,
+                  <IconText
+                    icon={MessageOutlined}
+                    text="2"
+                    key="list-vertical-message"
+                  />,
+                ]}
+                extra={
+                  <img
+                    width={272}
+                    alt="logo"
+                    src={item.image}
+                  />
+                }
+              >
+                <List.Item.Meta
+             
+             title={
+              <Link to={`/publication/${item._id}`}>{item.titre}</Link> 
+            }
+                  description={item.texte}
+                />
+                {item.content}
+              </List.Item>
+            )}
+          />
         </Content>
-      
-       
       </Layout>
       <Footer>
         {" "}
@@ -195,7 +193,7 @@ const [themeArticle, setThemeArticle] = useState([])
               <li>CGU</li>
               <li>Cookies</li>
             </ul>
-          </Col>
+            </Col>
           <Col span={8}>
             {" "}
             RESEAUX SOCIAUX
@@ -203,12 +201,13 @@ const [themeArticle, setThemeArticle] = useState([])
               <li>Facebook</li>
               <li>Instagram</li>
               <li>Twitter</li>
-            </ul>
+              </ul>
           </Col>
         </Row>
       </Footer>
     </Layout>
-  );
-      }
+);
+}
 
 export default PageTheme;
+

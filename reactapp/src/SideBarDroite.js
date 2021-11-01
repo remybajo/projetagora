@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+
 import { Link, Redirect } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import Inscription from "./inscription";
 import { connect } from 'react-redux'
 import {
@@ -44,6 +45,32 @@ function SideBarDroite(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isConnect, setIsConnect] = useState(false)
   const [isConnectProfil, setIsConnectProfil] = useState(false)
+  const [theme, setTheme] = useState("")
+
+  //Bade de donnée Data
+const themeData = [
+  
+  "Emploi",
+  "Education",
+  "Politique",
+  "Evenement",
+  "Environnement",
+  "Sport",
+  "Tourisme",
+  "Tu as remarqué ?"
+
+]
+
+
+
+  var findClickTheme = (theme) => {
+    setTheme(theme)
+
+    
+  }
+  if (theme){
+   return <Redirect to={`/pageTheme/${theme}`} />
+  }
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -65,7 +92,7 @@ function SideBarDroite(props) {
   }}
 
   if (isConnect){
-    return <Redirect to="/pageprofil2" />;
+    return <Redirect to="/pageprofil" />;
   }
 
   var handleClickPubli = (e) => {
@@ -83,14 +110,10 @@ function SideBarDroite(props) {
   
 
 
-   
-
-
-  
-
- 
-  
-    
+    var publiTheme = themeData.map((theme, i) => {
+      return (
+        <Menu.Item onClick={() => findClickTheme(theme)} key="i">{theme}</Menu.Item>
+      )})
  
   return (
     <Sider className="site-layout-background">
@@ -110,29 +133,7 @@ onCancel={handleCancel}>
           <Link to="/">Accueil</Link>
         </Menu.Item>
         <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
-          <Menu.Item key="3">
-            <Link to="/PageTheme">Politique</Link>
-          </Menu.Item>
-          <Menu.Item key="4">
-            <Link to="/">Culture</Link>
-          </Menu.Item>
-          <Menu.Item key="4">Débats</Menu.Item>
-          <Menu.Item key="4">Economie / emploi </Menu.Item>
-          <Menu.Item key="4">
-          <Link to="/pageThemeEducation">Education </Link></Menu.Item>
-          <Menu.Item key="4">entreprise/start up </Menu.Item>
-          <Menu.Item key="4">Evenement</Menu.Item>
-          <Menu.Item key="4">Fait Divers / autre </Menu.Item>
-          <Menu.Item key="4">France </Menu.Item>
-          <Menu.Item key="4">Idée</Menu.Item>
-          <Menu.Item key="4">Etranger</Menu.Item>
-          <Menu.Item key="4">Politique</Menu.Item>
-          <Menu.Item key="4">Projet environnement</Menu.Item>
-          <Menu.Item key="4">Santé</Menu.Item>
-          <Menu.Item key="4">Sport</Menu.Item>
-          <Menu.Item key="4">T’as remarqué?</Menu.Item>
-          <Menu.Item key="4">Tourisme / voyage </Menu.Item>
-          <Menu.Item key="4">Transport</Menu.Item>
+          {publiTheme}
         </SubMenu>
         <Menu.Item  onClick={() => handleClick()} key="2" icon={<CalendarOutlined  />}  >
         Mon compte
