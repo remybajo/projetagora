@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt');
 var userModel = require('../models/users')
 var publicationModel = require('../models/publications')
 var commentModel = require('../models/comments');
+var voteModel = require('../models/votes') ;
 const { PromiseProvider } = require('mongoose');
 
 
@@ -193,8 +194,6 @@ router.get('/publicationdb', async function(req, res, next){
 console.log(publicationTheme)
 
 
-  
-
   res.json({publicationTheme})
   
  })
@@ -209,12 +208,26 @@ var article = await commentModel.find
 
 for (let i=0; i < article.length; i++){
  publication.push(article[i].publication_id)}}
-console.log(publication)
+
     
+var publicationVote = [];
+ var userVote = await userModel.findOne({token : req.query.token})
+ if (userVote){
+ var articleVote = await voteModel.find
+ ({user_id : user._id}).populate('publication_id')
+ 
+ for (let i=0; i < articleVote.length; i++){
+  publicationVote.push(articleVote[i].publication_id)}}
+  console.log(publicationVote)
+     
 
-
-res.json({publication})
+res.json({publication, publicationVote})
  })
+
+
+
+  
+
 
 // pour récupérer les données utilisateurs
 // router.get('/user', async function(req, res, next){

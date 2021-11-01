@@ -8,8 +8,8 @@ import { connect } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import token from "./reducers/token";
 import publiToken from "./reducers/publiToken";
+//import PageProfil from "./pageprofil";
 import PageProfil from "./pageprofil";
-import PageProfil2 from "./pageprofil2";
 import Accueil from "./Accueil";
 import Inscription from "./inscription";
 import Profilcomp from "./profilcomp";
@@ -34,8 +34,8 @@ function App(props) {
         <Switch>
           <Route component={Accueil} path="/" exact />
           <Route component={Test} path="/test" exact />
+         
           <Route component={PageProfil} path="/pageprofil" exact />
-          <Route component={PageProfil2} path="/pageprofil2" exact />
        
           
           <Route component={Profilcomp} path="/profilcomp" exact />

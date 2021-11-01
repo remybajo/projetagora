@@ -64,15 +64,18 @@ const IconText = ({ icon, text }) => (
 function PageTheme(props) {
   var {theme} = useParams()
   const [latest, setLatest] = useState([])
-const [themeArticle, setThemeArticle] = useState([])
+const [themeArticle, setThemeArticle] = useState(theme)
+
 
   useEffect(() => {
     const Thematique= async () => {
       var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
       const response = await rawResponse.json();
-      const publica = response.publicationTheme
-      setThemeArticle(publica.Thematique)
+      
+     
+      //setThemeArticle(publica[0].thematique)
       setLatest(response.publicationTheme)
+      
     }
 
      Thematique();
@@ -80,7 +83,7 @@ const [themeArticle, setThemeArticle] = useState([])
   
   }, []);
 
-
+//test
 
 
   return (
@@ -105,7 +108,8 @@ const [themeArticle, setThemeArticle] = useState([])
                 marginLeft: 200,
               }}
             >
-            Politique
+           
+            {themeArticle}
 
             </h1>
           </Col>
@@ -157,7 +161,9 @@ const [themeArticle, setThemeArticle] = useState([])
               >
                 <List.Item.Meta
              
-                  title={<a href={item.href}>{item.titre}</a>}
+             title={
+              <Link to={`/publication/${item._id}`}>{item.titre}</Link> 
+            }
                   description={item.texte}
                 />
                 {item.content}

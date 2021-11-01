@@ -92,7 +92,7 @@ const themeData = [
   }}
 
   if (isConnect){
-    return <Redirect to="/pageprofil2" />;
+    return <Redirect to="/pageprofil" />;
   }
 
   var handleClickPubli = (e) => {
