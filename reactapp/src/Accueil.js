@@ -101,47 +101,9 @@ function Accueil(props) {
     // cherche()
   }, []);
 
-  
-  // var cherche = async () => {
-  //   const pourLaUne = await fetch("/publicationalaune");
-  //   pourLaUneJ = await pourLaUne.json();
-  //   setpublicationALaUne(pourLaUneJ.publiaccueil)
-  //   console.log("et dans publicationALaUne?", publicationALaUne);
-  //   }
-
+ 
   const [lastPublications, setLastPublications] = useState(latest);
 
-  // var lienarticle = () => {
-  //   props.addPubliToken(publicationALaUne.publiToken);
-  //   setAtteindreArticle(true)
-  // }
-
-  // if (atteindreArticle) {
-  //   return <Redirect to="/publication" />;
-  // }
-
-  // if (inscription) {
-  //   return <Redirect to="/inscription" />;
-  // }
-  
-
-
-
-  var toRead;
-
-
-  // if(publicationALaUne){
-  //   var title = publicationALaUne.titre
-  //   var description = publicationALaUne.texte
-  //   var image = publicationALaUne.image
-  // }
-
-  //   if(populaire){
-  //     var title = publicationALaUne.titre
-  //     var description = publicationALaUne.texte
-  //     var image = publicationALaUne.image
-  //     console.lo('autre tab')
-  //   }
 
 
   var publiCards = latest.map((publication, i) => {
@@ -177,11 +139,6 @@ toRead = publication;
     );
   });
 
-  // var handleClick = () => {
-  //   setPopulaire(true)
-  //   setpublicationALaUne(false)
-  //   console.log("mon handleClick")
-  // }
 
   return (
     /* header */
