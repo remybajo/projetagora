@@ -18,7 +18,7 @@ import nouvelPublication from "./nouvelPublication";
 import Test from "./Test";
 import Publication from "./publication";
 import CompleterProfil from "./completerProfil";
-import PageTheme from "./pageTheme";
+import PageTheme from "./PageTheme";
 import EnTete from "./EnTete.js";
 import SideBarDroite from "./SideBarDroite";
 
