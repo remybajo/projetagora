@@ -187,8 +187,8 @@ var userUpdate = [
 
 //récupérer les publications
 router.get('/publicationdb', async function(req, res, next){
-
-  var publicationTheme = await publicationModel.find({thematique : 'Politique'})
+  var theme = req.query.theme
+  var publicationTheme = await publicationModel.find({thematique : theme})
 
 console.log(publicationTheme)
 

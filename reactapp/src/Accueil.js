@@ -24,6 +24,8 @@ const gridStyle = {
   textAlign: "center",
 };
 
+
+
 //questions aléatoires
 const listData = [];
 for (let i = 0; i < 3; i++) {
@@ -102,6 +104,7 @@ function Accueil(props) {
     );
   });
 
+ 
 
   return (
     /* header */
