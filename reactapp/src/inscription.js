@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 //import Cookies from 'js-cookie';
 
 function Inscription(props) {
+    console.log("les props de la page inscription",props)
 
     const [signUpUsername, setSignUpUsername] = useState('')
     const [signUpEmail, setSignUpEmail] = useState('')
@@ -23,6 +24,14 @@ function Inscription(props) {
     const [listErrorsSignup, setErrorsSignup] = useState([])
     const [isSuccess, setIsSuccess] = useState("");
     //Cookies.set('token', props.token)
+
+
+
+    var findTheOne = async () => {
+        const user = await fetch("../../routes/users.js");
+        const body = await user.json();
+        console.log('ma const body dans inscription', body)
+    }
 
     
 
@@ -65,6 +74,7 @@ function Inscription(props) {
             setUserExists(true);
             setIsSuccess("tu es connecté !")
             props.addToken(body.token)
+            findTheOne()
             
         } else {
             setErrorsSignin(body.error)
@@ -85,7 +95,8 @@ function Inscription(props) {
 
 
      if (userExists) { 
-      return <Link to={window.location.href}/>
+    //   return <Link to={window.location.href}/>
+        return <div style={{ color: "#214C74", fontWeight: "bolder", fontSize: "2em"}}>vous etes connecté!</div>
     }
 
   
@@ -93,8 +104,8 @@ function Inscription(props) {
     return (
         
         
-        <div className="Login-page" >
-{isSuccess}
+        <div>
+         {isSuccess}
           
             
                 <div className="Sign">
@@ -131,7 +142,7 @@ function Inscription(props) {
                 </div>
                 
 
-        </div>
+         </div>
     
     );
 }
