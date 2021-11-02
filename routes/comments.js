@@ -13,7 +13,7 @@ router.post('/sendComment', async function(req, res, next){
         user_id: user._id,
         publication_id: req.body.publication,
         commentaire: req.body.commentaire,
-        //nb_likes: Number,
+        nb_likes: 0,
         date: req.body.date
     })
   
