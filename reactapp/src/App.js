@@ -21,6 +21,7 @@ import CompleterProfil from "./completerProfil";
 import PageTheme from "./PageTheme";
 import EnTete from "./EnTete.js";
 import SideBarDroite from "./SideBarDroite";
+import pageStat from "./pageStat";
 
 
 //import Cookies from 'js-cookie';
@@ -35,7 +36,7 @@ function App(props) {
           <Route component={Accueil} path="/" exact />
           <Route component={Test} path="/test" exact />
    
-         
+          <Route component={pageStat} path="/pageStat" exact />
           <Route component={PageProfil} path="/pageprofil" exact />
        
           
