@@ -146,11 +146,7 @@ onCancel={handleCancel}>
         Nouvelle publication
           
         </Menu.Item>
-        <Menu.Item   key="link" icon={<EditOutlined />}>
-          <Link to="/searchPublication">
-          Cherche une publication </Link>
-            
-          </Menu.Item>
+       
       </Menu>
     </Sider>
   );
