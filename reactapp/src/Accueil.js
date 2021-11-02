@@ -1,13 +1,47 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop, Badge, Modal,
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Image,
+  Card,
+  Avatar,
+  Divider,
+  Row,
+  Col,
+  Tabs,
+  List,
+  Space,
+  Tag,
+  BackTop,
+  Badge,
+  Modal,
+  Statistic,
 } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import {
-  SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
-  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
-  DownCircleFilled} from "@ant-design/icons";
+  SettingOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+  DownloadOutlined,
+  TwitterOutlined,
+  FacebookOutlined,
+  LinkedinOutlined,
+  UserOutlined,
+  MessageOutlined,
+  LikeOutlined,
+  StarOutlined,
+  MailOutlined,
+  CalendarOutlined,
+  AppstoreOutlined,
+  LinkOutlined,
+  DownCircleFilled,
+  SolutionOutlined,
+  ArrowUpOutlined,
+  EditFilled,
+} from "@ant-design/icons";
 import SideBarDroite from "./SideBarDroite";
 import EnTete from "./EnTete";
 import Carousel from "react-bootstrap/Carousel";
@@ -56,7 +90,6 @@ function Accueil(props) {
   //Récupération les publications à l'initialisation
   useEffect(() => {
     const findPublications = async () => {
-      
       // Recup articles les plus récents
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
@@ -70,11 +103,11 @@ function Accueil(props) {
     //recup articles les plus populaires
     const popPublications = async () => {
       const plusPopulaires = await fetch("publications/populaires");
-    const res_populaires = await plusPopulaires.json();
-    console.log("populaires: ", res_populaires.topPublications)
-    setPopulaires(res_populaires.topPublications);
+      const res_populaires = await plusPopulaires.json();
+      console.log("populaires: ", res_populaires.topPublications);
+      setPopulaires(res_populaires.topPublications);
     };
-    popPublications(); 
+    popPublications();
 
     // recup de toutes les publications
     const allPublications = async () => {
@@ -176,9 +209,36 @@ function Accueil(props) {
               backgroundColor: "rgba(240, 52, 52, 1)",
               borderColor: "rgba(240, 52, 52, 1)",
               marginLeft: "50px",
+              boxShadow: "1px 15px 10px grey",
             }}
           >
             Poster votre publication
+          </Button>
+        </div>
+
+        <div style={{ marginTop: "40px", marginLeft: "40px" }}>
+          {" "}
+          <Button
+            type="text"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+          >
+            LOG IN
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "#214C74",
+
+              borderColor: "#214C74",
+            }}
+          >
+            LOG OUT
           </Button>
         </div>
       </div>
@@ -190,7 +250,6 @@ function Accueil(props) {
         >
           <Row justify="center">
             <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
-
               <TabPane tab="A la une " key="1">
                 <Carousel>{publiCards}</Carousel>
               </TabPane>
@@ -198,10 +257,8 @@ function Accueil(props) {
               <TabPane tab="Les plus populaire" key="2">
                 <Carousel>{topPublications}</Carousel>
               </TabPane>
-              
             </Tabs>
           </Row>
-
           <Row>
             <Col
               justify="start"
@@ -220,24 +277,23 @@ function Accueil(props) {
                 since the 1500s, when an unknown printer took a galley of type
                 and scrambled it to make a type specimen book. It has survived
                 not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised
-                in the 1960s with the release of Letraset sheets containing
-                Lorem Ipsum passages, and more recently with desktop publishing
-                software like Aldus PageMaker including versions of Lorem Ipsum.
+                typesetting, remaining essentially unchanged.
               </p>
-              <DownCircleFilled
-                style={{
-                  fontSize: "60px",
-                  color: "#214C74",
-                  marginTop: "50px",
-                }}
-              />
+              <div id="ical">
+                <DownCircleFilled
+                  style={{
+                    fontSize: "60px",
+                    color: "#214C74",
+
+                    marginTop: "50px",
+                  }}
+                />
+              </div>
             </Col>
             <Col id="illustration2" span={12}>
               col
             </Col>
           </Row>
-
           <Row justify="center">
             <Col span="2"></Col>
             <Col span="20">
@@ -259,7 +315,6 @@ function Accueil(props) {
             </Col>
             <Col span="2"></Col>
           </Row>
-
           <List
             itemLayout="vertical"
             size="large"
@@ -312,18 +367,31 @@ function Accueil(props) {
           />
           <Row
             style={{
-              backgroundColor: "blue",
+              backgroundColor: "#C9F6F5",
+
+              borderRadius: "20px",
+              marginTop: "60px",
+              marginBottom: "60px",
             }}
           >
             <Col
               span={12}
               style={{
+                color: "black",
                 backgroundColor: "transparent",
                 textAlign: "center",
+                padding: "20px",
               }}
             >
               {" "}
-              <h3> Votre publication interesse-t-elle du monde ?</h3>
+              <h3
+                style={{
+                  color: "black",
+                }}
+              >
+                {" "}
+                Votre publication interesse-t-elle du monde ?
+              </h3>
               <p>
                 Découvrez les avis des autres utilisateurs... Lorem Ipsum is
                 simply dummy text of the printing and typesetting industry.
@@ -334,51 +402,65 @@ function Accueil(props) {
               span={12}
               style={{
                 backgroundColor: "transparent",
-
                 textAlign: "center",
+                align: "middle",
               }}
             >
               <Button
                 type="primary"
                 size={100}
                 style={{
-                  backgroundColor: "rgba(240, 52, 52, 1)",
-                  borderColor: "rgba(240, 52, 52, 1)",
+                  backgroundColor: "#0E9C98",
+                  borderColor: "#0E9C98",
+                  borderRadius: "30px",
                   marginLeft: "50px",
+                  marginTop: "60px",
                 }}
               >
-                LOG IN
-              </Button>
-              <Button
-                type="primary"
-                size={100}
-                style={{
-                  backgroundColor: "rgba(140, 52, 52, 1)",
-                  borderColor: "rgba(140, 52, 32, 1)",
-                  marginLeft: "50px",
-                }}
-              >
-                LOG OUT
+                Crée ton profil <SolutionOutlined />
               </Button>
             </Col>
           </Row>
-          <Card
-            title="Nos thématiques"
-            style={{
-              marginTop: "50px",
-              marginBottom: "50px",
-              textAlign: "center",
-            }}
+          <div
+            className="site-statistic-demo-card"
+            style={{ marginBottom: "30px" }}
           >
-            <Card.Grid style={gridStyle}>T’as remarqué?</Card.Grid>
-            <Card.Grid style={gridStyle}>emploi</Card.Grid>
-            <Card.Grid style={gridStyle}>Education</Card.Grid>
-            <Card.Grid style={gridStyle}>Politique</Card.Grid>
-            <Card.Grid style={gridStyle}>Evenement</Card.Grid>
-            <Card.Grid style={gridStyle}>environnement</Card.Grid>
-            <Card.Grid style={gridStyle}>Sport</Card.Grid>
-            <Card.Grid style={gridStyle}>Tourisme</Card.Grid>
-          </Card>
+            <h3
+              style={{
+                color: "white",
+                textAlign: "center",
+                marginBottom: "30px",
+                marginLeft: "400px",
+              }}
+            >
+              {" "}
+              ILs ont donné leur avis...
+            </h3>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Card>
+                  <Statistic
+                    title="Nombre de publication"
+                    value={11.28}
+                    precision={2}
+                    valueStyle={{ color: "#3f8600" }}
+                    suffix={<UserOutlined />}
+                  />
+                </Card>
+              </Col>
+              <Col span={12}>
+                <Card>
+                  <Statistic
+                    title="Nombre de votes"
+                    value={9.3}
+                    precision={2}
+                    valueStyle={{ color: "#cf1322" }}
+                    suffix={<EditFilled />}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </Content>
       </Layout>
       <Footer className="footer" style={{ textAlign: "left" }}>

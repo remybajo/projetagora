@@ -4,21 +4,42 @@
   display: flex;
   flex-direction: column;
   background-image: url("./language-school-01-1400x426.png");
-  height: 300px;
+  height: 400px;
  
   border-bottom: 2px solid #214C74;
 }
 #illustration2 {
   background-image: url("./language-school-illustration-01.png");
   height: 600px;
-  
-  
+
 }
+
+
+
+
 h3 {
   display : flex;
   justify-content: flex-start;
 }
 
+/* statistique */
+.site-statistic-demo-card {
+  padding: 30px;
+  background: #0A1C37;
+  border-radius: "30px",
+}
+  [data-theme="dark"] .site-statistic-demo-card {
+    background: #303030;
+  }
+/* statistique page profil*/
+  .site-statistic-demo-card-2 {
+    padding: 30px;
+    background: #C9F6F5;
+    border-radius: "30px",
+  }
+    [data-theme="dark"] .site-statistic-demo-card {
+      background: #303030;
+    }
 
 .footer {
  background-image: url("./language-school-illustration-13-1400x411.png");
@@ -257,7 +278,7 @@ h4 {
 }
 .card-container > .ant-tabs-card .ant-tabs-tab-active,
 [data-theme='compact'] .card-container > .ant-tabs-card .ant-tabs-tab-active {
-  background: rgb(209, 141, 15);
+  background: rgb(15, 148, 209);
   border-color: rgb(223, 156, 11);
 }
 .code-box-demo {
@@ -282,4 +303,13 @@ h4 {
 [data-theme='dark'] .card-container > .ant-tabs-card .ant-tabs-tab-active {
   background: #214C74;
   border-color: #141414;
+}
+
+/* page publication  */
+#illustNewPub {
+  background-image: url("./language-school-illustration-20.png");
+  height: 200px;
+  margin-top: 50px ;
+  background-repeat: no-repeat;
+  background-size: auto;
 }

@@ -35,6 +35,7 @@ function App(props) {
         <Switch>
           <Route component={Accueil} path="/" exact />
           <Route component={Test} path="/test" exact />
+   
          
           <Route component={PageProfil} path="/pageprofil" exact />
        
