@@ -150,6 +150,22 @@ function SideBarDroite(props) {
             Nouvelle publication
           </Menu.Item>
         </Menu>
+        <div style={{ marginLeft: "40px" }}>
+          <TwitterOutlined
+            style={{ fontSize: "20px", color: "#214C74" }}
+            key="twitter"
+          />
+          <Divider type="vertical" />
+          <FacebookOutlined
+            style={{ fontSize: "20px", color: "#214C74" }}
+            key="facebook"
+          />
+          <Divider type="vertical" />
+          <LinkedinOutlined
+            style={{ fontSize: "20px", color: "#214C74" }}
+            key="linkedin"
+          />
+        </div>
       </Affix>
     </Sider>
   );
