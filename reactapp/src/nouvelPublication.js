@@ -190,46 +190,17 @@ function NouvelPublication(props) {
   var handlePictureClick = (img) => {
     console.log("clicked picture: ", img);
     //console.log("access style: ", listPictures[0].props.style)
-<<<<<<< HEAD
-    
-    for (var i=0; i<listPictures.length; i++){
-      if(listPictures[i].props.src == img) {
-        setPictureSelected(img)
-        
-        console.log("listpicture src : ",listPictures[i].props.src)
-        border = {border:'1px solid red'};
-=======
 
     for (var i = 0; i < listPictures.length; i++) {
       if (listPictures[i].props.src == img) {
         setPictureSelected(img);
         console.log("listpicture src : ", listPictures[i].props.src);
         border = { border: "1px solid red" };
->>>>>>> front7
         console.log(border);
       }
     }
   };
 
-<<<<<<< HEAD
-  var listPictures = foundPictures.map((picture,i) => {
-    return (<img key={i} src={picture.webformatURL} onClick={() => {handlePictureClick(picture.webformatURL) }} style={{border, width:"400px"}}/>)
-  })
-
-  if (pictureSelected && validatePicture ){
-    console.log("pictureSelected: ", pictureSelected)
-    var illustration = 
-        
-    <Card style={{width:"640px", height:"360px"}}>
-      <CardImg width="100%" height="100%" src={pictureSelected} alt="Card image cap" />
-      <CardBody>
-        <CardTitle tag="h5"></CardTitle>
-        <CardText></CardText>
-      </CardBody>
-      </Card>;
-    
-      
-=======
   var listPictures = foundPictures.map((picture, i) => {
     return (
       <img
@@ -258,7 +229,6 @@ function NouvelPublication(props) {
         </CardBody>
       </Card>
     );
->>>>>>> front7
   }
 
   return (
