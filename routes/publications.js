@@ -37,15 +37,45 @@ router.get('/lastPublications', async function(req, res, next){
 
 })
 
+router.get('/populaires', async function(req, res, next){
+  var result = false;
+  var rank = await voteModel.aggregate([ 
+    {$group:{
+      _id : "$publication_id",
+       voteCount: { $sum: 1 }
+      }},
+    {$sort:{ voteCount: -1 }},
+    {$limit: 3 }
+    ]);
+
+   
+  var pop_ids = [];
+  var publi;
+  for (var i=0; i<rank.length; i++) {
+    publi = rank[i]._id;
+    publi = publi.toString().replace(/new ObjectId/g, '' );
+    pop_ids.push(publi);
+  }
+ 
+    var topPublications = [];
+    for (var i=0; i<pop_ids.length; i++) {
+      top = await publicationModel.findById(pop_ids[i])
+      topPublications.push(top)
+    } 
+    console.log("top 3 ", topPublications);
+
+
+  res.json({result, topPublications})
+
+})
+
 router.get('/allPublications', async function(req, res, next){
   var result = false;
   var allPublications = await publicationModel.find().sort({date_publication: -1});
  
   if(allPublications){
       result = true
-
-     // console.log(latest)
-      console.log("all: ", allPublications)
+      // console.log("all: ", allPublications)
     }
 
   res.json({result, allPublications})

@@ -24,6 +24,7 @@ function Publication(props) {
   const [messageCom, setMessageCom] = useState("");
   const [boutonVali, setBoutonVali] = useState("Valider le choix");
   const [comment, setComment] = useState("");
+  const [commentaire, setCommentaire] = useState("");
   const [boutonValiCom, setBoutonValiCom] = useState("Envoyer le commentaire");
   const [commentairesList, setCommentairesList] = useState([]);
   const [currentPubli, setCurrentPubli] = useState();
@@ -50,65 +51,58 @@ function Publication(props) {
 
   var dateFormat = function (date) {
     var newDate = new Date(date);
-    var format = newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear();
+    var format = newDate.getFullYear()  + "/" + (newDate.getMonth() + 1) + "/" + newDate.getDate()  ;
     return format;
   };
 
+  const getSelectedPublication = async() => {
+    const publication = await fetch(`/publications/selectedPublication?id=${id}&token=${token}`)
+    var body = await publication.json();
+
+    //récupérer la publication
+    setContent(body.publiToDisplay);
+
+    // si l'utilisateur n'est pas loggé, cacher des éléments
+    if(token)  {
+      setConnected(true)
+    }
+    
+    // recuperation des commentaires liés à la publication
+    setCommentairesList(body.comments);
+    //recuperations des stats liées à la publication
+    setStats(body.stats);
+
+    // récupérer les données du user
+    if(token) {
+      if(token == body.user.token){
+        setUser(body.user)
+      }
+    }
+
+    //vérifier si l'utilisateur a déjà voté et récupérer son vote le cas échéant
+    if (token) {
+      var voted = body.votes.filter(vote => vote.user_id == body.user._id);
+      if (voted.length > 0) {
+        setAlreadyVoted(true);
+        setStatus(true)
+        setUserVote(voted[0].vote)
+      }
+
+      var commented = body.comments.filter(comment => comment.user_id == body.user._id);
+      if (commented.length > 0) {
+        setAlreadyCommented(true)
+        setUserComment(commented[0].commentaire)
+      } else {
+        setAlreadyCommented(false)
+      }
+  
+    }
+
+  }
 
   //récupérer le contenu de la publication sélectionnée, des commentaires associés et des stats associées
   useEffect(async() => {
-    console.log("id: ", {id})
-    const getSelectedPublication = async() => {
-      const publication = await fetch(`/publications/selectedPublication?id=${id}&token=${token}`)
-      var body = await publication.json();
-
-      //récupérer la publication
-      setContent(body.publiToDisplay);
-
-      // si l'utilisateur n'est pas loggé, cacher des éléments
-      if(token)  {
-        setConnected(true)
-      }
-      
-      // recuperation des commentaires liés à la publication
-      setCommentairesList(body.comments);
-      //recuperations des stats liées à la publication
-      setStats(body.stats);
-
-      // récupérer les données du user
-      if(token) {
-        if(token == body.user.token){
-          setUser(body.user)
-        }
-      }
-
-      //vérifier si l'utilisateur a déjà voté et récupérer son vote le cas échéant
-      if (token) {
-        var voted = body.votes.filter(vote => vote.user_id == body.user._id);
-        if (voted.length > 0) {
-          setAlreadyVoted(true)
-        }
-        // if (body.votes.user_id == body.user._id){
-        //   setAlreadyVoted(body.alreadyVoted);
-        //   setUserVote(body.votes.vote);
-          console.log("a voté? ", voted);
-        // }
-       
-      }
-
-      // if (body.comments.user_id == body.user._id){
-      //   setUserVote(body.userVote);
-      //   setAlreadyCommented(body.alreadyCommented);
-      // }
-      
-      
-      // if (body.alreadyVoted == true) {
-      //   setStatus(true)
-      // }
-      // if(body.alreadyCommented == true) {
-      //   setUserComment(body.userComment)
-      // }
-    }
+        
     // Afficher tout
     getSelectedPublication(); 
   
@@ -144,11 +138,12 @@ function Publication(props) {
       setMessage(<Alert message="Veuillez choisir une option de vote avant de valider." type="error" showIcon />);
     } else if (vote && !status) {
       setStatus(true);
-      setMessage(<Alert message="Votre vote a bien été pris en compte. Merci pour votre participation." type="success" showIcon />
-      );
+      setMessage(<Alert message="Votre vote a bien été pris en compte. Merci pour votre participation." type="success" showIcon />);
+      setAlreadyVoted(true);
       date = dateFormat(Date.now());
       console.log("date: ", date);
       sendVote();
+      getSelectedPublication(); 
     }
     if (boutonVali == "Annuler le vote") {
       setStatus(false);
@@ -183,18 +178,17 @@ function Publication(props) {
       dateComment = dateFormat(Date.now());
       console.log("date commentaire: ", dateComment);
       sendComment();
-      setMessageCom(<Alert message="Votre commentaire a bien été envoyé." type="success" showIcon />);
-      setCommentairesList([...commentairesList, comment])
       setComment("");
-      setBoutonValiCom("");
+      getSelectedPublication(); 
+      setMessageCom(<Alert message="Votre commentaire a bien été envoyé." type="success" showIcon />);
+      //setCommentairesList([...commentairesList, commentaire])
+      
+      //setBoutonValiCom("");
       setBoutonValiCom("Annuler le commentaire");
     }
   };
 
-  // useEffect(() => {
-  //   if(messageCom == "Votre commentaire a bien été envoyé.");
-  //   setAlreadyCommented(true);
-  // },[messageCom])
+
 
  
 
@@ -205,7 +199,9 @@ function Publication(props) {
       method: 'DELETE'
     });
     setMessageCom("Le commentaire a bien été supprimé.")
-    setAlreadyCommented(false)
+    getSelectedPublication(); 
+  
+    //setAlreadyCommented(false)
   }
 
   if(commentairesList) {
@@ -236,7 +232,7 @@ function Publication(props) {
     console.log("user comments: ", userComment)
     console.log("type of stats ", stats[0])
     console.log("selection: ", selection);
-    console.log("vote: ", vote)
+    console.log("vote: ", userVote)
     console.log("connected? ", connected)
     console.log("user ", user)
     
@@ -302,10 +298,77 @@ function Publication(props) {
           <Col span={8} className="gutter-row"
           style={{margin:5}}>
            
+            {alreadyVoted ?
             <Plot
             data={data}
-            layout={ {width: 500, height: 500, title: 'Résultat du Vote'} } />
+            layout={ {width: 500, height: 500, title: 'Résultat du Vote'} } 
+            />
+
+            :
+            <div style={{height:500, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
+            <h1>VOTRE VOTE</h1>
           
+          
+            <Radio.Group
+              defaultValue="a"
+              buttonStyle="solid"
+              style={{ margin: 10, fontWeight: "bold", display:'flex', flexDirection:'column' }}
+            >
+              <Radio.Button
+                disabled={status}
+                style={{ margin: 16, backgroundColor: "#FFC806" }}
+                value="J'Adore"
+                onClick={(e) => setSelection(e.target.value)}
+              > J'Adore
+              </Radio.Button>
+            
+              <Radio.Button
+                disabled={status}
+                style={{ margin: 16, backgroundColor: "#EDAC06" }}
+                value="Je suis Pour"
+                onClick={(e) => setSelection(e.target.value)}
+              >
+                Je suis Pour
+              </Radio.Button>
+              <Radio.Button
+                disabled={status}
+                style={{ margin: 16, backgroundColor: "#DAA419" }}
+                value="Je suis Mitigé(e)"
+                onClick={(e) => setSelection(e.target.value)}
+              >
+                Je suis Mitigé(e)
+              </Radio.Button>
+            
+              <Radio.Button
+                disabled={status}
+                style={{ margin: 16, backgroundColor: "#BE833D" }}
+                value="Je suis Contre"
+                onClick={(e) => setSelection(e.target.value)}
+              >
+                Je suis Contre
+              </Radio.Button>
+            
+              <Radio.Button
+                disabled={status}
+                style={{ margin: 16, backgroundColor: "#966215" }}
+                value="Je Déteste"
+                onClick={(e) => setSelection(e.target.value)}
+              >
+                Je Déteste
+              </Radio.Button>
+              
+
+            <Button type="danger" shape="round" disabled={status} onClick={() => voteValidation()}>
+              {" "}
+              {boutonVali}
+            </Button>
+            {message}
+            </Radio.Group>
+
+          </div>
+
+            }
+
           </Col>
           <Col
             span={8} className="gutter-row"
@@ -368,65 +431,7 @@ function Publication(props) {
             alignItems: "center",            
             backgroundColor: "lightBlue",
           }}
-        >
-          <h1>VOTRE VOTE</h1>
-          
-          
-          <Radio.Group
-            defaultValue="a"
-            buttonStyle="solid"
-            style={{ margin: 16, fontWeight: "bold", display: "flex" }}
-          >
-            <Radio.Button
-              disabled={status}
-              style={{ margin: 16, backgroundColor: "#FFC806" }}
-              value="J'Adore"
-              onClick={(e) => setSelection(e.target.value)}
-            > J'Adore
-            </Radio.Button>
-          
-            <Radio.Button
-              disabled={status}
-              style={{ margin: 16, backgroundColor: "#EDAC06" }}
-              value="Je suis Pour"
-              onClick={(e) => setSelection(e.target.value)}
-            >
-              Je suis Pour
-            </Radio.Button>
-            <Radio.Button
-              disabled={status}
-              style={{ margin: 16, backgroundColor: "#DAA419" }}
-              value="Je suis Mitigé(e)"
-              onClick={(e) => setSelection(e.target.value)}
-            >
-              Je suis Mitigé(e)
-            </Radio.Button>
-          
-            <Radio.Button
-              disabled={status}
-              style={{ margin: 16, backgroundColor: "#BE833D" }}
-              value="Je suis Contre"
-              onClick={(e) => setSelection(e.target.value)}
-            >
-              Je suis Contre
-            </Radio.Button>
-          
-            <Radio.Button
-              disabled={status}
-              style={{ margin: 16, backgroundColor: "#966215" }}
-              value="Je Déteste"
-              onClick={(e) => setSelection(e.target.value)}
-            >
-              Je Déteste
-            </Radio.Button>
-            
-
-          <Button type="danger" shape="round" disabled={status} onClick={() => voteValidation()}>
-            {" "}
-            {boutonVali}
-          </Button>
-          {message}
-          </Radio.Group>
+        >          
           <div>
           {alreadyVoted == true ?
 
@@ -437,8 +442,7 @@ function Publication(props) {
             :
             ""
           }
-          </div>
-          
+          </div>          
           
         </Col>
       </Row>

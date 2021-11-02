@@ -41,11 +41,11 @@ function NouvelPublication(props) {
   useEffect(() => {
     var dateKnow = async () => {
       const ladateK =
-        ladate.getDate() +
+        ladate.getFullYear() +
         "/" +
-        (ladate.getMonth() + 1) +
+        (ladate.getMonth() + 1) +            
         "/" +
-        ladate.getFullYear();
+        ladate.getDate() 
       setDate(ladateK);
     };
     dateKnow();
@@ -175,6 +175,7 @@ function NouvelPublication(props) {
     for (var i=0; i<listPictures.length; i++){
       if(listPictures[i].props.src == img) {
         setPictureSelected(img)
+        
         console.log("listpicture src : ",listPictures[i].props.src)
         border = {border:'1px solid red'};
         console.log(border);
@@ -188,6 +189,7 @@ function NouvelPublication(props) {
   })
 
   if (pictureSelected && validatePicture ){
+    console.log("pictureSelected: ", pictureSelected)
     var illustration = 
         
     <Card style={{width:"640px", height:"360px"}}>

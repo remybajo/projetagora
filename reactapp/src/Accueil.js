@@ -1,43 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {
-  Layout,
-  Menu,
-  Breadcrumb,
-  Image,
-  Card,
-  Avatar,
-  Divider,
-  Row,
-  Col,
-  Tabs,
-  List,
-  Space,
-  Tag,
-  BackTop,
-  Badge,
-  Modal,
+import { Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop, Badge, Modal,
 } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
-  DownCircleFilled,
-} from "@ant-design/icons";
+  SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
+  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
+  DownCircleFilled} from "@ant-design/icons";
 import SideBarDroite from "./SideBarDroite";
 import EnTete from "./EnTete";
 import Carousel from "react-bootstrap/Carousel";
@@ -81,11 +51,13 @@ function Accueil(props) {
   const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
   const [allPublications, setAllPublications] = useState([]);
+  const [populaires, setPopulaires] = useState([]);
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
     const findPublications = async () => {
-      console.log("init latest: ", latest);
+      
+      // Recup articles les plus récents
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
       // console.log("3 articles", body.latest);
@@ -94,6 +66,15 @@ function Accueil(props) {
     };
     findPublications();
     console.log("check push: ", latest);
+
+    //recup articles les plus populaires
+    const popPublications = async () => {
+      const plusPopulaires = await fetch("publications/populaires");
+    const res_populaires = await plusPopulaires.json();
+    console.log("populaires: ", res_populaires.topPublications)
+    setPopulaires(res_populaires.topPublications);
+    };
+    popPublications(); 
 
     // recup de toutes les publications
     const allPublications = async () => {
@@ -105,44 +86,39 @@ function Accueil(props) {
     allPublications();
   }, []);
 
-  // var cherche = async () => {
-  //   const pourLaUne = await fetch("/publicationalaune");
-  //   pourLaUneJ = await pourLaUne.json();
-  //   setpublicationALaUne(pourLaUneJ.publiaccueil)
-  //   console.log("et dans publicationALaUne?", publicationALaUne);
-  //   }
-
-  const [lastPublications, setLastPublications] = useState(latest);
-
-  // var lienarticle = () => {
-  //   props.addPubliToken(publicationALaUne.publiToken);
-  //   setAtteindreArticle(true)
-  // }
-
-  // if (atteindreArticle) {
-  //   return <Redirect to="/publication" />;
-  // }
-
-  // if (inscription) {
-  //   return <Redirect to="/inscription" />;
-  // }
-
-  var toRead;
-
-  // if(publicationALaUne){
-  //   var title = publicationALaUne.titre
-  //   var description = publicationALaUne.texte
-  //   var image = publicationALaUne.image
-  // }
-
-  //   if(populaire){
-  //     var title = publicationALaUne.titre
-  //     var description = publicationALaUne.texte
-  //     var image = publicationALaUne.image
-  //     console.log('autre tab')
-  //   }
-
   var publiCards = latest.map((publication, i) => {
+    var toRead = publication;
+    return (
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={publication.image}
+          alt="First slide"
+        />
+        <Carousel.Caption
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "80%",
+            height: "30%",
+            backgroundColor: "lightBlue",
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          <h3>{publication.titre}</h3>
+          <p>{publication.texte}</p>
+          <Link to={`/publication/${toRead._id}`}>
+            <Button type="button" class="btn-danger">
+              REAGIR
+            </Button>
+          </Link>
+        </Carousel.Caption>
+      </Carousel.Item>
+    );
+  });
+
+  var topPublications = populaires.map((publication, i) => {
     var toRead = publication;
     return (
       <Carousel.Item>
@@ -214,12 +190,15 @@ function Accueil(props) {
         >
           <Row justify="center">
             <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
+
               <TabPane tab="A la une " key="1">
                 <Carousel>{publiCards}</Carousel>
               </TabPane>
+
               <TabPane tab="Les plus populaire" key="2">
-                <Carousel>{publiCards}</Carousel>
+                <Carousel>{topPublications}</Carousel>
               </TabPane>
+              
             </Tabs>
           </Row>
 
