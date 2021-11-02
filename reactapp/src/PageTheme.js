@@ -74,24 +74,29 @@ const IconText = ({ icon, text }) => (
 function PageTheme(props) {
   var {theme} = useParams()
   const [latest, setLatest] = useState([])
+<<<<<<< HEAD
   const [themeArticle, setThemeArticle] = useState(theme)
+=======
+>>>>>>> finprojet
 
 
+
+//   useEffect(() => {
+//      Thematique();
+ 
+//   }, []);
+  
+  
   useEffect(() => {
     const Thematique= async () => {
-      var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
-      const response = await rawResponse.json();
-      
-     
-      //setThemeArticle(publica[0].thematique)
-      setLatest(response.publicationTheme)
-      
-    }
-
-     Thematique();
- 
-  
-  }, []);
+        var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
+        const response = await rawResponse.json();
+    
+        setLatest(response.publicationTheme)
+        
+      }
+    Thematique();
+ }, [theme]);
 
 //test
 
@@ -121,7 +126,7 @@ console.log("pagetheme mon latest", latest)
               }}
             >
            
-            {themeArticle}
+            {theme}
 
             </h1>
           </Col>

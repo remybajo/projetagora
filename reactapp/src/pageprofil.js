@@ -30,6 +30,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 import React, { useState, useEffect } from "react";
+import { set } from "mongoose";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -55,31 +56,40 @@ function PageProfil(props) {
   const [dataL, setDataL] = useState([]);
   const [latest, setLatest] = useState([]);
   const [voteArticle, setVoteArticle] = useState([]);
-  const [themeArticle, setThemeArticle] = useState([]);
+  const [myPubli, setMyPubli] = useState([]);
 
   useEffect(() => {
     const ProfilComment = async () => {
       var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
       const response = await rawResponse.json();
       const publication = response.publication;
-
       setLatest(publication);
+
+      
+      
+      const votePublication = response.publicationVote;
+      setVoteArticle(votePublication);
+
+      const myPublication = response.myArticles;
+      
+      setMyPubli(myPublication)
+      
     };
     ProfilComment();
     // cherche()
   }, []);
 
-  useEffect(() => {
-    const ProfilVote = async () => {
-      var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
-      const vote = await rawResponse.json();
-      const votePublication = vote.publicationVote;
-      setVoteArticle(votePublication);
-      console.log(votePublication);
-    };
-    ProfilVote();
-    // cherche()
-  }, []);
+  // useEffect(() => {
+  //   const ProfilVote = async () => {
+  //     var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
+  //     const vote = await rawResponse.json();
+  //     const votePublication = vote.publicationVote;
+  //     setVoteArticle(votePublication);
+  //     console.log(votePublication);
+  //   };
+  //   ProfilVote();
+  //   // cherche()
+  // }, []);
 
   const loadMoreData = () => {
     if (loading) {
@@ -152,6 +162,7 @@ function PageProfil(props) {
               style={{
                 height: 500,
                 border: "1px solid rgba(140, 140, 140, 0.35)",
+                
               }}
             >
               <TabPane tab="Les publications ou j'ai voté" key="1">
@@ -167,10 +178,9 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                   // hasMore={dataL.length < 50}
                     endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
+                      <Divider plain>Tu n'as pas voté sur d'autres publication 🤐</Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
@@ -196,7 +206,7 @@ function PageProfil(props) {
                   </InfiniteScroll>
                 </div>
               </TabPane>
-              <TabPane tab="Mes publications commentés" key="2">
+              <TabPane tab="Les publications ou j'ai commenté" key="2">
                 <div
                   id="scrollableDiv"
                   style={{
@@ -209,10 +219,10 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    //hasMore={dataL.length < 50}
+                    
                     endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
+                      <Divider plain>Tu n'as pas commenté d'autres publication 🤐</Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
@@ -238,7 +248,7 @@ function PageProfil(props) {
                   </InfiniteScroll>
                 </div>
               </TabPane>
-              <TabPane tab="Mes publications publiées" key="3">
+              <TabPane tab="Mes publications" key="3">
                 <div
                   id="scrollableDiv"
                   style={{
@@ -251,27 +261,27 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={
-                      <Skeleton avatar paragraph={{ rows: 1 }} inactive />
-                    }
+                   // hasMore={dataL.length < 50}
+                    
                     endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
+                      <Divider plain>Tu n'as pas créé d'autres publication 🤐</Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
                     <List
-                      dataSource={dataL}
+                      dataSource={myPubli}
                       renderItem={(item) => (
                         <List.Item key={item.id}>
                           <List.Item.Meta
-                            avatar={<Avatar src={item.picture.large} />}
                             title={
-                              <a href="https://ant.design">{item.name.last}</a>
+                              <Link to={`/publication/${item._id}`}>
+                                {item.titre}
+                              </Link>
                             }
-                            description={item.email}
+                            description={item.texte}
                           />
-                          <div>Content</div>
+                          <div></div>
+                          <img width={172} alt="logo" src={item.image} />
                         </List.Item>
                       )}
                     />

@@ -42,6 +42,7 @@ const { TabPane } = Tabs;
 
 function SideBarDroite(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+<<<<<<< HEAD
   const [isConnect, setIsConnect] = useState(false);
   const [isConnectProfil, setIsConnectProfil] = useState(false);
   const [theme, setTheme] = useState("");
@@ -65,6 +66,37 @@ function SideBarDroite(props) {
   if (theme) {
     return <Redirect to={`/pageTheme/${theme}`} />;
   }
+=======
+  const [isConnect, setIsConnect] = useState(false)
+  const [isConnectProfil, setIsConnectProfil] = useState(false)
+ // const [theme, setTheme] = useState("")
+
+  //Base de donnée Data
+const themeData = [
+  
+  "Emploi",
+  "Education",
+  "Politique",
+  "Evenement",
+  "Environnement",
+  "Sport",
+  "Tourisme",
+  "Tu as remarqué ?"
+
+]
+
+
+
+//  var findClickTheme = (theme) => {
+// setTheme(theme)}
+
+
+    
+  // }
+  // if (theme){
+  //  return <Redirect to={`/pageTheme/${theme}`} />
+  // }
+>>>>>>> finprojet
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -110,6 +142,7 @@ function SideBarDroite(props) {
     );
   });
 
+<<<<<<< HEAD
   return (
     <Sider className="site-layout-background">
       <Modal
@@ -150,6 +183,45 @@ function SideBarDroite(props) {
           </Menu.Item>
         </Menu>
       </Affix>
+=======
+    var publiTheme = themeData.map((theme, i) => {
+      return (
+        
+        <Menu.Item  key="i"> <Link to={`/pageTheme/${theme}`} > {theme}  </Link></Menu.Item>
+      )})
+ 
+  return (
+    <Sider className="site-layout-background">
+      <Modal  style={{ displayflex: 1, width: 150 }}
+
+visible={isModalVisible}
+onOk={handleOk}
+onCancel={handleCancel}>
+<Inscription /> </Modal>
+      {" "}
+      <Menu
+        style={{ width: 200 }}
+        defaultSelectedKeys={["1"]}
+        // defaultOpenKeys={["sub1"]}
+      >
+        <Menu.Item key="1" icon={<MailOutlined />}>
+          <Link to="/">Accueil</Link>
+        </Menu.Item>
+        <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
+          {publiTheme}
+        </SubMenu>
+        <Menu.Item  onClick={() => handleClick()} key="2" icon={<CalendarOutlined  />}  >
+        Mon compte
+        </Menu.Item>
+
+        <Menu.Item  onClick={() => handleClickPubli()} key="link" icon={<EditOutlined />}>
+          
+        Nouvelle publication
+          
+        </Menu.Item>
+       
+      </Menu>
+>>>>>>> finprojet
     </Sider>
   );
 }
