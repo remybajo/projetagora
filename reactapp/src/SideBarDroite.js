@@ -119,7 +119,7 @@ const themeData = [
  
   return (
     <Sider className="site-layout-background">
-      <Modal title="connexion/inscription" style={{ displayflex: 1, width: 150 }}
+      <Modal  style={{ displayflex: 1, width: 150 }}
 
 visible={isModalVisible}
 onOk={handleOk}

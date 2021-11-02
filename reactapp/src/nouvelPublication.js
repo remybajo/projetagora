@@ -258,10 +258,11 @@ function NouvelPublication(props) {
       </Modal>
 
       </div>
-      <Input
+       <Input
         className="description"
         placeholder="Votre titre"
-        onChange={(e) => setTitre(e.target.value)}
+        onChange={(e) => setTitre("Je pense que " + e.target.value)}
+        
       />
       <Input
         className="description"
