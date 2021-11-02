@@ -44,6 +44,7 @@ import {
 } from "@ant-design/icons";
 import SideBarDroite from "./SideBarDroite";
 import EnTete from "./EnTete";
+import Plot from 'react-plotly.js';
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 
