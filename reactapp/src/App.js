@@ -18,6 +18,7 @@ import nouvelPublication from "./nouvelPublication";
 import Test from "./Test";
 import Publication from "./publication";
 import CompleterProfil from "./completerProfil";
+import SearchPublication from "./searchPublication";
 import PageTheme from "./PageTheme";
 import EnTete from "./EnTete.js";
 import SideBarDroite from "./SideBarDroite";
@@ -34,6 +35,7 @@ function App(props) {
         <Switch>
           <Route component={Accueil} path="/" exact />
           <Route component={Test} path="/test" exact />
+          <Route component={SearchPublication} path="/searchPublication" exact />
          
           <Route component={PageProfil} path="/pageprofil" exact />
        

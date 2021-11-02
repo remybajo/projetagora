@@ -257,7 +257,7 @@ h4 {
 }
 .card-container > .ant-tabs-card .ant-tabs-tab-active,
 [data-theme='compact'] .card-container > .ant-tabs-card .ant-tabs-tab-active {
-  background: rgb(209, 141, 15);
+  background: rgb(15, 148, 209);
   border-color: rgb(223, 156, 11);
 }
 .code-box-demo {

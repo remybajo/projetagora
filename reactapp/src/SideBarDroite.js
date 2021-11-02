@@ -45,9 +45,9 @@ function SideBarDroite(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isConnect, setIsConnect] = useState(false)
   const [isConnectProfil, setIsConnectProfil] = useState(false)
-  const [theme, setTheme] = useState("")
+ // const [theme, setTheme] = useState("")
 
-  //Bade de donnée Data
+  //Base de donnée Data
 const themeData = [
   
   "Emploi",
@@ -63,14 +63,15 @@ const themeData = [
 
 
 
-  var findClickTheme = (theme) => {
-    setTheme(theme)
+//  var findClickTheme = (theme) => {
+// setTheme(theme)}
+
 
     
-  }
-  if (theme){
-   return <Redirect to={`/pageTheme/${theme}`} />
-  }
+  // }
+  // if (theme){
+  //  return <Redirect to={`/pageTheme/${theme}`} />
+  // }
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -112,7 +113,8 @@ const themeData = [
 
     var publiTheme = themeData.map((theme, i) => {
       return (
-        <Menu.Item onClick={() => findClickTheme(theme)} key="i">{theme}</Menu.Item>
+        
+        <Menu.Item  key="i"> <Link to={`/pageTheme/${theme}`} > {theme}  </Link></Menu.Item>
       )})
  
   return (
@@ -144,6 +146,11 @@ onCancel={handleCancel}>
         Nouvelle publication
           
         </Menu.Item>
+        <Menu.Item   key="link" icon={<EditOutlined />}>
+          <Link to="/searchPublication">
+          Cherche une publication </Link>
+            
+          </Menu.Item>
       </Menu>
     </Sider>
   );

@@ -64,24 +64,25 @@ const IconText = ({ icon, text }) => (
 function PageTheme(props) {
   var {theme} = useParams()
   const [latest, setLatest] = useState([])
-const [themeArticle, setThemeArticle] = useState(theme)
 
 
+
+//   useEffect(() => {
+//      Thematique();
+ 
+//   }, []);
+  
+  
   useEffect(() => {
     const Thematique= async () => {
-      var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
-      const response = await rawResponse.json();
-      
-     
-      //setThemeArticle(publica[0].thematique)
-      setLatest(response.publicationTheme)
-      
-    }
-
-     Thematique();
- 
-  
-  }, []);
+        var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
+        const response = await rawResponse.json();
+    
+        setLatest(response.publicationTheme)
+        
+      }
+    Thematique();
+ }, [theme]);
 
 //test
 
@@ -109,7 +110,7 @@ const [themeArticle, setThemeArticle] = useState(theme)
               }}
             >
            
-            {themeArticle}
+            {theme}
 
             </h1>
           </Col>
