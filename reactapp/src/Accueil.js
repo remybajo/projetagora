@@ -176,6 +176,7 @@ function Accueil(props) {
               backgroundColor: "rgba(240, 52, 52, 1)",
               borderColor: "rgba(240, 52, 52, 1)",
               marginLeft: "50px",
+              boxShadow: "1px 15px 10px grey",
             }}
           >
             Poster votre publication
@@ -225,13 +226,16 @@ function Accueil(props) {
                 Lorem Ipsum passages, and more recently with desktop publishing
                 software like Aldus PageMaker including versions of Lorem Ipsum.
               </p>
-              <DownCircleFilled
-                style={{
-                  fontSize: "60px",
-                  color: "#214C74",
-                  marginTop: "50px",
-                }}
-              />
+              <div id="ical">
+                <DownCircleFilled
+                  style={{
+                    fontSize: "60px",
+                    color: "#214C74",
+
+                    marginTop: "50px",
+                  }}
+                />
+              </div>
             </Col>
             <Col id="illustration2" span={12}>
               col
@@ -312,18 +316,30 @@ function Accueil(props) {
           />
           <Row
             style={{
-              backgroundColor: "blue",
+              backgroundColor: "#0A1C37",
+              borderRadius: "20px",
+              marginTop: "60px",
+              marginBottom: "60px",
             }}
           >
             <Col
               span={12}
               style={{
+                color: "white",
                 backgroundColor: "transparent",
                 textAlign: "center",
+                padding: "20px",
               }}
             >
               {" "}
-              <h3> Votre publication interesse-t-elle du monde ?</h3>
+              <h3
+                style={{
+                  color: "white",
+                }}
+              >
+                {" "}
+                Votre publication interesse-t-elle du monde ?
+              </h3>
               <p>
                 Découvrez les avis des autres utilisateurs... Lorem Ipsum is
                 simply dummy text of the printing and typesetting industry.
@@ -334,8 +350,8 @@ function Accueil(props) {
               span={12}
               style={{
                 backgroundColor: "transparent",
-
                 textAlign: "center",
+                align: "middle",
               }}
             >
               <Button
@@ -344,7 +360,9 @@ function Accueil(props) {
                 style={{
                   backgroundColor: "rgba(240, 52, 52, 1)",
                   borderColor: "rgba(240, 52, 52, 1)",
+                  borderRadius: "30px",
                   marginLeft: "50px",
+                  marginTop: "60px",
                 }}
               >
                 LOG IN
@@ -353,32 +371,17 @@ function Accueil(props) {
                 type="primary"
                 size={100}
                 style={{
-                  backgroundColor: "rgba(140, 52, 52, 1)",
-                  borderColor: "rgba(140, 52, 32, 1)",
+                  backgroundColor: "#78ECE8",
+                  borderColor: "#78ECE8",
+                  borderRadius: "30px",
                   marginLeft: "50px",
+                  marginTop: "60px",
                 }}
               >
                 LOG OUT
               </Button>
             </Col>
           </Row>
-          <Card
-            title="Nos thématiques"
-            style={{
-              marginTop: "50px",
-              marginBottom: "50px",
-              textAlign: "center",
-            }}
-          >
-            <Card.Grid style={gridStyle}>T’as remarqué?</Card.Grid>
-            <Card.Grid style={gridStyle}>emploi</Card.Grid>
-            <Card.Grid style={gridStyle}>Education</Card.Grid>
-            <Card.Grid style={gridStyle}>Politique</Card.Grid>
-            <Card.Grid style={gridStyle}>Evenement</Card.Grid>
-            <Card.Grid style={gridStyle}>environnement</Card.Grid>
-            <Card.Grid style={gridStyle}>Sport</Card.Grid>
-            <Card.Grid style={gridStyle}>Tourisme</Card.Grid>
-          </Card>
         </Content>
       </Layout>
       <Footer className="footer" style={{ textAlign: "left" }}>
