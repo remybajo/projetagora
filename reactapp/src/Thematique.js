@@ -76,7 +76,7 @@ function Thematique(props) {
           cover={
             <img
               alt="example"
-              src="https://mcdn.wallpapersafari.com/medium/76/5/HJEso9.jpg"
+              src="../public/image/Emploi.jpg"
               style={{ width: 200 }}
             />
           }
@@ -109,7 +109,7 @@ function Thematique(props) {
           cover={
             <img
               alt="example"
-              src="https://mcdn.wallpapersafari.com/medium/76/5/HJEso9.jpg"
+              src="../public/image/Politique.jpg"
               style={{ width: 200 }}
             />
           }

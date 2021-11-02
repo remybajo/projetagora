@@ -34,6 +34,15 @@ import {
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 
+import Politique from "../src/image/Politique.jpg"
+import Education from "../src/image/Education.jpg"
+import Emploi from "../src/image/Emploi.jpg"
+import Environnement from "../src/image/Environnement.jpg"
+import Evenement from "../src/image/Evenement.jpg"
+import Remarquer from "../src/image/Remarquer.jpg"
+import Sport from "../src/image/Sport.jpg"
+import Tourisme from "../src/image/Tourisme.jpg"
+
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
 
@@ -55,6 +64,7 @@ function NouvelPublication(props) {
   const [pictureSelected, setPictureSelected] = useState("");
   const [validatePicture, setValidatePicture] = useState(false);
   const [id, setId] = useState();
+  const [image, setImage] = useState();
   var illustration;
   var border = { border: "" };
   var idP = "";
@@ -72,11 +82,18 @@ function NouvelPublication(props) {
     dateKnow();
   }, []);
 
+  useEffect(() => {
+    imageP()
+  }, [theme]);
+
+
+  
+
   var postPublication = async () => {
     const data = await fetch("/post-publication", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `titrePublication=${titre}&contenuPublication=${contenu}&datePublication=${date}&themePublication=${theme}&motClePublication=${motCle}&token=${props.token}&image=${pictureSelected}`,
+      body: `titrePublication=${titre}&contenuPublication=${contenu}&datePublication=${date}&themePublication=${theme}&motClePublication=${motCle}&token=${props.token}&image=${image}`,
     });
 
     const body = await data.json();
@@ -126,24 +143,24 @@ function NouvelPublication(props) {
 
   const options = [
     {
-      value: "emploi",
-      label: "emploi",
+      value: "Politique",
+      label: "Politique",
     },
     {
       value: "Education",
       label: "Education",
     },
     {
-      value: "Politique",
-      label: "Politique",
-    },
-    {
-      value: "Evenement",
-      label: "Evenement",
+      value: "Emploi",
+      label: "Emploi",
     },
     {
       value: "Environnement",
       label: "Environnement",
+    },
+    {
+      value: "Evenement",
+      label: "Evenement",
     },
     {
       value: "Sport",
@@ -154,7 +171,7 @@ function NouvelPublication(props) {
       label: "Tourisme",
     },
     {
-      value: "Tas remarqué?",
+      value: "Remarquer",
       label: "Tas remarqué?",
     },
   ];
@@ -190,46 +207,17 @@ function NouvelPublication(props) {
   var handlePictureClick = (img) => {
     console.log("clicked picture: ", img);
     //console.log("access style: ", listPictures[0].props.style)
-<<<<<<< HEAD
-    
-    for (var i=0; i<listPictures.length; i++){
-      if(listPictures[i].props.src == img) {
-        setPictureSelected(img)
-        
-        console.log("listpicture src : ",listPictures[i].props.src)
-        border = {border:'1px solid red'};
-=======
 
     for (var i = 0; i < listPictures.length; i++) {
       if (listPictures[i].props.src == img) {
         setPictureSelected(img);
         console.log("listpicture src : ", listPictures[i].props.src);
         border = { border: "1px solid red" };
->>>>>>> front7
         console.log(border);
       }
     }
   };
 
-<<<<<<< HEAD
-  var listPictures = foundPictures.map((picture,i) => {
-    return (<img key={i} src={picture.webformatURL} onClick={() => {handlePictureClick(picture.webformatURL) }} style={{border, width:"400px"}}/>)
-  })
-
-  if (pictureSelected && validatePicture ){
-    console.log("pictureSelected: ", pictureSelected)
-    var illustration = 
-        
-    <Card style={{width:"640px", height:"360px"}}>
-      <CardImg width="100%" height="100%" src={pictureSelected} alt="Card image cap" />
-      <CardBody>
-        <CardTitle tag="h5"></CardTitle>
-        <CardText></CardText>
-      </CardBody>
-      </Card>;
-    
-      
-=======
   var listPictures = foundPictures.map((picture, i) => {
     return (
       <img
@@ -243,13 +231,13 @@ function NouvelPublication(props) {
     );
   });
 
-  if (pictureSelected && validatePicture) {
+  // if (pictureSelected && validatePicture) {
     var illustration = (
       <Card style={{ width: "640px", height: "360px" }}>
         <CardImg
           width="100%"
           height="100%"
-          src={pictureSelected}
+          src={image}
           alt="Card image cap"
         />
         <CardBody>
@@ -258,8 +246,30 @@ function NouvelPublication(props) {
         </CardBody>
       </Card>
     );
->>>>>>> front7
+  // }
+
+  console.log('dans image', image)
+
+  var imageP = () => {
+    if(theme == "Politique") {
+      setImage(Politique)
+    } else if(theme == "Education") {
+      setImage(Education)
+    } else if (theme == "Environnement") {
+      setImage(Environnement)
+    } else if (theme == "Emploi") {
+      setImage(Emploi)
+    } else if (theme == "Evenement") {
+      setImage(Evenement)
+    } else if (theme == "Remarquer") {
+      setImage(Remarquer) 
+    } else if (theme == "Sport") {
+      setImage(Sport)
+    } else if (theme == "Tourisme") {
+      setImage(Tourisme)
+    }
   }
+
 
   return (
     <div style={{ justifyContent: "center" }}>
