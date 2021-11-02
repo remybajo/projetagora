@@ -36,6 +36,10 @@ function Publication(props) {
   const [userVote, setUserVote] = useState();
   const [userComment, setUserComment] = useState("");
   const [connected, setConnected] = useState(false);
+  const [count, setCount] = useState(0);
+  const [iconLike, setIconLike] = useState(false)
+  const [icon, setIcon] = useState(<LikeFilled/>)
+
   const { TextArea } = Input;
 
   var date;
@@ -188,7 +192,21 @@ function Publication(props) {
     }
   };
 
+  var handleLike = () => {
+    setIconLike(!iconLike)
 
+    if (iconLike == true) {
+      setCount(count+1);
+      setIcon(<LikeOutlined/>)
+    } else {
+      setIcon(<LikeFilled/>);
+      if (count > 0) {
+        setCount(count-1);
+      }
+    }
+    
+    
+  }
 
  
 
@@ -405,10 +423,8 @@ function Publication(props) {
                   />
                   {[
 
-                    <Badge count={2} overflowCount={999}>
-                    <Avatar icon={<LikeFilled/>} />
-                    
-                    <Avatar icon={<LikeOutlined/>} />
+                    <Badge count={count} overflowCount={999} style={{cursor:'pointer'}} onClick={() => handleLike()}>
+                    <Avatar icon={icon} />
                   </Badge>
                   
                   ]}
