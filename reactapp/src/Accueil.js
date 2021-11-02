@@ -254,7 +254,7 @@ function Accueil(props) {
                   borderRadius: "30px",
                 }}
               >
-                Les questions
+                Toutes les Publications
               </h1>
             </Col>
             <Col span="2"></Col>

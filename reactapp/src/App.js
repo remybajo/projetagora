@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import token from "./reducers/token";
 import publiToken from "./reducers/publiToken";
+import commentairesList from "./reducers/comments";
 //import PageProfil from "./pageprofil";
 import PageProfil from "./pageprofil";
 import Accueil from "./Accueil";
@@ -25,7 +26,7 @@ import SideBarDroite from "./SideBarDroite";
 
 //import Cookies from 'js-cookie';
 
-const store = createStore(combineReducers({ token, publiToken}));
+const store = createStore(combineReducers({ token, publiToken, commentairesList}));
 
 function App(props) {
   return (
