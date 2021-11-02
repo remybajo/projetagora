@@ -273,8 +273,11 @@ router.post('/addvote', async function (req, res, next) {
 //     res.json({})
 //   })
 
-// pour changer une info user
-// router.update('/changeuser', async function(req, res, next){
+// pour récupérer les infos de la publication
+router.get('/allVotes', async function(req, res, next){
+    var allVotes = await voteModel.find()
+    res.json({allVotes})
+   })
 //     res.json({})
 //   })
 

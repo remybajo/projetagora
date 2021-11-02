@@ -86,6 +86,10 @@ function Accueil(props) {
   const [latest, setLatest] = useState([]);
   const [allPublications, setAllPublications] = useState([]);
   const [populaires, setPopulaires] = useState([]);
+  const [votes, setVotes] = useState([]);
+  
+
+
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -115,6 +119,8 @@ function Accueil(props) {
       const response = await listPublications.json();
       console.log("all: ", response.allPublications);
       setAllPublications(response.allPublications);
+    
+      
     };
     allPublications();
   }, []);
@@ -182,6 +188,23 @@ function Accueil(props) {
       </Carousel.Item>
     );
   });
+
+  ///Récupération nombre de vote
+  useEffect(() => {
+    const findVotes = async () => {
+      // Recup articles les plus récents
+      const votes = await fetch("/allVotes");
+      const body = await votes.json();
+      
+      // console.log("3 articles", body.latest);
+      setVotes(body.allVotes);
+      console.log(body)
+    };
+    findVotes();
+  }, []);
+
+ 
+ 
 
   return (
     /* header */
@@ -441,10 +464,10 @@ function Accueil(props) {
                 <Card>
                   <Statistic
                     title="Nombre de publication"
-                    value={11.28}
-                    precision={2}
+                    value={allPublications.length}
                     valueStyle={{ color: "#3f8600" }}
-                    suffix={<UserOutlined />}
+                    suffix={<EditFilled />}
+                    
                   />
                 </Card>
               </Col>
@@ -452,10 +475,9 @@ function Accueil(props) {
                 <Card>
                   <Statistic
                     title="Nombre de votes"
-                    value={9.3}
-                    precision={2}
-                    valueStyle={{ color: "#cf1322" }}
-                    suffix={<EditFilled />}
+                    value={votes.length}
+                    valueStyle={{ color: "#3f8600" }}
+                    suffix={<UserOutlined />}
                   />
                 </Card>
               </Col>
