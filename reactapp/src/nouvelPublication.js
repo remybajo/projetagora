@@ -12,6 +12,7 @@ import {
   Row,
   Col,
   Form,
+  Divider,
 } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -34,14 +35,14 @@ import {
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 
-import Politique from "../src/image/Politique.jpg"
-import Education from "../src/image/Education.jpg"
-import Emploi from "../src/image/Emploi.jpg"
-import Environnement from "../src/image/Environnement.jpg"
-import Evenement from "../src/image/Evenement.jpg"
-import Remarquer from "../src/image/Remarquer.jpg"
-import Sport from "../src/image/Sport.jpg"
-import Tourisme from "../src/image/Tourisme.jpg"
+import Politique from "../src/image/Politique.jpg";
+import Education from "../src/image/Education.jpg";
+import Emploi from "../src/image/Emploi.jpg";
+import Environnement from "../src/image/Environnement.jpg";
+import Evenement from "../src/image/Evenement.jpg";
+import Remarquer from "../src/image/Remarquer.jpg";
+import Sport from "../src/image/Sport.jpg";
+import Tourisme from "../src/image/Tourisme.jpg";
 
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
@@ -74,20 +75,17 @@ function NouvelPublication(props) {
       const ladateK =
         ladate.getFullYear() +
         "/" +
-        (ladate.getMonth() + 1) +            
+        (ladate.getMonth() + 1) +
         "/" +
-        ladate.getDate() 
+        ladate.getDate();
       setDate(ladateK);
     };
     dateKnow();
   }, []);
 
   useEffect(() => {
-    imageP()
+    imageP();
   }, [theme]);
-
-
-  
 
   var postPublication = async () => {
     const data = await fetch("/post-publication", {
@@ -207,13 +205,13 @@ function NouvelPublication(props) {
   var handlePictureClick = (img) => {
     console.log("clicked picture: ", img);
     //console.log("access style: ", listPictures[0].props.style)
-    
-    for (var i=0; i<listPictures.length; i++){
-      if(listPictures[i].props.src == img) {
-        setPictureSelected(img)
-        
-        console.log("listpicture src : ",listPictures[i].props.src)
-        border = {border:'1px solid red'};
+
+    for (var i = 0; i < listPictures.length; i++) {
+      if (listPictures[i].props.src == img) {
+        setPictureSelected(img);
+
+        console.log("listpicture src : ", listPictures[i].props.src);
+        border = { border: "1px solid red" };
         console.log(border);
       }
     }
@@ -233,44 +231,38 @@ function NouvelPublication(props) {
   });
 
   // if (pictureSelected && validatePicture) {
-    var illustration = (
-      <Card style={{ width: "640px", height: "360px" }}>
-        <CardImg
-          width="100%"
-          height="100%"
-          src={image}
-          alt="Card image cap"
-        />
-        <CardBody>
-          <CardTitle tag="h5"></CardTitle>
-          <CardText></CardText>
-        </CardBody>
-      </Card>
-    );
+  var illustration = (
+    <Card style={{ width: "640px", height: "360px" }}>
+      <CardImg width="100%" height="100%" src={image} alt="Card image cap" />
+      <CardBody>
+        <CardTitle tag="h5"></CardTitle>
+        <CardText></CardText>
+      </CardBody>
+    </Card>
+  );
   // }
 
-  console.log('dans image', image)
+  console.log("dans image", image);
 
   var imageP = () => {
-    if(theme == "Politique") {
-      setImage(Politique)
-    } else if(theme == "Education") {
-      setImage(Education)
+    if (theme == "Politique") {
+      setImage(Politique);
+    } else if (theme == "Education") {
+      setImage(Education);
     } else if (theme == "Environnement") {
-      setImage(Environnement)
+      setImage(Environnement);
     } else if (theme == "Emploi") {
-      setImage(Emploi)
+      setImage(Emploi);
     } else if (theme == "Evenement") {
-      setImage(Evenement)
+      setImage(Evenement);
     } else if (theme == "Remarquer") {
-      setImage(Remarquer) 
+      setImage(Remarquer);
     } else if (theme == "Sport") {
-      setImage(Sport)
+      setImage(Sport);
     } else if (theme == "Tourisme") {
-      setImage(Tourisme)
+      setImage(Tourisme);
     }
-  }
-
+  };
 
   return (
     <div style={{ justifyContent: "center" }}>
@@ -281,7 +273,7 @@ function NouvelPublication(props) {
           <SideBarDroite />
         </Col>
 
-        <Col span={16} align="center">
+        <Col span={17} align="center">
           <div
             style={{
               border: "1px solid black",
@@ -292,83 +284,88 @@ function NouvelPublication(props) {
           >
             {illustration}
           </div>
+          <div className="montimer">
+            <span className="timer">{date}</span>
+          </div>
+          <div className="maflex">
+            <Cascader
+              className="cascade"
+              options={options}
+              onChange={onChange}
+              placeholder="Choisir un thème"
+            />
+            <Divider type="vertical" />
+
+            <Space direction="vertical">
+              <Search
+                placeholder="exemple: cantine/ école primaire"
+                allowClear
+                enterButton="Ajouter un mot-clé"
+                size="large"
+                onSearch={onSearch}
+              />
+            </Space>
+            <Divider type="vertical" />
+            {/* <Form>
+              <Form.Item>
+                <Input
+                  placeholder="Tapez un mot-clé"
+                  onChange={(e) => setMot_Cle(e.target.value)}
+                />{" "}
+                <Button type="primary" onClick={() => handlePictureRequest()}>
+                  Valider
+                </Button>
+              </Form.Item>
+            </Form> */}
+
+            <Modal isOpen={modal} toggle={modal} className="">
+              <ModalHeader toggle={modal}>
+                {" "}
+                Choisissez une image pour le sujet "{mot_Cle}"
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    setModal(!modal);
+                    setValidatePicture(true);
+                  }}
+                >
+                  Valider la selection
+                </Button>{" "}
+                <Button
+                  color="secondary"
+                  onClick={() => {
+                    setModal(!modal);
+                    setValidatePicture(false);
+                  }}
+                >
+                  Annuler
+                </Button>
+              </ModalHeader>
+              <ModalBody style={{ width: "200px" }}>{listPictures}</ModalBody>
+            </Modal>
+          </div>
+          <Input
+            className="description"
+            placeholder="Votre titre"
+            onChange={(e) => setTitre(e.target.value)}
+          />
+          <Input
+            className="description"
+            placeholder="Votre texte"
+            onChange={(e) => setContenu(e.target.value)}
+            style={{ height: "100px" }}
+          />
+          <div className="monbouton">
+            <Button className="bouton" onClick={() => postPublication()}>
+              Publier
+            </Button>
+          </div>
+        </Col>
+        <Col span={3}>
+          {" "}
+          <div id="illustNewPub"> </div>
         </Col>
       </Row>
-
-      <div className="montimer">
-        <span className="timer">{date}</span>
-      </div>
-      <div className="maflex">
-        <Cascader
-          className="cascade"
-          options={options}
-          onChange={onChange}
-          placeholder="Please select"
-        />
-
-        <Space direction="vertical">
-          <Search
-            placeholder="input search text"
-            allowClear
-            enterButton="Ajouter un mot-clé"
-            size="large"
-            onSearch={onSearch}
-          />
-        </Space>
-        <Form>
-          <Form.Item>
-            <Input
-              placeholder="Tapez un mot-clé"
-              onChange={(e) => setMot_Cle(e.target.value)}
-            />
-            <Button type="primary" onClick={() => handlePictureRequest()}>
-              Valider
-            </Button>
-          </Form.Item>
-        </Form>
-
-        <Modal isOpen={modal} toggle={modal} className="">
-          <ModalHeader toggle={modal}>
-            {" "}
-            Choisissez une image pour le sujet "{mot_Cle}"
-            <Button
-              color="primary"
-              onClick={() => {
-                setModal(!modal);
-                setValidatePicture(true);
-              }}
-            >
-              Valider la selection
-            </Button>{" "}
-            <Button
-              color="secondary"
-              onClick={() => {
-                setModal(!modal);
-                setValidatePicture(false);
-              }}
-            >
-              Annuler
-            </Button>
-          </ModalHeader>
-          <ModalBody style={{ width: "200px" }}>{listPictures}</ModalBody>
-        </Modal>
-      </div>
-       <Input
-        className="description"
-        placeholder="Votre titre"
-        onChange={(e) => setTitre("Je pense que " + e.target.value)}
-        
-      />
-      <Input
-        className="description"
-        placeholder="Votre texte"
-        onChange={(e) => setContenu(e.target.value)}
-      />
-      <div className="monbouton">
-        <Button className="bouton" onClick={() => postPublication()}>
-          Publier
-        </Button>
-      </div>
     </div>
   );
 }

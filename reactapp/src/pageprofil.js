@@ -290,7 +290,21 @@ function PageProfil(props) {
               </TabPane>
             </Tabs>
           </div>
-          <div className="site-statistic-demo-card">
+          <div
+            className="site-statistic-demo-card-2"
+            style={{ marginBottom: "30px", borderRadius: "20px" }}
+          >
+            <h3
+              style={{
+                color: "#0A1C37",
+                textAlign: "center",
+                marginBottom: "30px",
+                marginLeft: "400px",
+              }}
+            >
+              {" "}
+              ILs ont donné leur avis...
+            </h3>
             <Row gutter={16}>
               <Col span={12}>
                 <Card>
