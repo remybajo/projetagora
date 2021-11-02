@@ -74,10 +74,7 @@ const IconText = ({ icon, text }) => (
 function PageTheme(props) {
   var {theme} = useParams()
   const [latest, setLatest] = useState([])
-<<<<<<< HEAD
-  const [themeArticle, setThemeArticle] = useState(theme)
-=======
->>>>>>> finprojet
+const [themeArticle, setThemeArticle] = useState(theme)
 
 
 
