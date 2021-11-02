@@ -36,6 +36,16 @@ import {
 } from "@ant-design/icons";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+
+import Politique from "../src/image/Politique.jpg"
+import Education from "../src/image/Education.jpg"
+import Emploi from "../src/image/Emploi.jpg"
+import Environnement from "../src/image/Environnement.jpg"
+import Evenement from "../src/image/Evenement.jpg"
+import Remarquer from "../src/image/Remarquer.jpg"
+import Sport from "../src/image/Sport.jpg"
+import Tourisme from "../src/image/Tourisme.jpg"
+
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -64,7 +74,7 @@ const IconText = ({ icon, text }) => (
 function PageTheme(props) {
   var {theme} = useParams()
   const [latest, setLatest] = useState([])
-const [themeArticle, setThemeArticle] = useState(theme)
+  const [themeArticle, setThemeArticle] = useState(theme)
 
 
   useEffect(() => {
@@ -84,6 +94,8 @@ const [themeArticle, setThemeArticle] = useState(theme)
   }, []);
 
 //test
+
+console.log("pagetheme mon latest", latest)
 
 
   return (
@@ -154,8 +166,8 @@ const [themeArticle, setThemeArticle] = useState(theme)
                 extra={
                   <img
                     width={272}
-                    alt="logo"
-                    src={item.image}
+                    alt="image de theme"
+                    src={Politique}
                   />
                 }
               >
