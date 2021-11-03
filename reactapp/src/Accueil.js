@@ -252,23 +252,6 @@ console.log("dans publicationTitre", publicationTitre)
             width={150}
             src={AGORA}
           />
-<<<<<<< HEAD
-        <p style={{ marginLeft: "50px" }}>
-            {" "}
-            Donnez votre avis d'une manière différente{" "}
-          </p>
-        </div>
-        <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
-        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
-      </div>
-        <div>
-          {" "}
-          
-          
-          <Button
-            type="primary"
-            size={100}
-=======
            <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
         <SearchBar  placeholder="chercher une publication" data={publicationT}/>
       </div>
@@ -277,7 +260,6 @@ console.log("dans publicationTitre", publicationTitre)
             <Button
           size={20}
             type="text"
->>>>>>> derniere
             style={{
              
               backgroundColor: "#214C74",

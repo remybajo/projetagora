@@ -392,9 +392,7 @@ var handleDislike = (i) => {
         </p>
         </div>
       </div>
-      <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
-      <SearchBar  placeholder="chercher une publication" data={publicationT}/>
-    </div>
+   
       <div>
         
        
@@ -687,7 +685,6 @@ var handleDislike = (i) => {
 
 
 {/* Afficher tous les commentaires */}
-
 
 
        
