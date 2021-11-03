@@ -250,17 +250,17 @@ console.log("dans publicationTitre", publicationTitre)
             width={200}
             src="./image/AGORA.png"
           />
-        
+        <p style={{ marginLeft: "50px" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
         </div>
         <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
         <SearchBar  placeholder="chercher une publication" data={publicationT}/>
       </div>
         <div>
           {" "}
-          <p style={{ marginLeft: "50px" }}>
-            {" "}
-            Donnez votre avis d'une manière différente{" "}
-          </p>
+          
           
           <Button
             type="primary"

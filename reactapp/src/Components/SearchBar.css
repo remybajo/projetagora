@@ -15,8 +15,8 @@
 }
 
 .dataResult .dataItem {
-    width: 5%;
-    height: 5px;
+    width: 100%;
+    height: 50px;
     display: flex;
     align-items: center;
     color: black;
