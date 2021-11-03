@@ -9,6 +9,7 @@ import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled} from "@ant-de
 
 import Plot from 'react-plotly.js';
 
+import "./publication.css";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 
@@ -221,6 +222,7 @@ function Publication(props) {
 
     setLikeComment(true)
 
+    // 3 lignes actuellement utilisées pour les pouces like
     setLikes(1);
     setDislikes(0);
     setAction('liked');
@@ -293,24 +295,7 @@ var handleDislike = (i) => {
     
     stats.map(stat => labels.push(stat._id));
     stats.map(stat => values.push(stat.userCount));
-    
-    console.log("check gender ", gender)
-    console.log("labels: ", labels);
-    console.log("values: ", values);
-    console.log("genderlabels: ", genderLabels);
-    console.log("gendervalues: ", genderValues);
-  
-    console.log("a voté?", alreadyVoted);
-    console.log("userVote ", userVote);
-    console.log("connected: ", connected);
-    console.log("user comments: ", userComment)
-    console.log("type of stats ", stats[0])
-    console.log("selection: ", selection);
-    console.log("vote: ", userVote)
-    console.log("connected? ", connected)
-    console.log("user ", user)
-    
-  }
+   }
 
   var voteArea = () => {
     if (alreadyVoted == true) {
@@ -355,7 +340,7 @@ var handleDislike = (i) => {
 
 
   return (
-    <Layout style={{ margin: 10 }}>
+    <Layout className='layout' style={{ margin: 10, backgroundColor:'white'}}>
     
       <EnTete />
       <Layout>
@@ -369,7 +354,7 @@ var handleDislike = (i) => {
         align="top"
         style={{ margin: 5, padding:5 }}
       >
-        <div style={{ width:"100%", display: "flex" }}>
+        <div style={{ width:"100%", height:"100%", display: "flex" }}>
 
           <Col
             span={8} className="gutter-row"
@@ -395,8 +380,8 @@ var handleDislike = (i) => {
             <p>{content.texte}</p>
             
           </Col>
-          <Col span={6} className="gutter-row"
-          style={{margin:5, display:'flex', flexDirection:'row'}}>
+          <Col span={8} className="gutter-row"
+          style={{margin:5, display:'flex', flexDirection:'row', justifyContent:'center'}}>
            
             {alreadyVoted ?
             <div>
@@ -411,7 +396,7 @@ var handleDislike = (i) => {
             </div>
 
             :
-            <div style={{height:500, backgroundColor:'beige' ,display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
+            <div style={{height:"100%", width:"100%", backgroundColor:'beige' ,display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
             <h1>VOTRE VOTE</h1>
           
           
@@ -476,7 +461,7 @@ var handleDislike = (i) => {
             }
 
           </Col>
-          <Col span={4} className="gutter-row"
+          {/* <Col span={4} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -494,7 +479,7 @@ var handleDislike = (i) => {
              showticklabels: true, showlegend:false
                 } } 
             />
-          </Col>
+          </Col> */}
           <Col
             span={8} className="gutter-row"
             style={{
