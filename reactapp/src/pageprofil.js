@@ -26,9 +26,12 @@ import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Inscription from "./inscription";
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+import PiedDePage from "./piedDePage";
+
 import React, { useState, useEffect } from "react";
 import { set } from "mongoose";
 
@@ -58,6 +61,32 @@ function PageProfil(props) {
   const [voteArticle, setVoteArticle] = useState([]);
   const [myPubli, setMyPubli] = useState([]);
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [modal, setModal] = useState(false);
+
+  var showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = (e) => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = (e) => {
+    setIsModalVisible(false);
+  };
+
+  var handleClick = async () => {
+    if (props.token == null) {
+      showModal();
+    } else {
+      setIsModalVisible(!isModalVisible);
+    }
+  };
+
+  var connexion = "connexion/inscription";
+
   useEffect(() => {
     const ProfilComment = async () => {
       var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
@@ -65,15 +94,12 @@ function PageProfil(props) {
       const publication = response.publication;
       setLatest(publication);
 
-      
-      
       const votePublication = response.publicationVote;
       setVoteArticle(votePublication);
 
       const myPublication = response.myArticles;
-      
-      setMyPubli(myPublication)
-      
+
+      setMyPubli(myPublication);
     };
     ProfilComment();
     // cherche()
@@ -116,9 +142,71 @@ function PageProfil(props) {
 
   return (
     <Layout className="site-layout-background">
-      <EnTete />
+      <Modal
+        title={connexion}
+        style={{ displayflex: 1, width: 150 }}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Inscription />{" "}
+      </Modal>
+      <div id="head">
+        <div>
+          <Image
+            preview={false}
+            size={40}
+            className="logo"
+            width={200}
+            src="./image/AGORA.png"
+          />
+        </div>
+        <div>
+          {" "}
+          <p style={{ marginLeft: "50px" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
+          <Button
+            type="primary"
+            size={60}
+            style={{
+              backgroundColor: "rgba(240, 52, 52, 1)",
+              borderColor: "rgba(240, 52, 52, 1)",
+              marginLeft: "50px",
+              boxShadow: "1px 15px 10px grey",
+            }}
+          >
+            Poster votre publication
+          </Button>
+        </div>
 
-      <Row></Row>
+        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
+          {" "}
+          <Button
+            type="text"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+          >
+            LOG IN
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "#214C74",
+
+              borderColor: "#214C74",
+            }}
+          >
+            LOG OUT
+          </Button>
+        </div>
+      </div>
 
       <Layout className="site-layout-background">
         <SideBarDroite />
@@ -162,7 +250,6 @@ function PageProfil(props) {
               style={{
                 height: 500,
                 border: "1px solid rgba(140, 140, 140, 0.35)",
-                
               }}
             >
               <TabPane tab="Les publications ou j'ai voté" key="1">
@@ -178,9 +265,11 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                   // hasMore={dataL.length < 50}
+                    // hasMore={dataL.length < 50}
                     endMessage={
-                      <Divider plain>Tu n'as pas voté sur d'autres publication 🤐</Divider>
+                      <Divider plain>
+                        Tu n'as pas voté sur d'autres publication 🤐
+                      </Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
@@ -220,9 +309,11 @@ function PageProfil(props) {
                     dataLength={dataL.length}
                     next={loadMoreData}
                     //hasMore={dataL.length < 50}
-                    
+
                     endMessage={
-                      <Divider plain>Tu n'as pas commenté d'autres publication 🤐</Divider>
+                      <Divider plain>
+                        Tu n'as pas commenté d'autres publication 🤐
+                      </Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
@@ -261,10 +352,12 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                   // hasMore={dataL.length < 50}
-                    
+                    // hasMore={dataL.length < 50}
+
                     endMessage={
-                      <Divider plain>Tu n'as pas créé d'autres publication 🤐</Divider>
+                      <Divider plain>
+                        Tu n'as pas créé d'autres publication 🤐
+                      </Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
@@ -334,6 +427,7 @@ function PageProfil(props) {
           </div>
         </Content>
       </Layout>
+      <PiedDePage />
     </Layout>
   );
 }
