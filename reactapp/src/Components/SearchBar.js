@@ -61,15 +61,7 @@ function SearchBar({ placeholder, data }) {
                 {filteredData.length !== 0 && (
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
-<<<<<<< HEAD
                         return <div className="dataItem" target="_blank" value={wordEntered}  key={key} id={value._id} onClick={() => {versPublication(value._id)}}><p>{value.titre}</p> </div> 
-=======
-                        return <div className="dataItem" target="_blank" value={wordEntered}  key={key} id={value._id} onClick={() => {versPublication(value._id)}}>  <p>{value.titre}</p> 
-                      
-                             </div> 
-                         
-                          
->>>>>>> derniere
                     })}
                 </div>)}
             </div>

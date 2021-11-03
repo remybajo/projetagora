@@ -474,19 +474,14 @@ var handleDislike = (i) => {
             <h1>VOTEZ</h1>
           
           
-            <Radio.Group
-              defaultValue="a"
-              buttonStyle="solid"
+            <Radio.Group defaultValue="a" buttonStyle="solid"
               style={{ margin: 10, fontWeight: "bold", display:'flex', flexDirection:'column' }}
             >
               <Radio.Button
-                disabled={status}
-                style={{ margin: 16, backgroundColor: "#FFC806" }}
-                value="J'Adore"
+                disabled={status} style={{ margin: 16, backgroundColor: "#FFC806" }} value="J'Adore"
                 onClick={(e) => setSelection(e.target.value)}
-              > J'Adore
-              </Radio.Button>
-            
+              > J'Adore </Radio.Button>
+                          
               <Radio.Button
                 disabled={status}
                 style={{ margin: 16, backgroundColor: "#EDAC06" }}
