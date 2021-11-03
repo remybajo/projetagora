@@ -522,7 +522,7 @@ var handleDislike = (i) => {
                   return(
               <Comment
               actions={[
-                <Tooltip key="comment-basic-like" title="Like">
+                <Tooltip key={i} title="Like">
                   <span onClick={() => handleLike({i})}>
                     {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
                     <span className="comment-action">{likes}</span>
