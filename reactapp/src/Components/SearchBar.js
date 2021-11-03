@@ -80,9 +80,9 @@ function SearchBar({ placeholder, data }) {
                 {filteredData.length !== 0 && (
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
-                        return <div className="dataItem" target="_blank" value={wordEntered}  key={key} id={value._id} onClick={() => {versPublication(value._id)}}>
+                        return <div className="dataItem" target="_blank" value={wordEntered}  key={key} id={value._id} onClick={() => {versPublication(value._id)}}>  <p>{value.titre}</p> 
                       
-                            <p>{value.titre}</p> </div> 
+                             </div> 
                          
                           
                     })}

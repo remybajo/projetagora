@@ -8,10 +8,11 @@ import { connect } from "react-redux";
 import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled} from "@ant-design/icons";
 
 import Plot from 'react-plotly.js';
-
+import SearchBar from "./Components/SearchBar";
 import "./publication.css";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+import AGORA from "../src/image/AGORA.png"
 
 function Publication(props) {
   const { Header, Footer, Sider, Content } = Layout;
@@ -42,7 +43,7 @@ function Publication(props) {
   const [icon, setIcon] = useState(<LikeFilled/>)
   const [likeComment, setLikeComment] = useState(false)
   const [gender, setGender] = useState();
-
+  const [publicationTitre, setPublicationTitre] = useState();
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
@@ -120,6 +121,17 @@ function Publication(props) {
     console.log("body gender ", body.gender)
 
   }
+
+  //recupération données bar de recherche
+  useEffect(() => {
+    const findPublications = async () => {
+        const toutePublication = await fetch("/searchPublication");
+        const res_publication = await toutePublication.json();
+        console.log("ma res_publication", res_publication.allPublications)
+        setPublicationTitre(res_publication.allPublications)
+    }; findPublications()
+}, []);
+var publicationT=publicationTitre
 
   //récupérer le contenu de la publication sélectionnée, des commentaires associés et des stats associées
   useEffect(async() => {
@@ -342,7 +354,78 @@ var handleDislike = (i) => {
   return (
     <Layout className='layout' style={{ margin: 10, backgroundColor:'white'}}>
     
-      <EnTete />
+    <div id="head" style={{display:"flex"}}>
+      
+      <div >
+      <div style={{display:"flex", justifyContent:"space-between"}}>
+        <Image
+          preview={false}
+          size={40}
+          className="logo"
+          width={150}
+          src={AGORA}
+        />
+         <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
+        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
+      </div>
+        <div>
+          {" "}
+          <Button
+        size={20}
+          type="text"
+          style={{
+           
+            backgroundColor: "#214C74",
+            borderColor: "#214C74",
+          }}
+        >
+          LOG IN
+        </Button>
+        
+        <Button
+          type="link"
+          style={{
+            backgroundColor: "transparent",
+            color: "#214C74",
+
+            borderColor: "transparent",
+          }}
+          >
+          LOG OUT
+        </Button>
+          </div>
+          </div>
+        <div>
+         <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
+          {" "}
+          Donnez votre avis d'une manière différente{" "}
+        </p>
+        </div>
+      </div>
+      <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
+      <SearchBar  placeholder="chercher une publication" data={publicationT}/>
+    </div>
+      <div>
+        
+       
+        
+        <Button
+          type="primary"
+          size={100}
+          style={{
+            backgroundColor: "rgba(240, 52, 52, 1)",
+            borderColor: "rgba(240, 52, 52, 1)",
+            marginLeft: "50px",
+            boxShadow: "1px 15px 10px grey",
+          }}
+        >
+          Poster votre publication
+        </Button>
+      </div>
+
+      
+      
+    </div>
       <Layout>
         
         <SideBarDroite/>
@@ -608,7 +691,18 @@ var handleDislike = (i) => {
          
 
         </Col>
+
+
+
+
+{/* Afficher tous les commentaires */}
+
+
+
+       
       </Row>
+
+
       </Content> 
       </Layout>
       <Footer style={{ textAlign: "center" }}></Footer>

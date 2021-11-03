@@ -27,11 +27,11 @@ import { connect } from "react-redux";
 import { ArrowUpOutlined, ArrowDownOutlined, UserOutlined, EditFilled } from "@ant-design/icons";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Inscription from "./inscription";
-
+import SearchBar from "./Components/SearchBar";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 import PiedDePage from "./piedDePage";
-
+import AGORA from "../src/image/AGORA.png"
 import React, { useState, useEffect } from "react";
 import { set } from "mongoose";
 
@@ -60,7 +60,7 @@ function PageProfil(props) {
   const [latest, setLatest] = useState([]);
   const [voteArticle, setVoteArticle] = useState([]);
   const [myPubli, setMyPubli] = useState([]);
-
+  const [publicationTitre, setPublicationTitre] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [modal, setModal] = useState(false);
@@ -86,6 +86,15 @@ function PageProfil(props) {
   };
 
   var connexion = "connexion/inscription";
+  useEffect(() => {
+    const findPublications = async () => {
+        const toutePublication = await fetch("/searchPublication");
+        const res_publication = await toutePublication.json();
+        console.log("ma res_publication", res_publication.allPublications)
+        setPublicationTitre(res_publication.allPublications)
+    }; findPublications()
+}, []);
+var publicationT=publicationTitre
 
   useEffect(() => {
     const ProfilComment = async () => {
@@ -151,25 +160,62 @@ function PageProfil(props) {
       >
         <Inscription />{" "}
       </Modal>
-      <div id="head">
-        <div>
+      <div id="head" style={{display:"flex"}}>
+      
+        <div >
+        <div style={{display:"flex", justifyContent:"space-between"}}>
           <Image
             preview={false}
             size={40}
             className="logo"
-            width={200}
-            src="./image/AGORA.png"
+            width={150}
+            src={AGORA}
           />
-        </div>
-        <div>
-          {" "}
-          <p style={{ marginLeft: "50px" }}>
+          <div>
+          <SearchBar  placeholder="chercher une publication" data={publicationT}/>
+            </div>
+          <div>
+            {" "}
+            <Button
+          size={20}
+            type="text"
+            style={{
+             
+              backgroundColor: "#214C74",
+              borderColor: "#214C74",
+            }}
+          >
+            LOG IN
+          </Button>
+          
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+            >
+            LOG OUT
+          </Button>
+            </div>
+            </div>
+          <div>
+           <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
             {" "}
             Donnez votre avis d'une manière différente{" "}
           </p>
+          </div>
+        </div>
+       
+        <div>
+          
+         
+          
           <Button
             type="primary"
-            size={60}
+            size={100}
             style={{
               backgroundColor: "rgba(240, 52, 52, 1)",
               borderColor: "rgba(240, 52, 52, 1)",
@@ -181,31 +227,8 @@ function PageProfil(props) {
           </Button>
         </div>
 
-        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
-          {" "}
-          <Button
-            type="text"
-            style={{
-              backgroundColor: "transparent",
-              color: "#214C74",
-
-              borderColor: "transparent",
-            }}
-          >
-            LOG IN
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            type="link"
-            style={{
-              backgroundColor: "#214C74",
-
-              borderColor: "#214C74",
-            }}
-          >
-            LOG OUT
-          </Button>
-        </div>
+        
+        
       </div>
 
       <Layout className="site-layout-background">
