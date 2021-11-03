@@ -387,7 +387,7 @@ var handleDislike = (i) => {
             </div>
 
             :
-            <div style={{height:"100%", width:"100%",display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
+            <div style={{height:"90%", width:"100%",display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
             <h1>VOTEZ</h1>
           
           
