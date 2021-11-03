@@ -46,6 +46,8 @@ function Publication(props) {
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
 
+  const [idC, setIdC] = useState(0)
+
 
   const { TextArea } = Input;
 
@@ -212,11 +214,31 @@ function Publication(props) {
 
 
   var likeItem = (<span className="comment-action">0</span>)
+var result;
+function increment (i){
+
+  result = [...commentairesList]
+  if(result[i].__v===0){
+  result[i].__v += 1;}
+
+  setCommentairesList(result)
+
+  console.log(result);
+  // setIdC(idC + 1)
+}
+
+useEffect(() => {
+}, [commentairesList,result])
+
+
+
 
   var handleLike = (i) => {
+    console.log("this",i);
     var index = i.i
     console.log("liked index: ", index)
     var idComment = commentairesList[index]._id
+    setIdC(i)
     
 
     setLikeComment(true)
@@ -352,6 +374,8 @@ var handleDislike = (i) => {
          ] 
       },
       }];
+
+      console.log('le i de la page publication', idC)
 
 
   return (
@@ -519,13 +543,16 @@ var handleDislike = (i) => {
               :
               <div>
                 {commentairesList.map((comment, i) => {
+              
+                  console.log("comment",comment);
                   return(
               <Comment
+              key={i} 
               actions={[
-                <Tooltip key={i} title="Like">
-                  <span onClick={() => handleLike({i})}>
+                <Tooltip key="comment-basic-like" title="Like">
+                  <span onClick={() => increment(i)}>
                     {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-                    <span className="comment-action">{likes}</span>
+                    <span className="comment-action">{comment.__v}</span>
                   </span>
                 </Tooltip>,
                 <Tooltip key="comment-basic-dislike" title="Dislike">
