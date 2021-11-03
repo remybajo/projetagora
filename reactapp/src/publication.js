@@ -608,11 +608,7 @@ var handleDislike = (i) => {
               key={i} 
               actions={[
                 <Tooltip key="comment-basic-like" title="Like">
-<<<<<<< HEAD
-                  <span onClick={() => handleLike({i})}>
-=======
                   <span onClick={() => increment(i)}>
->>>>>>> derniere
                     {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
                     <span className="comment-action">{comment.__v}</span>
                   </span>
