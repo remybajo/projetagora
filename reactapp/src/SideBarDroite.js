@@ -1,8 +1,7 @@
-
 import { Link, Redirect } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import Inscription from "./inscription";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import {
   Button,
   Layout,
@@ -14,7 +13,7 @@ import {
   Row,
   Col,
   Tabs,
-  Modal
+  Modal,
 } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -40,34 +39,27 @@ const { SubMenu } = Menu;
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
-
 function SideBarDroite(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isConnect, setIsConnect] = useState(false)
-  const [isConnectProfil, setIsConnectProfil] = useState(false)
- // const [theme, setTheme] = useState("")
+  const [isConnect, setIsConnect] = useState(false);
+  const [isConnectProfil, setIsConnectProfil] = useState(false);
+  // const [theme, setTheme] = useState("")
 
   //Base de donnée Data
-const themeData = [
-  
-  "Emploi",
-  "Education",
-  "Politique",
-  "Evenement",
-  "Environnement",
-  "Sport",
-  "Tourisme",
-  "Tu as remarqué ?"
+  const themeData = [
+    "Emploi",
+    "Education",
+    "Politique",
+    "Evenement",
+    "Environnement",
+    "Sport",
+    "Tourisme",
+    "Tu as remarqué ?",
+  ];
 
-]
+  //  var findClickTheme = (theme) => {
+  // setTheme(theme)}
 
-
-
-//  var findClickTheme = (theme) => {
-// setTheme(theme)}
-
-
-    
   // }
   // if (theme){
   //  return <Redirect to={`/pageTheme/${theme}`} />
@@ -86,46 +78,48 @@ const themeData = [
   };
 
   var handleClick = async () => {
-    if (props.token == null){
-    showModal()  
- } else{
-   setIsConnect(true)
-  }}
+    if (props.token == null) {
+      showModal();
+    } else {
+      setIsConnect(true);
+    }
+  };
 
-  if (isConnect){
+  if (isConnect) {
     return <Redirect to="/pageprofil" />;
   }
 
   var handleClickPubli = (e) => {
-    if (props.token == null){
-      showModal()  
-   } else{
-     setIsConnectProfil(true)
-    }}
-  
-    if (isConnectProfil){
-      return <Redirect to="/nouvelPublication" />;
+    if (props.token == null) {
+      showModal();
+    } else {
+      setIsConnectProfil(true);
     }
-  
+  };
 
-  
+  if (isConnectProfil) {
+    return <Redirect to="/nouvelPublication" />;
+  }
 
+  var publiTheme = themeData.map((theme, i) => {
+    return (
+      <Menu.Item key="i">
+        {" "}
+        <Link to={`/pageTheme/${theme}`}> {theme} </Link>
+      </Menu.Item>
+    );
+  });
 
-    var publiTheme = themeData.map((theme, i) => {
-      return (
-        
-        <Menu.Item  key="i"> <Link to={`/pageTheme/${theme}`} > {theme}  </Link></Menu.Item>
-      )})
- 
   return (
     <Sider className="site-layout-background">
-      <Modal  style={{ displayflex: 1, width: 150 }}
-
-visible={isModalVisible}
-onOk={handleOk}
-onCancel={handleCancel}>
-<Inscription /> </Modal>
-      {" "}
+      <Modal
+        style={{ displayflex: 1, width: 150 }}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Inscription />{" "}
+      </Modal>{" "}
       <Menu
         style={{ width: 200 }}
         defaultSelectedKeys={["1"]}
@@ -137,27 +131,28 @@ onCancel={handleCancel}>
         <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
           {publiTheme}
         </SubMenu>
-        <Menu.Item  onClick={() => handleClick()} key="2" icon={<CalendarOutlined  />}  >
-        Mon compte
+        <Menu.Item
+          onClick={() => handleClick()}
+          key="2"
+          icon={<CalendarOutlined />}
+        >
+          Mon compte
         </Menu.Item>
 
-        <Menu.Item  onClick={() => handleClickPubli()} key="link" icon={<EditOutlined />}>
-          
-        Nouvelle publication
-          
+        <Menu.Item
+          onClick={() => handleClickPubli()}
+          key="link"
+          icon={<EditOutlined />}
+        >
+          Nouvelle publication
         </Menu.Item>
-       
       </Menu>
     </Sider>
   );
 }
 
-function mapStateToProps(state){
-  return {token:state.token}
+function mapStateToProps(state) {
+  return { token: state.token };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
- 
-)(SideBarDroite) ;
+export default connect(mapStateToProps, null)(SideBarDroite);
