@@ -85,11 +85,11 @@ function Inscription(props) {
     
 
     var tabErrorsSignin = listErrorsSignin.map((error, i) => {
-        return (<p>{error}</p>)
+        return (<p key={i}>{error}</p>)
     })
 
     var tabErrorsSignup = listErrorsSignup.map((error, i) => {
-        return (<p>{error}</p>)
+        return (<p key={i}>{error}</p>)
     })
 
 

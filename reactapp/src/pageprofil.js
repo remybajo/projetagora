@@ -276,7 +276,7 @@ function PageProfil(props) {
                     <List
                       dataSource={voteArticle}
                       renderItem={(item) => (
-                        <List.Item key={item.id}>
+                        <List.Item key={item._id}>
                           <List.Item.Meta
                             title={
                               <Link to={`/publication/${item._id}`}>
@@ -320,7 +320,7 @@ function PageProfil(props) {
                     <List
                       dataSource={latest}
                       renderItem={(item) => (
-                        <List.Item key={item.id}>
+                        <List.Item key={item._id}>
                           <List.Item.Meta
                             title={
                               <Link to={`/publication/${item._id}`}>
@@ -364,7 +364,7 @@ function PageProfil(props) {
                     <List
                       dataSource={myPubli}
                       renderItem={(item) => (
-                        <List.Item key={item.id}>
+                        <List.Item key={item._id}>
                           <List.Item.Meta
                             title={
                               <Link to={`/publication/${item._id}`}>
