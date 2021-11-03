@@ -14,7 +14,6 @@ import {
   Col,
   Tabs,
   Modal,
-  Affix,
 } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -44,10 +43,9 @@ function SideBarDroite(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isConnect, setIsConnect] = useState(false);
   const [isConnectProfil, setIsConnectProfil] = useState(false);
-  const [theme, setTheme] = useState("");
-  const [top, setTop] = useState(10);
+  // const [theme, setTheme] = useState("")
 
-  //Bade de donnée Data
+  //Base de donnée Data
   const themeData = [
     "Emploi",
     "Education",
@@ -59,12 +57,13 @@ function SideBarDroite(props) {
     "Tu as remarqué ?",
   ];
 
-  var findClickTheme = (theme) => {
-    setTheme(theme);
-  };
-  if (theme) {
-    return <Redirect to={`/pageTheme/${theme}`} />;
-  }
+  //  var findClickTheme = (theme) => {
+  // setTheme(theme)}
+
+  // }
+  // if (theme){
+  //  return <Redirect to={`/pageTheme/${theme}`} />
+  // }
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -104,8 +103,9 @@ function SideBarDroite(props) {
 
   var publiTheme = themeData.map((theme, i) => {
     return (
-      <Menu.Item onClick={() => findClickTheme(theme)} key="i">
-        {theme}
+      <Menu.Item key="i">
+        {" "}
+        <Link to={`/pageTheme/${theme}`}> {theme} </Link>
       </Menu.Item>
     );
   });
@@ -113,7 +113,6 @@ function SideBarDroite(props) {
   return (
     <Sider className="site-layout-background">
       <Modal
-        title="connexion/inscription"
         style={{ displayflex: 1, width: 150 }}
         visible={isModalVisible}
         onOk={handleOk}
@@ -121,35 +120,33 @@ function SideBarDroite(props) {
       >
         <Inscription />{" "}
       </Modal>{" "}
-      <Affix offsetTop={top}>
-        <Menu
-          style={{ width: 200 }}
-          defaultSelectedKeys={["1"]}
-          // defaultOpenKeys={["sub1"]}
+      <Menu
+        style={{ width: 200 }}
+        defaultSelectedKeys={["1"]}
+        // defaultOpenKeys={["sub1"]}
+      >
+        <Menu.Item key="1" icon={<MailOutlined />}>
+          <Link to="/">Accueil</Link>
+        </Menu.Item>
+        <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
+          {publiTheme}
+        </SubMenu>
+        <Menu.Item
+          onClick={() => handleClick()}
+          key="2"
+          icon={<CalendarOutlined />}
         >
-          <Menu.Item key="1" icon={<MailOutlined />}>
-            <Link to="/">Accueil</Link>
-          </Menu.Item>
-          <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
-            {publiTheme}
-          </SubMenu>
-          <Menu.Item
-            onClick={() => handleClick()}
-            key="2"
-            icon={<CalendarOutlined />}
-          >
-            Mon compte
-          </Menu.Item>
+          Mon compte
+        </Menu.Item>
 
-          <Menu.Item
-            onClick={() => handleClickPubli()}
-            key="link"
-            icon={<EditOutlined />}
-          >
-            Nouvelle publication
-          </Menu.Item>
-        </Menu>
-      </Affix>
+        <Menu.Item
+          onClick={() => handleClickPubli()}
+          key="link"
+          icon={<EditOutlined />}
+        >
+          Nouvelle publication
+        </Menu.Item>
+      </Menu>
     </Sider>
   );
 }

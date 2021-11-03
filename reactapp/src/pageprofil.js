@@ -24,12 +24,16 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowUpOutlined, ArrowDownOutlined, UserOutlined, EditFilled } from "@ant-design/icons";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Inscription from "./inscription";
 
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
+import PiedDePage from "./piedDePage";
+
 import React, { useState, useEffect } from "react";
+import { set } from "mongoose";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -55,31 +59,63 @@ function PageProfil(props) {
   const [dataL, setDataL] = useState([]);
   const [latest, setLatest] = useState([]);
   const [voteArticle, setVoteArticle] = useState([]);
-  const [themeArticle, setThemeArticle] = useState([]);
+  const [myPubli, setMyPubli] = useState([]);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [modal, setModal] = useState(false);
+
+  var showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = (e) => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = (e) => {
+    setIsModalVisible(false);
+  };
+
+  var handleClick = async () => {
+    if (props.token == null) {
+      showModal();
+    } else {
+      setIsModalVisible(!isModalVisible);
+    }
+  };
+
+  var connexion = "connexion/inscription";
 
   useEffect(() => {
     const ProfilComment = async () => {
       var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
       const response = await rawResponse.json();
       const publication = response.publication;
-
       setLatest(publication);
+
+      const votePublication = response.publicationVote;
+      setVoteArticle(votePublication);
+
+      const myPublication = response.myArticles;
+
+      setMyPubli(myPublication);
     };
     ProfilComment();
     // cherche()
   }, []);
 
-  useEffect(() => {
-    const ProfilVote = async () => {
-      var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
-      const vote = await rawResponse.json();
-      const votePublication = vote.publicationVote;
-      setVoteArticle(votePublication);
-      console.log(votePublication);
-    };
-    ProfilVote();
-    // cherche()
-  }, []);
+  // useEffect(() => {
+  //   const ProfilVote = async () => {
+  //     var rawResponse = await fetch(`/commentarticle?token=${props.token}`);
+  //     const vote = await rawResponse.json();
+  //     const votePublication = vote.publicationVote;
+  //     setVoteArticle(votePublication);
+  //     console.log(votePublication);
+  //   };
+  //   ProfilVote();
+  //   // cherche()
+  // }, []);
 
   const loadMoreData = () => {
     if (loading) {
@@ -106,9 +142,71 @@ function PageProfil(props) {
 
   return (
     <Layout className="site-layout-background">
-      <EnTete />
+      <Modal
+        title={connexion}
+        style={{ displayflex: 1, width: 150 }}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Inscription />{" "}
+      </Modal>
+      <div id="head">
+        <div>
+          <Image
+            preview={false}
+            size={40}
+            className="logo"
+            width={200}
+            src="./image/AGORA.png"
+          />
+        </div>
+        <div>
+          {" "}
+          <p style={{ marginLeft: "50px" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
+          <Button
+            type="primary"
+            size={60}
+            style={{
+              backgroundColor: "rgba(240, 52, 52, 1)",
+              borderColor: "rgba(240, 52, 52, 1)",
+              marginLeft: "50px",
+              boxShadow: "1px 15px 10px grey",
+            }}
+          >
+            Poster votre publication
+          </Button>
+        </div>
 
-      <Row></Row>
+        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
+          {" "}
+          <Button
+            type="text"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+          >
+            LOG IN
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "#214C74",
+
+              borderColor: "#214C74",
+            }}
+          >
+            LOG OUT
+          </Button>
+        </div>
+      </div>
 
       <Layout className="site-layout-background">
         <SideBarDroite />
@@ -167,10 +265,11 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    // hasMore={dataL.length < 50}
                     endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
+                      <Divider plain>
+                        Tu n'as pas voté sur d'autres publication 🤐
+                      </Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
@@ -196,7 +295,7 @@ function PageProfil(props) {
                   </InfiniteScroll>
                 </div>
               </TabPane>
-              <TabPane tab="Mes publications commentés" key="2">
+              <TabPane tab="Les publications ou j'ai commenté" key="2">
                 <div
                   id="scrollableDiv"
                   style={{
@@ -209,10 +308,12 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                    //hasMore={dataL.length < 50}
+
                     endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
+                      <Divider plain>
+                        Tu n'as pas commenté d'autres publication 🤐
+                      </Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
@@ -238,7 +339,7 @@ function PageProfil(props) {
                   </InfiniteScroll>
                 </div>
               </TabPane>
-              <TabPane tab="Mes publications publiées" key="3">
+              <TabPane tab="Mes publications" key="3">
                 <div
                   id="scrollableDiv"
                   style={{
@@ -251,27 +352,29 @@ function PageProfil(props) {
                   <InfiniteScroll
                     dataLength={dataL.length}
                     next={loadMoreData}
-                    hasMore={dataL.length < 50}
-                    loader={
-                      <Skeleton avatar paragraph={{ rows: 1 }} inactive />
-                    }
+                    // hasMore={dataL.length < 50}
+
                     endMessage={
-                      <Divider plain>It is all, nothing more 🤐</Divider>
+                      <Divider plain>
+                        Tu n'as pas créé d'autres publication 🤐
+                      </Divider>
                     }
                     scrollableTarget="scrollableDiv"
                   >
                     <List
-                      dataSource={dataL}
+                      dataSource={myPubli}
                       renderItem={(item) => (
                         <List.Item key={item.id}>
                           <List.Item.Meta
-                            avatar={<Avatar src={item.picture.large} />}
                             title={
-                              <a href="https://ant.design">{item.name.last}</a>
+                              <Link to={`/publication/${item._id}`}>
+                                {item.titre}
+                              </Link>
                             }
-                            description={item.email}
+                            description={item.texte}
                           />
-                          <div>Content</div>
+                          <div></div>
+                          <img width={172} alt="logo" src={item.image} />
                         </List.Item>
                       )}
                     />
@@ -280,29 +383,50 @@ function PageProfil(props) {
               </TabPane>
             </Tabs>
           </div>
-          <div className="site-statistic-demo-card">
+          <div
+            className="site-statistic-demo-card"
+            style={{ marginBottom: "30px" }}
+          >
+             <h4 style={{
+              display:"flex",
+                color: "blue",
+                textAlign: "center",
+               justifyContent:"center",
+                marginBottom: "30px",
+               
+              }}><Button> <Link to="/pageStat"> Plus de stats </Link> </Button> </h4>
+            <h3
+              style={{
+                color: "white",
+                textAlign: "center",
+                alignItems : "center",
+                marginBottom: "30px",
+                marginLeft: "400px",
+              }}
+            >
+              {" "}
+              Mes stats 
+            </h3>
+           
             <Row gutter={16}>
               <Col span={12}>
                 <Card>
                   <Statistic
-                    title="Active"
-                    value={11.28}
-                    precision={2}
+                    title="Nombre de publication"
+                    value={myPubli.length}
                     valueStyle={{ color: "#3f8600" }}
-                    prefix={<ArrowUpOutlined />}
-                    suffix="%"
+                    suffix={<EditFilled />}
+                    
                   />
                 </Card>
               </Col>
               <Col span={12}>
                 <Card>
                   <Statistic
-                    title="Idle"
-                    value={9.3}
-                    precision={2}
-                    valueStyle={{ color: "#cf1322" }}
-                    prefix={<ArrowDownOutlined />}
-                    suffix="%"
+                    title="Nombre de votes"
+                    value={voteArticle.length}
+                    valueStyle={{ color: "#3f8600" }}
+                    suffix={<UserOutlined />}
                   />
                 </Card>
               </Col>
@@ -310,6 +434,7 @@ function PageProfil(props) {
           </div>
         </Content>
       </Layout>
+      <PiedDePage />
     </Layout>
   );
 }

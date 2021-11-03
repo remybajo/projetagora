@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createElement } from "react";
 import { useParams } from 'react-router-dom';
 import {
   Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
-  Input, Badge, Alert} from "antd";
+  Input, Badge, Alert, Tooltip} from "antd";
 import { connect } from "react-redux";
 
-import { LikeOutlined, LikeFilled} from "@ant-design/icons";
+import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled} from "@ant-design/icons";
 
 import Plot from 'react-plotly.js';
 
@@ -37,10 +37,24 @@ function Publication(props) {
   const [userComment, setUserComment] = useState("");
   const [connected, setConnected] = useState(false);
   const [count, setCount] = useState(0);
-  const [iconLike, setIconLike] = useState(false)
+  const [counter, setCounter] = useState(0)
   const [icon, setIcon] = useState(<LikeFilled/>)
+  const [likeComment, setLikeComment] = useState(false)
+  const [gender, setGender] = useState();
+
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  const [action, setAction] = useState(null);
+
 
   const { TextArea } = Input;
+
+  const IconText = ({ icon, text }) => (
+    <Space>
+      {React.createElement(icon)}
+      {text}
+    </Space>
+  );
 
   var date;
   var dateComment;
@@ -101,23 +115,24 @@ function Publication(props) {
       }
   
     }
+    setGender(body.gender);
+    console.log("body gender ", body.gender)
 
   }
 
   //récupérer le contenu de la publication sélectionnée, des commentaires associés et des stats associées
   useEffect(async() => {
-        
     // Afficher tout
     getSelectedPublication(); 
-  
   },[])
 
   useEffect(() => {
-    if(token) {
-      setConnected(true)
-    }
+    getSelectedPublication()
   }, [token])
 
+  useEffect(() => {
+    setCommentairesList(props.commentairesList)
+  }, [props.commentairesList])
   
 
   // mise à jour de la sélection pour le vote
@@ -140,6 +155,8 @@ function Publication(props) {
   var voteValidation = () => {
     if (!vote) {
       setMessage(<Alert message="Veuillez choisir une option de vote avant de valider." type="error" showIcon />);
+    } else if (!token) {
+      setMessage(<Alert message="Veuillez vous identifier avant de voter." type="error" showIcon />);
     } else if (vote && !status) {
       setStatus(true);
       setMessage(<Alert message="Votre vote a bien été pris en compte. Merci pour votre participation." type="success" showIcon />);
@@ -158,18 +175,13 @@ function Publication(props) {
     console.log(vote);
   };
 
-  // useEffect(() => {
-  //   if(message == "Votre vote a bien été pris en compte. Merci pour votre participation.");
-  //   setAlreadyVoted(true)
-  // },[message])
-
 
  // requête pour envoi du vote en bdd, utilisée dans la fonction commentValidation()
   var sendComment = async () => {
     await fetch("/comments/sendComment", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `commentaire=${comment}&publication=${id}&date=${dateComment}&token=${token}`,
+      body: `commentaire=${comment}&publication=${id}&date=${dateComment}&token=${token}&vote=${userVote}`,
     });
   };
 
@@ -178,13 +190,17 @@ function Publication(props) {
   var commentValidation = () => {
     if (!comment) {
       setMessageCom(<Alert message="Aucun commentaire saisi" type="error" showIcon />);
+    } else if (!token) {
+      setMessageCom(<Alert message="Veuillez vous identifier pour envoyer un commentaire" type="error" showIcon />);
+    } else if (!userVote) {
+      setMessageCom(<Alert message="Veuillez voter avant d'envoyer un commentaire" type="error" showIcon />);
     } else {
       dateComment = dateFormat(Date.now());
       console.log("date commentaire: ", dateComment);
       sendComment();
       setComment("");
-      getSelectedPublication(); 
       setMessageCom(<Alert message="Votre commentaire a bien été envoyé." type="success" showIcon />);
+      getSelectedPublication(); 
       //setCommentairesList([...commentairesList, commentaire])
       
       //setBoutonValiCom("");
@@ -192,23 +208,62 @@ function Publication(props) {
     }
   };
 
-  var handleLike = () => {
-    setIconLike(!iconLike)
+  // GESTION DES LIKES SUR LES COMMENTAIRES
 
-    if (iconLike == true) {
-      setCount(count+1);
-      setIcon(<LikeOutlined/>)
-    } else {
-      setIcon(<LikeFilled/>);
-      if (count > 0) {
-        setCount(count-1);
-      }
+
+  var likeItem = (<span className="comment-action">0</span>)
+
+  var handleLike = (i) => {
+    var index = i.i
+    console.log("liked index: ", index)
+    var idComment = commentairesList[index]._id
+    
+
+    setLikeComment(true)
+
+    setLikes(1);
+    setDislikes(0);
+    setAction('liked');
+
+
+    commentairesList[index].nb_likes +=1;
+    var updateLikeNb = commentairesList[index].nb_likes
+    likeItem = (<span className="comment-action">1</span>)
+    console.log("check commentaire clicked: ",commentairesList[index])
+    
+
+  
+      var updateLikes = async () => {
+        await fetch(`/comments/updateLikes?idComment=${idComment}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "nbLikes=${updateLikeNb}",
+        });
+      };
+     
     }
-    
-    
-  }
+    console.log("commentaireslist w like", commentairesList);
+    console.log("count ", count)
 
- 
+// Gerer les dislike -- ATTENTION - PAS TERMINé
+
+var handleDislike = (i) => {
+  var index = i.i;
+  console.log("disliked index : ", index)
+  var idComment = commentairesList[index]._id
+   
+  setLikes(0);
+  setDislikes(1);
+  setAction('disliked');
+
+  if(commentairesList[index].nb_likes>0){
+    commentairesList[index].nb_likes -=1 ;
+  var updateLikeNb = commentairesList[index].nb_likes
+  likeItem = (<span className="comment-action">1</span>)
+  console.log("check commentaire clicked: ",commentairesList[index])
+  }
+}
+  
 
   // supprimer son commentaire
   var commentSuppr = async () => {
@@ -222,27 +277,28 @@ function Publication(props) {
     //setAlreadyCommented(false)
   }
 
-  if(commentairesList) {
-    console.log("liste des comments: ",commentairesList);
-    console.log("stats: ", stats);
-  } else {
-    <p>Aucun commentaire publié</p>
-  }
 
-  // mise en forme des arrays pour graphiques
-  //const [labels, setLabels] = useState([]);
-  //const [values, setValues] = useState([]);;
 
   var labels = [];
   var values = [];
+  var genderLabels = [];
+  var genderValues = [];
+
+  if(gender) {
+    gender.map(gender => genderLabels.push(gender.genre));
+    gender.map(gender => genderValues.push(gender.nbre));
+  }
 
   if(stats) {
     
     stats.map(stat => labels.push(stat._id));
     stats.map(stat => values.push(stat.userCount));
     
+    console.log("check gender ", gender)
     console.log("labels: ", labels);
     console.log("values: ", values);
+    console.log("genderlabels: ", genderLabels);
+    console.log("gendervalues: ", genderValues);
   
     console.log("a voté?", alreadyVoted);
     console.log("userVote ", userVote);
@@ -265,11 +321,37 @@ function Publication(props) {
 
   var data = [
     {
-      values: values,
+      values: values, 
       labels: labels,
       type: "pie",
+      hoverinfo: 'none',
+      text: labels,
+      hoverinfo: 'none',
+      marker: {'colors': [
+        "#FFC806",  //adore
+        "#EDAC06",  //pour
+        "#DAA419",  //mitigé
+        "#BE833D",  //contre
+        "#966215"  //déteste
+       ] 
     },
-  ];
+    }];
+
+    var dataGender = [
+      {
+        values: genderValues, 
+        labels: genderLabels,
+        type: "pie",
+        hoverinfo: 'none',
+        text: genderLabels,
+        hoverinfo: 'none',
+        marker: {'colors': [
+          "#FFC806",  //adore
+          "#EDAC06",  //pour
+       
+         ] 
+      },
+      }];
 
 
   return (
@@ -297,7 +379,7 @@ function Publication(props) {
               alignItems: "center",
               justifyContent: "center",
               margin: 5,
-              border:'2px solid #37A4B2',
+              
               
             }}
           >
@@ -313,17 +395,23 @@ function Publication(props) {
             <p>{content.texte}</p>
             
           </Col>
-          <Col span={8} className="gutter-row"
-          style={{margin:5}}>
+          <Col span={6} className="gutter-row"
+          style={{margin:5, display:'flex', flexDirection:'row'}}>
            
             {alreadyVoted ?
+            <div>
             <Plot
             data={data}
-            layout={ {width: 500, height: 500, title: 'Résultat du Vote'} } 
+            layout={ {width: 400, height: 400, title: 'Résultat du Vote',
+             paper_bgcolor:'#919191', legend: {orientation: 'h', side: 'top'},
+             showticklabels: true, showlegend:false
+                } } 
             />
+           
+            </div>
 
             :
-            <div style={{height:500, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
+            <div style={{height:500, backgroundColor:'beige' ,display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
             <h1>VOTRE VOTE</h1>
           
           
@@ -388,6 +476,25 @@ function Publication(props) {
             }
 
           </Col>
+          <Col span={4} className="gutter-row"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems:'center',
+              backgroundColor:"#FFFFFF",
+              padding:0,
+              margin: 0,
+              color:"blue"
+            }}>
+              <h5>Qui a voté ? </h5>
+          <Plot
+            data={dataGender}
+            layout={ {width: 200, height: 200, margin:0, title: 'Genre',
+             paper_bgcolor:'#919191', legend: {orientation: 'h', side: 'top'},
+             showticklabels: true, showlegend:false
+                } } 
+            />
+          </Col>
           <Col
             span={8} className="gutter-row"
             style={{
@@ -410,28 +517,33 @@ function Publication(props) {
                 </p>
                 
               :
+              <div>
+                {commentairesList.map((comment, i) => {
+                  return(
+              <Comment
+              actions={[
+                <Tooltip key="comment-basic-like" title="Like">
+                  <span onClick={() => handleLike({i})}>
+                    {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+                    <span className="comment-action">{likes}</span>
+                  </span>
+                </Tooltip>,
+                <Tooltip key="comment-basic-dislike" title="Dislike">
+                  <span onClick={() => handleDislike({i})}> 
+                    {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
+                    <span className="comment-action">{dislikes}</span>
+                  </span>
+                </Tooltip>,
+                <span key="comment-basic-reply-to" style={{backgroundColor:'beige'}}>{comment.nb_likes + " likes"}</span>,
+              ]}
+              author={comment.vote}
+              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+              content={
+                <p>{comment.commentaire}</p>
+              }
+              />) })}
+            </div>
 
-            <List
-              itemLayout="horizontal"
-              dataSource={commentairesList}
-              renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    title=""
-                    description={item.commentaire}
-                  />
-                  {[
-
-                    <Badge count={count} overflowCount={999} style={{cursor:'pointer'}} onClick={() => handleLike()}>
-                    <Avatar icon={icon} />
-                  </Badge>
-                  
-                  ]}
-                </List.Item>
-                
-              )}
-            />
               }
             </div>
             
@@ -451,9 +563,9 @@ function Publication(props) {
           <div>
           {alreadyVoted == true ?
 
-              <p style={{padding:20, fontSize:20}}>
+              <p style={{padding:20, fontSize:20, fontStyle: 'italic'}}>
               Vous avez validez le vote suivant pour cette publication: 
-              <span style={{padding:20, fontWeight:'bold', backgroundColor:"orange"}}>{userVote}</span></p>
+              <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:"orange"}}>{userVote}</span></p>
 
             :
             ""
@@ -470,9 +582,9 @@ function Publication(props) {
               {alreadyCommented == true ?
 
                 
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',width:"100%", height:"100%"}}>
+                <p style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%"}}>
                   Votre Commentaire:    
-                <span style={{padding:20, fontWeight:'bold', backgroundColor:"beige"}}>{userComment}</span>
+                <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:'blue'}}>{userComment}</span>
                 <Button
                   htmlType="submit"
                   onClick="{onSubmit}"
@@ -520,8 +632,22 @@ function Publication(props) {
 }
 
 function mapStateToProps(state) {
-  return { token: state.token, publiToken: state.publiToken };
+  return { token: state.token, publiToken: state.publiToken, commentairesList: state.commentairesList };
 }
 
-export default connect(mapStateToProps, null)(Publication);
- 
+function mapDispatchToProps(dispatch) {
+  return {
+      addToken: function (token) {
+          dispatch({ type: 'addToken', token: token },         
+          )
+  }, updateNbLikes: function(commentairesList){
+        dispatch({ type: 'updateLikes', listComments: commentairesList},         
+          )
+  }
+}
+}
+
+export default connect
+(mapStateToProps,
+  mapDispatchToProps
+  )(Publication);

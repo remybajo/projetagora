@@ -12,8 +12,9 @@ router.post('/sendComment', async function(req, res, next){
       var newComment = new commentModel({
         user_id: user._id,
         publication_id: req.body.publication,
+        vote: req.body.vote,
         commentaire: req.body.commentaire,
-        //nb_likes: Number,
+        nb_likes: 0,
         date: req.body.date
     })
   
@@ -33,14 +34,23 @@ router.post('/sendComment', async function(req, res, next){
     id = req.query.id;
     var result = false;
     var comments = await commentModel.find({publication_id: id});
-    console.log("selected comment: ", comments)
+    //console.log("selected comment: ", comments)
   
     if(comments){
         result = true
-        console.log("comments result: ",result)
+        //console.log("comments result: ",result)
       }
 
     res.json({result, comments})
+})
+
+router.put('/updateLikes/:idComment', async function(req, res, next){
+  var comments = await commentModel.find({_id: req.params.idComment});
+  console.log("comment liked: ",comments)
+
+
+
+  res.json()
 })
 
 module.exports = router;

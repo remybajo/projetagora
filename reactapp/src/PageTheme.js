@@ -37,14 +37,15 @@ import {
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 
-import Politique from "../src/image/Politique.jpg"
-import Education from "../src/image/Education.jpg"
-import Emploi from "../src/image/Emploi.jpg"
-import Environnement from "../src/image/Environnement.jpg"
-import Evenement from "../src/image/Evenement.jpg"
-import Remarquer from "../src/image/Remarquer.jpg"
-import Sport from "../src/image/Sport.jpg"
-import Tourisme from "../src/image/Tourisme.jpg"
+import Politique from "../src/image/Politique.jpg";
+import Education from "../src/image/Education.jpg";
+import Emploi from "../src/image/Emploi.jpg";
+import Environnement from "../src/image/Environnement.jpg";
+import Evenement from "../src/image/Evenement.jpg";
+import Remarquer from "../src/image/Remarquer.jpg";
+import Sport from "../src/image/Sport.jpg";
+import Tourisme from "../src/image/Tourisme.jpg";
+import PiedDePage from "./piedDePage";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -72,36 +73,88 @@ const IconText = ({ icon, text }) => (
 );
 
 function PageTheme(props) {
-  var {theme} = useParams()
-  const [latest, setLatest] = useState([])
-  const [themeArticle, setThemeArticle] = useState(theme)
+  var { theme } = useParams();
+  const [latest, setLatest] = useState([]);
+  const [themeArticle, setThemeArticle] = useState(theme);
 
+  //   useEffect(() => {
+  //      Thematique();
+
+  //   }, []);
 
   useEffect(() => {
-    const Thematique= async () => {
+    const Thematique = async () => {
       var rawResponse = await fetch(`/publicationdb?theme=${theme}`);
       const response = await rawResponse.json();
-      
-     
-      //setThemeArticle(publica[0].thematique)
-      setLatest(response.publicationTheme)
-      
-    }
 
-     Thematique();
- 
-  
-  }, []);
+      setLatest(response.publicationTheme);
+    };
+    Thematique();
+  }, [theme]);
 
-//test
+  //test
 
-console.log("pagetheme mon latest", latest)
-
+  console.log("pagetheme mon latest", latest);
 
   return (
     <Layout className="site-layout-background">
       {" "}
-      <EnTete />
+      <div id="head">
+        <div>
+          <Image
+            preview={false}
+            size={40}
+            className="logo"
+            width={200}
+            src="./image/AGORA.png"
+          />
+        </div>
+        <div>
+          {" "}
+          <p style={{ marginLeft: "50px" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
+          <Button
+            type="primary"
+            size={60}
+            style={{
+              backgroundColor: "rgba(240, 52, 52, 1)",
+              borderColor: "rgba(240, 52, 52, 1)",
+              marginLeft: "50px",
+              boxShadow: "1px 15px 10px grey",
+            }}
+          >
+            Poster votre publication
+          </Button>
+        </div>
+
+        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
+          {" "}
+          <Button
+            type="text"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+          >
+            LOG IN
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "#214C74",
+
+              borderColor: "#214C74",
+            }}
+          >
+            LOG OUT
+          </Button>
+        </div>
+      </div>
       <Layout className="site-layout-background">
         <SideBarDroite />
         <Content
@@ -120,9 +173,7 @@ console.log("pagetheme mon latest", latest)
                 marginLeft: 200,
               }}
             >
-           
-            {themeArticle}
-
+              {theme}
             </h1>
           </Col>
           <Col span={12}>
@@ -163,19 +214,12 @@ console.log("pagetheme mon latest", latest)
                     key="list-vertical-message"
                   />,
                 ]}
-                extra={
-                  <img
-                    width={272}
-                    alt="image de theme"
-                    src={Politique}
-                  />
-                }
+                extra={<img width={272} alt="image de theme" src={Politique} />}
               >
                 <List.Item.Meta
-             
-             title={
-              <Link to={`/publication/${item._id}`}>{item.titre}</Link> 
-            }
+                  title={
+                    <Link to={`/publication/${item._id}`}>{item.titre}</Link>
+                  }
                   description={item.texte}
                 />
                 {item.content}
@@ -184,42 +228,9 @@ console.log("pagetheme mon latest", latest)
           />
         </Content>
       </Layout>
-      <Footer>
-        {" "}
-        <Row>
-          <Col span={8}>
-            NOTRE GROUPE
-            <ul class="un">
-              <li>A propos</li>
-              <li>Notre vision</li>
-              <li>Contact</li>
-            </ul>
-          </Col>
-          <Col span={8}>
-            {" "}
-            ASSISTANCE
-            <ul class="un">
-              <li>Aide</li>
-              <li>Guide</li>
-              <li>Mentions legales</li>
-              <li>CGU</li>
-              <li>Cookies</li>
-            </ul>
-            </Col>
-          <Col span={8}>
-            {" "}
-            RESEAUX SOCIAUX
-            <ul class="un">
-              <li>Facebook</li>
-              <li>Instagram</li>
-              <li>Twitter</li>
-              </ul>
-          </Col>
-        </Row>
-      </Footer>
+      <PiedDePage />
     </Layout>
-);
+  );
 }
 
 export default PageTheme;
-

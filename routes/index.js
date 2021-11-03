@@ -153,12 +153,12 @@ var id = ''
     res.json({result, publiToken, id})
   })
 
-  // route qui permet de récupérer les thématiques
-  // router.get('/thematique', async function(req, res, next){
-
-
-  //   res.json({})
-  // })
+  // route qui permet de récupérer les infos user
+router.get('/infoUser', async function(req, res, next){
+  var userInfo = await userModel.findOne({token : req.query.token})
+console.log(userInfo)
+   res.json({userInfo})
+ })
 
 module.exports = router;
 
@@ -200,6 +200,8 @@ console.log(publicationTheme)
 
 // pour retrouver une publication commentée dans le profil
 router.get("/commentarticle", async function(req, res, next){
+
+  //Récupération des publications ou j'ai commenté
  var publication = [];
 var user = await userModel.findOne({token : req.query.token})
 if (user){
@@ -209,19 +211,23 @@ var article = await commentModel.find
 for (let i=0; i < article.length; i++){
  publication.push(article[i].publication_id)}}
 
-    
+    //Récupération des publications ou j'ai voté
 var publicationVote = [];
- var userVote = await userModel.findOne({token : req.query.token})
- if (userVote){
+ if (user){
  var articleVote = await voteModel.find
  ({user_id : user._id}).populate('publication_id')
  
  for (let i=0; i < articleVote.length; i++){
   publicationVote.push(articleVote[i].publication_id)}}
-  console.log(publicationVote)
-     
+ 
 
-res.json({publication, publicationVote})
+  // Récupération des publications que j'ai créé
+  if (user){
+    var myArticles = await publicationModel.find({user_id : user._id})
+  }
+     console.log(myArticles)
+
+res.json({publication, publicationVote, myArticles})
  })
 
 
@@ -229,10 +235,12 @@ res.json({publication, publicationVote})
   
 
 
-// pour récupérer les données utilisateurs
-// router.get('/user', async function(req, res, next){
-//     res.json({})
-//   })
+// pour bar de recherche
+ router.get('/searchPublication', async function(req, res, next){
+   var allPublications = await publicationModel.find()
+   
+   res.json({allPublications})
+  })
 
 //pour ajouter un vote sur un publication [SI]
 router.post('/addvote', async function (req, res, next) {
@@ -265,8 +273,11 @@ router.post('/addvote', async function (req, res, next) {
 //     res.json({})
 //   })
 
-// pour changer une info user
-// router.update('/changeuser', async function(req, res, next){
+// pour récupérer les infos de la publication
+router.get('/allVotes', async function(req, res, next){
+    var allVotes = await voteModel.find()
+    res.json({allVotes})
+   })
 //     res.json({})
 //   })
 

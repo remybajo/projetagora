@@ -1,15 +1,50 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop, Badge, Modal,
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Image,
+  Card,
+  Avatar,
+  Divider,
+  Row,
+  Col,
+  Tabs,
+  List,
+  Space,
+  Tag,
+  BackTop,
+  Badge,
+  Modal,
+  Statistic,
 } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import {
-  SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
-  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
-  DownCircleFilled} from "@ant-design/icons";
+  SettingOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+  DownloadOutlined,
+  TwitterOutlined,
+  FacebookOutlined,
+  LinkedinOutlined,
+  UserOutlined,
+  MessageOutlined,
+  LikeOutlined,
+  StarOutlined,
+  MailOutlined,
+  CalendarOutlined,
+  AppstoreOutlined,
+  LinkOutlined,
+  DownCircleFilled,
+  SolutionOutlined,
+  ArrowUpOutlined,
+  EditFilled,
+} from "@ant-design/icons";
 import SideBarDroite from "./SideBarDroite";
 import EnTete from "./EnTete";
+import Plot from 'react-plotly.js';
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 
@@ -52,11 +87,14 @@ function Accueil(props) {
   const [latest, setLatest] = useState([]);
   const [allPublications, setAllPublications] = useState([]);
   const [populaires, setPopulaires] = useState([]);
+  const [votes, setVotes] = useState([]);
+  
+
+
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
     const findPublications = async () => {
-      
       // Recup articles les plus récents
       const publications = await fetch("publications/lastPublications");
       const body = await publications.json();
@@ -70,11 +108,11 @@ function Accueil(props) {
     //recup articles les plus populaires
     const popPublications = async () => {
       const plusPopulaires = await fetch("publications/populaires");
-    const res_populaires = await plusPopulaires.json();
-    console.log("populaires: ", res_populaires.topPublications)
-    setPopulaires(res_populaires.topPublications);
+      const res_populaires = await plusPopulaires.json();
+      console.log("populaires: ", res_populaires.topPublications);
+      setPopulaires(res_populaires.topPublications);
     };
-    popPublications(); 
+    popPublications();
 
     // recup de toutes les publications
     const allPublications = async () => {
@@ -82,6 +120,8 @@ function Accueil(props) {
       const response = await listPublications.json();
       console.log("all: ", response.allPublications);
       setAllPublications(response.allPublications);
+    
+      
     };
     allPublications();
   }, []);
@@ -90,27 +130,31 @@ function Accueil(props) {
     var toRead = publication;
     return (
       <Carousel.Item>
-        <img
+        <img style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent:"center",
+          width: "50px",
+          height: "400px",
+        }}
           className="d-block w-100"
           src={publication.image}
           alt="First slide"
         />
         <Carousel.Caption
-          style={{
+        >
+          <h3  style={{
             display: "flex",
             flexDirection: "column",
-            width: "80%",
-            height: "30%",
-            backgroundColor: "lightBlue",
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          <h3>{publication.titre}</h3>
-          <p>{publication.texte}</p>
+            justifyContent:"start",
+            backgroundColor:"#edc5c4",
+            alignItems : "center",
+            
+          }}>{publication.titre}</h3>
+         
           <Link to={`/publication/${toRead._id}`}>
             <Button type="button" class="btn-danger">
-              REAGIR
+              VOIR
             </Button>
           </Link>
         </Carousel.Caption>
@@ -122,33 +166,54 @@ function Accueil(props) {
     var toRead = publication;
     return (
       <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={publication.image}
-          alt="First slide"
-        />
-        <Carousel.Caption
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "80%",
-            height: "30%",
-            backgroundColor: "lightBlue",
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          <h3>{publication.titre}</h3>
-          <p>{publication.texte}</p>
-          <Link to={`/publication/${toRead._id}`}>
-            <Button type="button" class="btn-danger">
-              REAGIR
-            </Button>
-          </Link>
-        </Carousel.Caption>
-      </Carousel.Item>
+      <img style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent:"center",
+        width: "50px",
+        height: "400px",
+      }}
+        className="d-block w-100"
+        src={publication.image}
+        alt="First slide"
+      />
+      <Carousel.Caption
+      >
+        <h3  style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent:"start",
+          backgroundColor:"#edc5c4",
+          alignItems : "center",
+          
+        }}>{publication.titre}</h3>
+      
+        <Link to={`/publication/${toRead._id}`}>
+          <Button type="button" class="btn-danger">
+            VOIR
+          </Button>
+        </Link>
+      </Carousel.Caption>
+    </Carousel.Item>
     );
   });
+
+  ///Récupération nombre de vote
+  useEffect(() => {
+    const findVotes = async () => {
+      // Recup articles les plus récents
+      const votes = await fetch("/allVotes");
+      const body = await votes.json();
+      
+      // console.log("3 articles", body.latest);
+      setVotes(body.allVotes);
+      console.log(body)
+    };
+    findVotes();
+  }, []);
+
+ 
+ 
 
   return (
     /* header */
@@ -182,6 +247,32 @@ function Accueil(props) {
             Poster votre publication
           </Button>
         </div>
+
+        <div style={{ marginTop: "40px", marginLeft: "40px" }}>
+          {" "}
+          <Button
+            type="text"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+          >
+            LOG IN
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "#214C74",
+
+              borderColor: "#214C74",
+            }}
+          >
+            LOG OUT
+          </Button>
+        </div>
       </div>
 
       <Layout className="site-layout-background">
@@ -191,18 +282,15 @@ function Accueil(props) {
         >
           <Row justify="center">
             <Tabs type="card" style={{ width: 900, height: 600, padding: 15 }}>
-
               <TabPane tab="A la une " key="1">
                 <Carousel>{publiCards}</Carousel>
               </TabPane>
 
-              <TabPane tab="Les plus populaire" key="2">
+              <TabPane tab="Les plus populaires" key="2">
                 <Carousel>{topPublications}</Carousel>
               </TabPane>
-              
             </Tabs>
           </Row>
-
           <Row>
             <Col
               justify="start"
@@ -221,10 +309,7 @@ function Accueil(props) {
                 since the 1500s, when an unknown printer took a galley of type
                 and scrambled it to make a type specimen book. It has survived
                 not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised
-                in the 1960s with the release of Letraset sheets containing
-                Lorem Ipsum passages, and more recently with desktop publishing
-                software like Aldus PageMaker including versions of Lorem Ipsum.
+                typesetting, remaining essentially unchanged.
               </p>
               <div id="ical">
                 <DownCircleFilled
@@ -238,10 +323,9 @@ function Accueil(props) {
               </div>
             </Col>
             <Col id="illustration2" span={12}>
-              col
+              
             </Col>
           </Row>
-
           <Row justify="center">
             <Col span="2"></Col>
             <Col span="20">
@@ -258,12 +342,11 @@ function Accueil(props) {
                   borderRadius: "30px",
                 }}
               >
-                Les questions
+                Toutes les Publications
               </h1>
             </Col>
             <Col span="2"></Col>
           </Row>
-
           <List
             itemLayout="vertical"
             size="large"
@@ -276,18 +359,14 @@ function Accueil(props) {
             dataSource={allPublications}
             footer={
               <div>
-                <b>ant design</b> footer part
+               
               </div>
             }
             renderItem={(publication) => (
               <List.Item
                 key={publication.titre}
                 actions={[
-                  <IconText
-                    icon={StarOutlined}
-                    text="156"
-                    key="list-vertical-star-o"
-                  />,
+                 
                   <IconText
                     icon={LikeOutlined}
                     text="156"
@@ -299,10 +378,10 @@ function Accueil(props) {
                     key="list-vertical-message"
                   />,
                 ]}
-                extra={<img width={272} alt="logo" src={publication.image} />}
+                extra={<img width="272" height="150" alt="logo" src={publication.image} />}
               >
                 <List.Item.Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                 
                   title={
                     <Link to={`/publication/${publication._id}`}>
                       {publication.titre}
@@ -316,7 +395,8 @@ function Accueil(props) {
           />
           <Row
             style={{
-              backgroundColor: "#0A1C37",
+              backgroundColor: "#C9F6F5",
+
               borderRadius: "20px",
               marginTop: "60px",
               marginBottom: "60px",
@@ -325,7 +405,7 @@ function Accueil(props) {
             <Col
               span={12}
               style={{
-                color: "white",
+                color: "black",
                 backgroundColor: "transparent",
                 textAlign: "center",
                 padding: "20px",
@@ -334,7 +414,7 @@ function Accueil(props) {
               {" "}
               <h3
                 style={{
-                  color: "white",
+                  color: "black",
                 }}
               >
                 {" "}
@@ -358,30 +438,56 @@ function Accueil(props) {
                 type="primary"
                 size={100}
                 style={{
-                  backgroundColor: "rgba(240, 52, 52, 1)",
-                  borderColor: "rgba(240, 52, 52, 1)",
+                  backgroundColor: "#0E9C98",
+                  borderColor: "#0E9C98",
                   borderRadius: "30px",
                   marginLeft: "50px",
                   marginTop: "60px",
                 }}
               >
-                LOG IN
-              </Button>
-              <Button
-                type="primary"
-                size={100}
-                style={{
-                  backgroundColor: "#78ECE8",
-                  borderColor: "#78ECE8",
-                  borderRadius: "30px",
-                  marginLeft: "50px",
-                  marginTop: "60px",
-                }}
-              >
-                LOG OUT
+                Crée ton profil <SolutionOutlined />
               </Button>
             </Col>
           </Row>
+          <div
+            className="site-statistic-demo-card"
+            style={{ marginBottom: "30px" }}
+          >
+            <h3
+              style={{
+                color: "white",
+                textAlign: "center",
+                marginBottom: "30px",
+                marginLeft: "400px",
+              }}
+            >
+              {" "}
+              ILs ont donné leur avis...
+            </h3>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Card>
+                  <Statistic
+                    title="Nombre de publication"
+                    value={allPublications.length}
+                    valueStyle={{ color: "#3f8600" }}
+                    suffix={<EditFilled />}
+                    
+                  />
+                </Card>
+              </Col>
+              <Col span={12}>
+                <Card>
+                  <Statistic
+                    title="Nombre de votes"
+                    value={votes.length}
+                    valueStyle={{ color: "#3f8600" }}
+                    suffix={<UserOutlined />}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </Content>
       </Layout>
       <Footer className="footer" style={{ textAlign: "left" }}>
