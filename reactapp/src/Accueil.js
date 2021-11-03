@@ -48,6 +48,7 @@ import Plot from 'react-plotly.js';
 import SearchBar from "./Components/SearchBar";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
+import AGORA from "../src/image/AGORA.png"
 
 
 const { Content, Footer } = Layout;
@@ -238,18 +239,20 @@ console.log("dans publicationTitre", publicationTitre)
 
 
     /* header */
-    <Layout className="site-layout-background">
+    <Layout className='layout' style={{ margin: 10, backgroundColor:'white'}}>
       
       <div id="head" style={{display:"flex"}}>
       
-        <div>
+        <div >
+        <div style={{display:"flex", justifyContent:"space-between"}}>
           <Image
             preview={false}
             size={40}
             className="logo"
-            width={200}
-            src="./image/AGORA.png"
+            width={150}
+            src={AGORA}
           />
+<<<<<<< HEAD
         <p style={{ marginLeft: "50px" }}>
             {" "}
             Donnez votre avis d'une manière différente{" "}
@@ -265,6 +268,53 @@ console.log("dans publicationTitre", publicationTitre)
           <Button
             type="primary"
             size={100}
+=======
+           <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
+        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
+      </div>
+          <div>
+            {" "}
+            <Button
+          size={20}
+            type="text"
+>>>>>>> derniere
+            style={{
+             
+              backgroundColor: "#214C74",
+              borderColor: "#214C74",
+            }}
+          >
+            LOG IN
+          </Button>
+          
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+            >
+            LOG OUT
+          </Button>
+            </div>
+            </div>
+          <div>
+           <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
+          </div>
+        </div>
+       
+        <div>
+          
+         
+          
+          <Button
+            type="primary"
+            size={100}
             style={{
               backgroundColor: "rgba(240, 52, 52, 1)",
               borderColor: "rgba(240, 52, 52, 1)",
@@ -276,32 +326,7 @@ console.log("dans publicationTitre", publicationTitre)
           </Button>
         </div>
 
-        <div style={{ marginTop: "40px", marginLeft: "40px" }}>
-          {" "}
-          <Button
-            type="text"
-            style={{
-              backgroundColor: "transparent",
-              color: "#214C74",
-
-              borderColor: "transparent",
-            }}
-          >
-            LOG IN
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            type="link"
-            style={{
-              backgroundColor: "#214C74",
-
-              borderColor: "#214C74",
-            }}
-          >
-            LOG OUT
-          </Button>
-          
-        </div>
+        
         
       </div>
 

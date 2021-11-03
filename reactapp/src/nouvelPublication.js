@@ -44,6 +44,8 @@ import Remarquer from "../src/image/Remarquer.jpg";
 import Sport from "../src/image/Sport.jpg";
 import Tourisme from "../src/image/Tourisme.jpg";
 import PiedDePage from "./piedDePage";
+import SearchBar from "./Components/SearchBar";
+import AGORA from "../src/image/AGORA.png"
 
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
@@ -67,9 +69,20 @@ function NouvelPublication(props) {
   const [validatePicture, setValidatePicture] = useState(false);
   const [id, setId] = useState();
   const [image, setImage] = useState();
+  const [publicationTitre, setPublicationTitre] = useState();
   var illustration;
   var border = { border: "" };
   var idP = "";
+
+  useEffect(() => {
+    const findPublications = async () => {
+        const toutePublication = await fetch("/searchPublication");
+        const res_publication = await toutePublication.json();
+        console.log("ma res_publication", res_publication.allPublications)
+        setPublicationTitre(res_publication.allPublications)
+    }; findPublications()
+}, []);
+var publicationT=publicationTitre
 
   useEffect(() => {
     var dateKnow = async () => {
@@ -265,42 +278,40 @@ function NouvelPublication(props) {
     }
   };
 
+ 
+
   return (
     <div>
-      <div id="head">
-        <div>
-          <Image
-            preview={false}
-            size={40}
-            className="logo"
-            width={200}
-            src="./image/AGORA.png"
-          />
-        </div>
+      <div id="head" style={{display:"flex"}}>
+      
+      <div >
+      <div style={{display:"flex", justifyContent:"space-between"}}>
+        <Image
+          preview={false}
+          size={40}
+          className="logo"
+          width={150}
+          src={AGORA}
+        />
+         <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
+        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
+      </div>
         <div>
           {" "}
-          <p style={{ marginLeft: "50px" }}>
-            {" "}
-            Donnez votre avis d'une manière différente{" "}
-          </p>
           <Button
-            type="primary"
-            size={60}
+          size={20}
+            type="text"
             style={{
-              backgroundColor: "rgba(240, 52, 52, 1)",
-              borderColor: "rgba(240, 52, 52, 1)",
-              marginLeft: "50px",
-              boxShadow: "1px 15px 10px grey",
+             
+              backgroundColor: "#214C74",
+              borderColor: "#214C74",
             }}
           >
-            Poster votre publication
+            LOG IN
           </Button>
-        </div>
-
-        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
-          {" "}
+          
           <Button
-            type="text"
+            type="link"
             style={{
               backgroundColor: "transparent",
               color: "#214C74",
@@ -308,21 +319,39 @@ function NouvelPublication(props) {
               borderColor: "transparent",
             }}
           >
-            LOG IN
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            type="link"
-            style={{
-              backgroundColor: "#214C74",
-
-              borderColor: "#214C74",
-            }}
-          >
             LOG OUT
           </Button>
+          </div>
+          </div>
+        <div>
+         <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
+          {" "}
+          Donnez votre avis d'une manière différente{" "}
+        </p>
         </div>
       </div>
+  
+      <div>
+        
+       
+        
+        <Button
+          type="primary"
+          size={100}
+          style={{
+            backgroundColor: "rgba(240, 52, 52, 1)",
+            borderColor: "rgba(240, 52, 52, 1)",
+            marginLeft: "50px",
+            boxShadow: "1px 15px 10px grey",
+          }}
+        >
+          Poster votre publication
+        </Button>
+      </div>
+
+      
+      
+    </div>
 
       <Row>
         <SideBarDroite />
