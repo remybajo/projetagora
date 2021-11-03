@@ -147,7 +147,13 @@ console.log("dans publicationTitre", publicationTitre)
     var toRead = publication;
     return (
       <Carousel.Item key={i}>
-        <img
+        <img style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent:"center",
+        width: "50px",
+        height: "400px",
+      }}
           className="d-block w-100"
           src={publication.image}
           alt="First slide"
