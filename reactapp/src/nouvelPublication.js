@@ -184,7 +184,7 @@ function NouvelPublication(props) {
   const onSearch = (value) => {
     var listeMotCle = motCle;
     listeMotCle.push(value);
-    console.log("la liste", listeMotCle);
+    console.log("ma value", value);
     setMotCle(listeMotCle);
   };
 

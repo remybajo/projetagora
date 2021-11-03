@@ -2,6 +2,16 @@ import React from "react";
 import { Col, Layout, Card, Row, Button } from "antd";
 import "antd/dist/antd.css";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+
+import Politique from "../src/image/Politique.jpg"
+import Education from "../src/image/Education.jpg"
+import Emploi from "../src/image/Emploi.jpg"
+import Environnement from "../src/image/Environnement.jpg"
+import Evenement from "../src/image/Evenement.jpg"
+import Remarquer from "../src/image/Remarquer.jpg"
+import Sport from "../src/image/Sport.jpg"
+import Tourisme from "../src/image/Tourisme.jpg"
+
 const { Header, Content, Footer, Sider } = Layout;
 
 const { Meta } = Card;
@@ -76,7 +86,7 @@ function Thematique(props) {
           cover={
             <img
               alt="example"
-              src="../public/image/Emploi.jpg"
+              src="./image/Emploi.jpg"
               style={{ width: 200 }}
             />
           }
@@ -109,7 +119,7 @@ function Thematique(props) {
           cover={
             <img
               alt="example"
-              src="../public/image/Politique.jpg"
+              src={Politique}
               style={{ width: 200 }}
             />
           }

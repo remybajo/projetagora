@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect, useParams } from "react-router-dom";
 import {
-  Button,
   Layout,
   Menu,
-  Image,
   Card,
-  Avatar,
-  Divider,
   Row,
   Col,
   Tabs,
@@ -17,21 +13,9 @@ import {
 } from "antd";
 import "antd/dist/antd.css";
 import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
   MessageOutlined,
   LikeOutlined,
   StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
   ArrowRightOutlined,
 } from "@ant-design/icons";
 import EnTete from "./EnTete";
