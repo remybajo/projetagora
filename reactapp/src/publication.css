@@ -1,16 +1,9 @@
 .layout {
-  background-image: url("./language-school-illustration-13-1400x411.png");
+  
   background-color: 'white';
 }
 
-#head {
-  display: flex;
-  flex-direction: column;
-  background-image: url("./language-school-01-1400x426.png");
-  height: 300px;
- 
-  border-bottom: 2px solid #214C74;
-}
+
 #illustration2 {
   background-image: url("./language-school-illustration-01.png");
   height: 400px;

@@ -9,6 +9,7 @@ import {
   Modal,
 } from "antd";
 import "antd/dist/antd.css";
+import"./App.css"
 import {
   TwitterOutlined,
   FacebookOutlined,
