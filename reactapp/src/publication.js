@@ -279,8 +279,6 @@ var handleDislike = (i) => {
     //setAlreadyCommented(false)
   }
 
-
-
   var labels = [];
   var values = [];
   var genderLabels = [];
@@ -311,15 +309,7 @@ var handleDislike = (i) => {
       type: "pie",
       hoverinfo: 'none',
       text: labels,
-      hoverinfo: 'none',
-      marker: {'colors': [
-        "#FFC806",  //adore
-        "#EDAC06",  //pour
-        "#DAA419",  //mitigé
-        "#BE833D",  //contre
-        "#966215"  //déteste
-       ] 
-    },
+      hoverinfo: 'none'
     }];
 
     var dataGender = [
@@ -346,41 +336,42 @@ var handleDislike = (i) => {
       <Layout>
         
         <SideBarDroite/>
-      <Content style={{margin:10}}>   
+      <Content style={{margin:0}}>   
       <Row
         gutter={{ xs: 24, sm: 24, md: 12 }}
         className="site-layout-background"
         justify="center"
         align="top"
-        style={{ margin: 5, padding:5 }}
+        style={{ margin: 10, padding:10, height:"60%" }}
       >
         <div style={{ width:"100%", height:"100%", display: "flex" }}>
 
           <Col
-            span={8} className="gutter-row"
+            span={9} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               margin: 5,
-              
-              
+                     
             }}
           >
             <h1 style={{ color: "#37A4B2", fontSize: "200%" }}>
               {content.titre}
             </h1>
 
+            <div style={{display:'flex', alignItems:'center'}}>
             <img
               src={content.image}
-              style={{ width: "70%", position: "relative" }}
+              style={{ width: "40%", margin:5, position: "relative" }}
             />
-
-            <p>{content.texte}</p>
             
+            <p style={{padding:5}}>{content.texte}</p>
+
+            </div>
           </Col>
-          <Col span={8} className="gutter-row"
+          <Col span={7} className="gutter-row"
           style={{margin:5, display:'flex', flexDirection:'row', justifyContent:'center'}}>
            
             {alreadyVoted ?
@@ -388,7 +379,7 @@ var handleDislike = (i) => {
             <Plot
             data={data}
             layout={ {width: 400, height: 400, title: 'Résultat du Vote',
-             paper_bgcolor:'#919191', legend: {orientation: 'h', side: 'top'},
+             paper_bgcolor:'#F2F3F4', legend: {orientation: 'h', side: 'top'},
              showticklabels: true, showlegend:false
                 } } 
             />
@@ -396,8 +387,8 @@ var handleDislike = (i) => {
             </div>
 
             :
-            <div style={{height:"100%", width:"100%", backgroundColor:'beige' ,display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
-            <h1>VOTRE VOTE</h1>
+            <div style={{height:"100%", width:"100%",display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
+            <h1>VOTEZ</h1>
           
           
             <Radio.Group
@@ -481,12 +472,11 @@ var handleDislike = (i) => {
             />
           </Col> */}
           <Col
-            span={8} className="gutter-row"
+            span={7} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
-              backgroundColor:"#FFFFFF",
-              border: "2px solid beige",
+             
               padding:20,
               margin: 5,
               color:"blue"
@@ -535,14 +525,15 @@ var handleDislike = (i) => {
           </Col>
         </div>
       </Row>
-      <Row gutter={{ xs: 24, sm: 24, md: 12 }}>
+      <Row  gutter={{ xs: 20, sm: 20, md: 12 }} style={{height:"20%"}}>
         <Col
         className="gutter-row"
-          span={24}
+          span={20}
           style={{
             display: "flex",
-            alignItems: "center",            
-            backgroundColor: "lightBlue",
+            justifyContent:'center',
+            alignItems: "center",
+            
           }}
         >          
           <div>
@@ -561,13 +552,13 @@ var handleDislike = (i) => {
       </Row>
 
       <Row>
-        <Col span={24} className="gutter-row"> 
+        <Col span={20} className="gutter-row" > 
           
-          <div>
+          <div style={{width:"100%", display:'flex', justifyContent:'center'}}>
               {alreadyCommented == true ?
 
                 
-                <p style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%"}}>
+                <div style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%", display:'flex', justifyContent:'center'}}>
                   Votre Commentaire:    
                 <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:'blue'}}>{userComment}</span>
                 <Button
@@ -579,13 +570,13 @@ var handleDislike = (i) => {
                 Supprimer le commentaire
                 </Button> 
                 {messageCom}
-                </p>
+                </div>
                 
               :
-          <div>
+          <div style={{width:"100%"}}>
           <Form.Item>
             <TextArea
-              rows={5}
+              rows={4}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Tapez votre commentaire"
               value={comment}
