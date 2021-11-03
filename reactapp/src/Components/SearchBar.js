@@ -1,7 +1,26 @@
 import React, { useState } from "react";
 import { ArrowLeftOutlined, StopOutlined } from '@ant-design/icons';
 import "antd/dist/antd.css";
-import "./SearchµBar.css";
+import "./SearchBar.css";
+import {
+    Layout,
+    Menu,
+    Breadcrumb,
+    Image,
+    Card,
+    Avatar,
+    Divider,
+    Row,
+    Col,
+    Tabs,
+    List,
+    Space,
+    Tag,
+    BackTop,
+    Badge,
+    Modal,
+    Statistic,
+  } from "antd";
 import { Redirect } from "react-router-dom";
 
 function SearchBar({ placeholder, data }) {
@@ -50,10 +69,10 @@ function SearchBar({ placeholder, data }) {
     return (
         <div className="searchBar">
             <div className="search">
-                <div className="searchInputs flex-container">
-                    <input type="text" placeholder={placeholder} onChange={handleFilter} value={wordEntered}></input>
+                <div  className="searchInputs flex-container">
+                    <input style={{width:"100%", borderRadius:"5%", borderColor:"#214C74"}} type="text" placeholder={placeholder} onChange={handleFilter} value={wordEntered}></input>
                     <div className="searchIcon">
-                        {filteredData.length === 0 ? <ArrowLeftOutlined/> : <StopOutlined id="clearBtn" onClick={Erase}/>}
+                        {filteredData.length === 0 ? "" : <StopOutlined id="clearBtn" onClick={Erase}/>}
                         
                     </div>
 
@@ -61,7 +80,11 @@ function SearchBar({ placeholder, data }) {
                 {filteredData.length !== 0 && (
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
-                        return <div className="dataItem" target="_blank" value={wordEntered}  key={key} id={value._id} onClick={() => {versPublication(value._id)}}><p>{value.titre}</p> </div> 
+                        return <div className="dataItem" target="_blank" value={wordEntered}  key={key} id={value._id} onClick={() => {versPublication(value._id)}}>
+                      
+                            <p>{value.titre}</p> </div> 
+                         
+                          
                     })}
                 </div>)}
             </div>

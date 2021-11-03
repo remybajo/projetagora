@@ -45,9 +45,10 @@ import {
 import SideBarDroite from "./SideBarDroite";
 import EnTete from "./EnTete";
 import Plot from 'react-plotly.js';
+import SearchBar from "./Components/SearchBar";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
-import SearchBar from "./Components/SearchBar";
+
 
 const { Content, Footer } = Layout;
 
@@ -238,10 +239,9 @@ console.log("dans publicationTitre", publicationTitre)
 
     /* header */
     <Layout className="site-layout-background">
-      <div className="searchbar">
-        <SearchBar placeholder="chercher une publication" data={publicationT}/>
-      </div>
-      <div id="head">
+      
+      <div id="head" style={{display:"flex"}}>
+      
         <div>
           <Image
             preview={false}
@@ -250,13 +250,18 @@ console.log("dans publicationTitre", publicationTitre)
             width={200}
             src="./image/AGORA.png"
           />
+        
         </div>
+        <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
+        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
+      </div>
         <div>
           {" "}
           <p style={{ marginLeft: "50px" }}>
             {" "}
             Donnez votre avis d'une manière différente{" "}
           </p>
+          
           <Button
             type="primary"
             size={100}
@@ -295,7 +300,9 @@ console.log("dans publicationTitre", publicationTitre)
           >
             LOG OUT
           </Button>
+          
         </div>
+        
       </div>
 
       <Layout className="site-layout-background">
