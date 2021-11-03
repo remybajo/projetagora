@@ -253,7 +253,7 @@ var handleDislike = (i) => {
   var idComment = commentairesList[index]._id
    
   setLikes(0);
-  //setDislikes(1);
+  setDislikes(1);
   setAction('disliked');
 
   if(commentairesList[index].nb_likes>0){
@@ -522,7 +522,7 @@ var handleDislike = (i) => {
                   return(
               <Comment
               actions={[
-                <Tooltip key={i} title="Like">
+                <Tooltip key="comment-basic-like" title="Like">
                   <span onClick={() => handleLike({i})}>
                     {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
                     <span className="comment-action">{likes}</span>
