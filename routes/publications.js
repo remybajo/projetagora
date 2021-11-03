@@ -129,8 +129,8 @@ router.get('/selectedPublication', async function(req, res, next){
   // récup data votes
   votes = await voteModel.find({publication_id: id});
   
-  voters = await voteModel.find({publication_id: id}).populate('user_id');
-  //console.log("voters: ", voters)
+  var voters = await voteModel.find({publication_id: id}).populate('user_id');
+  console.log("voters: ", voters)
 
   var gender = [{genre: "hommes", nbre:0}, {genre: "femmes", nbre:0}]
   for(var i=0;i<voters.length;i++){
