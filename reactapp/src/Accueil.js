@@ -225,7 +225,7 @@ console.log("dans publicationTitre", publicationTitre)
 
  
  
-
+  if(publicationTitre !== undefined){
   return (
 
 

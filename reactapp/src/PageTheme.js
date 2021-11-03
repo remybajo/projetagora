@@ -10,6 +10,9 @@ import {
   Space,
   List,
   Statistic,
+  Image,
+  Button,
+  Divider
 } from "antd";
 import "antd/dist/antd.css";
 import {
