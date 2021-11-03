@@ -43,6 +43,7 @@ import Evenement from "../src/image/Evenement.jpg";
 import Remarquer from "../src/image/Remarquer.jpg";
 import Sport from "../src/image/Sport.jpg";
 import Tourisme from "../src/image/Tourisme.jpg";
+import PiedDePage from "./piedDePage";
 
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
@@ -265,13 +266,66 @@ function NouvelPublication(props) {
   };
 
   return (
-    <div style={{ justifyContent: "center" }}>
-      <EnTete />
+    <div>
+      <div id="head">
+        <div>
+          <Image
+            preview={false}
+            size={40}
+            className="logo"
+            width={200}
+            src="./image/AGORA.png"
+          />
+        </div>
+        <div>
+          {" "}
+          <p style={{ marginLeft: "50px" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
+          <Button
+            type="primary"
+            size={60}
+            style={{
+              backgroundColor: "rgba(240, 52, 52, 1)",
+              borderColor: "rgba(240, 52, 52, 1)",
+              marginLeft: "50px",
+              boxShadow: "1px 15px 10px grey",
+            }}
+          >
+            Poster votre publication
+          </Button>
+        </div>
+
+        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
+          {" "}
+          <Button
+            type="text"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
+          >
+            LOG IN
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="link"
+            style={{
+              backgroundColor: "#214C74",
+
+              borderColor: "#214C74",
+            }}
+          >
+            LOG OUT
+          </Button>
+        </div>
+      </div>
 
       <Row>
-        <Col span={4}>
-          <SideBarDroite />
-        </Col>
+        <SideBarDroite />
 
         <Col span={17} align="center">
           <div
@@ -366,6 +420,7 @@ function NouvelPublication(props) {
           <div id="illustNewPub"> </div>
         </Col>
       </Row>
+      <PiedDePage />
     </div>
   );
 }

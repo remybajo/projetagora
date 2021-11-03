@@ -40,7 +40,7 @@ const { Meta } = Card;
 const { TabPane } = Tabs;
 
 function EnTete(props) {
-  console.log('les props de la page entete', props)
+  console.log("les props de la page entete", props);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [modal, setModal] = useState(false);
@@ -65,13 +65,10 @@ function EnTete(props) {
     }
   };
 
-
-
-  var connexion = "connexion/inscription"
-
+  var connexion = "connexion/inscription";
 
   return (
-    <Row>
+    <Row span={24}>
       <Modal
         title={connexion}
         style={{ displayflex: 1, width: 150 }}
@@ -82,64 +79,67 @@ function EnTete(props) {
         <Inscription />{" "}
       </Modal>
 
-      <Col span={6}>
-        {" "}
-        <Image
-          preview={false}
-          size={40}
-          className="logo"
-          width={200}
-          src="./image/AGORA.png"
-        />
-      </Col>
-      <Col span={6}></Col>
-      <Col span={6}></Col>
-      <Col span={6} className="social-icons">
-        {" "}
-        <TwitterOutlined
-          style={{ fontSize: "20px", color: "#214C74" }}
-          key="twitter"
-        />
-        <Divider type="vertical" />
-        <FacebookOutlined
-          style={{ fontSize: "20px", color: "#214C74" }}
-          key="facebook"
-        />
-        <Divider type="vertical" />
-        <LinkedinOutlined
-          style={{ fontSize: "20px", color: "#214C74" }}
-          key="linkedin"
-        />
-        <div style={{ marginTop: 30 }}>
+      <div id="head">
+        <div>
+          <Image
+            preview={false}
+            size={40}
+            className="logo"
+            width={200}
+            src="./image/AGORA.png"
+          />
+        </div>
+        <div>
+          {" "}
+          <p style={{ marginLeft: "50px" }}>
+            {" "}
+            Donnez votre avis d'une manière différente{" "}
+          </p>
+          <Button
+            type="primary"
+            size={60}
+            style={{
+              backgroundColor: "rgba(240, 52, 52, 1)",
+              borderColor: "rgba(240, 52, 52, 1)",
+              marginLeft: "50px",
+              boxShadow: "1px 15px 10px grey",
+            }}
+          >
+            Poster votre publication
+          </Button>
+        </div>
+
+        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
           {" "}
           <Button
-            onClick={() => handleClick()}
-            icon={<UserOutlined />}
-            size={100}
-            style={{ Color: "white", borderColor: "#214C74", width: 100 }}
+            type="text"
+            style={{
+              backgroundColor: "transparent",
+              color: "#214C74",
+
+              borderColor: "transparent",
+            }}
           >
-            Log-in
+            LOG IN
           </Button>
           <Divider type="vertical" />
           <Button
-            type="primary"
-            icon={<UserOutlined />}
-            size={100}
-            style={{ backgroundColor: "#214C74", borderColor: "#214C74", width: 100 }}
+            type="link"
+            style={{
+              backgroundColor: "#214C74",
+
+              borderColor: "#214C74",
+            }}
           >
-            Log out
+            LOG OUT
           </Button>
         </div>
-      </Col>
+      </div>
     </Row>
   );
 }
 
-function mapStateToProps(state){
-  return {token:state.token}
+function mapStateToProps(state) {
+  return { token: state.token };
 }
-export default connect(
-  mapStateToProps,
-  null
- 
-)(EnTete)
+export default connect(mapStateToProps, null)(EnTete);

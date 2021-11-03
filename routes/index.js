@@ -153,12 +153,12 @@ var id = ''
     res.json({result, publiToken, id})
   })
 
-  // route qui permet de récupérer les thématiques
-  // router.get('/thematique', async function(req, res, next){
-
-
-  //   res.json({})
-  // })
+  // route qui permet de récupérer les infos user
+router.get('/infoUser', async function(req, res, next){
+  var userInfo = await userModel.findOne({token : req.query.token})
+console.log(userInfo)
+   res.json({userInfo})
+ })
 
 module.exports = router;
 
@@ -273,8 +273,11 @@ router.post('/addvote', async function (req, res, next) {
 //     res.json({})
 //   })
 
-// pour changer une info user
-// router.update('/changeuser', async function(req, res, next){
+// pour récupérer les infos de la publication
+router.get('/allVotes', async function(req, res, next){
+    var allVotes = await voteModel.find()
+    res.json({allVotes})
+   })
 //     res.json({})
 //   })
 

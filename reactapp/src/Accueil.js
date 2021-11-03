@@ -44,6 +44,7 @@ import {
 } from "@ant-design/icons";
 import SideBarDroite from "./SideBarDroite";
 import EnTete from "./EnTete";
+import Plot from 'react-plotly.js';
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 
@@ -86,6 +87,10 @@ function Accueil(props) {
   const [latest, setLatest] = useState([]);
   const [allPublications, setAllPublications] = useState([]);
   const [populaires, setPopulaires] = useState([]);
+  const [votes, setVotes] = useState([]);
+  
+
+
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -115,6 +120,8 @@ function Accueil(props) {
       const response = await listPublications.json();
       console.log("all: ", response.allPublications);
       setAllPublications(response.allPublications);
+    
+      
     };
     allPublications();
   }, []);
@@ -123,27 +130,31 @@ function Accueil(props) {
     var toRead = publication;
     return (
       <Carousel.Item>
-        <img
+        <img style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent:"center",
+          width: "50px",
+          height: "400px",
+        }}
           className="d-block w-100"
           src={publication.image}
           alt="First slide"
         />
         <Carousel.Caption
-          style={{
+        >
+          <h3  style={{
             display: "flex",
             flexDirection: "column",
-            width: "80%",
-            height: "30%",
-            backgroundColor: "lightBlue",
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          <h3>{publication.titre}</h3>
-          <p>{publication.texte}</p>
+            justifyContent:"start",
+            backgroundColor:"#edc5c4",
+            alignItems : "center",
+            
+          }}>{publication.titre}</h3>
+         
           <Link to={`/publication/${toRead._id}`}>
             <Button type="button" class="btn-danger">
-              REAGIR
+              VOIR
             </Button>
           </Link>
         </Carousel.Caption>
@@ -155,33 +166,54 @@ function Accueil(props) {
     var toRead = publication;
     return (
       <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={publication.image}
-          alt="First slide"
-        />
-        <Carousel.Caption
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "80%",
-            height: "30%",
-            backgroundColor: "lightBlue",
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          <h3>{publication.titre}</h3>
-          <p>{publication.texte}</p>
-          <Link to={`/publication/${toRead._id}`}>
-            <Button type="button" class="btn-danger">
-              REAGIR
-            </Button>
-          </Link>
-        </Carousel.Caption>
-      </Carousel.Item>
+      <img style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent:"center",
+        width: "50px",
+        height: "400px",
+      }}
+        className="d-block w-100"
+        src={publication.image}
+        alt="First slide"
+      />
+      <Carousel.Caption
+      >
+        <h3  style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent:"start",
+          backgroundColor:"#edc5c4",
+          alignItems : "center",
+          
+        }}>{publication.titre}</h3>
+      
+        <Link to={`/publication/${toRead._id}`}>
+          <Button type="button" class="btn-danger">
+            VOIR
+          </Button>
+        </Link>
+      </Carousel.Caption>
+    </Carousel.Item>
     );
   });
+
+  ///Récupération nombre de vote
+  useEffect(() => {
+    const findVotes = async () => {
+      // Recup articles les plus récents
+      const votes = await fetch("/allVotes");
+      const body = await votes.json();
+      
+      // console.log("3 articles", body.latest);
+      setVotes(body.allVotes);
+      console.log(body)
+    };
+    findVotes();
+  }, []);
+
+ 
+ 
 
   return (
     /* header */
@@ -254,7 +286,7 @@ function Accueil(props) {
                 <Carousel>{publiCards}</Carousel>
               </TabPane>
 
-              <TabPane tab="Les plus populaire" key="2">
+              <TabPane tab="Les plus populaires" key="2">
                 <Carousel>{topPublications}</Carousel>
               </TabPane>
             </Tabs>
@@ -291,7 +323,7 @@ function Accueil(props) {
               </div>
             </Col>
             <Col id="illustration2" span={12}>
-              col
+              
             </Col>
           </Row>
           <Row justify="center">
@@ -327,18 +359,14 @@ function Accueil(props) {
             dataSource={allPublications}
             footer={
               <div>
-                <b>ant design</b> footer part
+               
               </div>
             }
             renderItem={(publication) => (
               <List.Item
                 key={publication.titre}
                 actions={[
-                  <IconText
-                    icon={StarOutlined}
-                    text="156"
-                    key="list-vertical-star-o"
-                  />,
+                 
                   <IconText
                     icon={LikeOutlined}
                     text="156"
@@ -350,10 +378,10 @@ function Accueil(props) {
                     key="list-vertical-message"
                   />,
                 ]}
-                extra={<img width={272} alt="logo" src={publication.image} />}
+                extra={<img width="272" height="150" alt="logo" src={publication.image} />}
               >
                 <List.Item.Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                 
                   title={
                     <Link to={`/publication/${publication._id}`}>
                       {publication.titre}
@@ -441,10 +469,10 @@ function Accueil(props) {
                 <Card>
                   <Statistic
                     title="Nombre de publication"
-                    value={11.28}
-                    precision={2}
+                    value={allPublications.length}
                     valueStyle={{ color: "#3f8600" }}
-                    suffix={<UserOutlined />}
+                    suffix={<EditFilled />}
+                    
                   />
                 </Card>
               </Col>
@@ -452,10 +480,9 @@ function Accueil(props) {
                 <Card>
                   <Statistic
                     title="Nombre de votes"
-                    value={9.3}
-                    precision={2}
-                    valueStyle={{ color: "#cf1322" }}
-                    suffix={<EditFilled />}
+                    value={votes.length}
+                    valueStyle={{ color: "#3f8600" }}
+                    suffix={<UserOutlined />}
                   />
                 </Card>
               </Col>
