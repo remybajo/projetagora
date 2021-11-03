@@ -24,13 +24,13 @@ router.get('/lastPublications', async function(req, res, next){
     var result = false;
     var publications = await publicationModel.find().sort({date_publication: -1});
     var latest = publications.slice(0,3)
-    console.log("latest: ",latest.length)
+    //console.log("latest: ",latest.length)
   
     if(latest.length == 3){
         result = true
 
        // console.log(latest)
-        console.log("nbre articles: ", latest.length)
+       // console.log("nbre articles: ", latest.length)
       }
 
     res.json({result, latest})
@@ -62,7 +62,7 @@ router.get('/populaires', async function(req, res, next){
       top = await publicationModel.findById(pop_ids[i])
       topPublications.push(top)
     } 
-    console.log("top 3 ", topPublications);
+    //console.log("top 3 ", topPublications);
 
 
   res.json({result, topPublications})
@@ -90,7 +90,7 @@ router.get('/selectedPublication', async function(req, res, next){
   var result = false;
   var result_comments = false
   id = req.query.id;
-  console.log("check id: ",id)
+  //console.log("check id: ",id)
   // récupération de l'article correspondant à l'id sélectionné
   var publication = await publicationModel.findById(id);
   var publiToDisplay = publication
@@ -100,13 +100,15 @@ router.get('/selectedPublication', async function(req, res, next){
   };
 
   // récupération des commentaires sur la publication sélectionnée
-  var comments = await commentModel.find({publication_id: id});
+  var comments = await commentModel.find({publication_id: id}).sort({nb_likes: -1});
   console.log("comments of publication: ", comments)
   if(comments){
     result_comments = true;
-    console.log("result_comments: ", result_comments)
+    //console.log("result_comments: ", result_comments)
   };
-  console.log("publication selected: ",publiToDisplay)
+  //console.log("publication selected: ",publiToDisplay)
+
+   
 
   // checker si le user est connecté et récupérer ses infos
   var user;
@@ -123,7 +125,22 @@ router.get('/selectedPublication', async function(req, res, next){
     console.log("user ", user);
   }
   
+  // récup data votes
   votes = await voteModel.find({publication_id: id});
+  
+  voters = await voteModel.find({publication_id: id}).populate('user_id');
+  //console.log("voters: ", voters)
+
+  var gender = [{genre: "hommes", nbre:0}, {genre: "femmes", nbre:0}]
+  for(var i=0;i<voters.length;i++){
+    if(voters[i].user_id.gender == 'homme'){
+      gender[0].nbre++
+    } else {
+      gender[1].nbre++
+    }
+  }
+ 
+  console.log("genre: ", gender);
     
   //   if(votes.length == 0){
   //     alreadyVoted = false
@@ -161,13 +178,13 @@ router.get('/selectedPublication', async function(req, res, next){
    
   ]);
   
-  console.log('stats ', stats)
+  //console.log('stats ', stats)
 
   
   
 
   //res.json({result, publiToDisplay, comments, stats, alreadyVoted, userVote, userConnected, alreadyCommented, userComment})
-  res.json({result, publiToDisplay, comments, stats, userConnected, user, votes})
+  res.json({result, publiToDisplay, comments, stats, userConnected, user, votes, gender})
 
 })
 
