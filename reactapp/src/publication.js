@@ -253,7 +253,7 @@ var handleDislike = (i) => {
   var idComment = commentairesList[index]._id
    
   setLikes(0);
-  setDislikes(1);
+  //setDislikes(1);
   setAction('disliked');
 
   if(commentairesList[index].nb_likes>0){

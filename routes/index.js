@@ -206,8 +206,8 @@ router.get("/commentarticle", async function(req, res, next){
 var user = await userModel.findOne({token : req.query.token})
 if (user){
 var article = await commentModel.find
-({user_id : user._id}).populate('publication_id')
-
+({user_id : user._id}).sort({date: -1}).populate('publication_id')
+console.log(article)
 for (let i=0; i < article.length; i++){
  publication.push(article[i].publication_id)}}
 
@@ -215,7 +215,8 @@ for (let i=0; i < article.length; i++){
 var publicationVote = [];
  if (user){
  var articleVote = await voteModel.find
- ({user_id : user._id}).populate('publication_id')
+ ({user_id : user._id}).sort({date_vote: -1}).populate('publication_id')
+
  
  for (let i=0; i < articleVote.length; i++){
   publicationVote.push(articleVote[i].publication_id)}}
@@ -223,9 +224,9 @@ var publicationVote = [];
 
   // Récupération des publications que j'ai créé
   if (user){
-    var myArticles = await publicationModel.find({user_id : user._id})
+    var myArticles = await publicationModel.find({user_id : user._id}).sort({date_publication: -1})
   }
-     console.log(myArticles)
+    
 
 res.json({publication, publicationVote, myArticles})
  })
