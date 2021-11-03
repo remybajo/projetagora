@@ -47,7 +47,6 @@ import EnTete from "./EnTete";
 import Plot from 'react-plotly.js';
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
-import PiedDePage from "./piedDePage";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -237,7 +236,7 @@ function Accueil(props) {
           </p>
           <Button
             type="primary"
-            size={60}
+            size={100}
             style={{
               backgroundColor: "rgba(240, 52, 52, 1)",
               borderColor: "rgba(240, 52, 52, 1)",
@@ -249,7 +248,7 @@ function Accueil(props) {
           </Button>
         </div>
 
-        <div style={{ marginTop: "20px", marginLeft: "40px" }}>
+        <div style={{ marginTop: "40px", marginLeft: "40px" }}>
           {" "}
           <Button
             type="text"
@@ -292,48 +291,32 @@ function Accueil(props) {
               </TabPane>
             </Tabs>
           </Row>
-          <div
-            className="site-statistic-demo-card"
-            style={{ marginBottom: "30px" }}
-          >
-            <h3
+          <Row>
+            <Col
+              justify="start"
+              span={12}
               style={{
-                color: "white",
+                backgroundColor: "transparent",
                 textAlign: "center",
-                marginBottom: "30px",
-                marginLeft: "400px",
+                marginTop: "70px",
               }}
             >
-              {" "}
-              ILs ont donné leur avis...
-            </h3>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Card>
-                  <Statistic
-                    title="Nombre de publication"
-                    value={11.28}
-                    precision={2}
-                    valueStyle={{ color: "#3f8600" }}
-                    suffix={<UserOutlined />}
-                  />
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card>
-                  <Statistic
-                    title="Nombre de votes"
-                    value={9.3}
-                    precision={2}
-                    valueStyle={{ color: "#cf1322" }}
-                    suffix={<EditFilled />}
-                  />
-                </Card>
-              </Col>
-            </Row>
-          </div>
+              <h3> Votre publication interesse-t-elle du monde ?</h3>
+              <p>
+                Découvrez les avis des autres utilisateurs... Lorem Ipsum is
+                simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever
+                since the 1500s, when an unknown printer took a galley of type
+                and scrambled it to make a type specimen book. It has survived
+                not only five centuries, but also the leap into electronic
+                typesetting, remaining essentially unchanged.
+              </p>
+              <div id="ical">
+                <DownCircleFilled
+                  style={{
+                    fontSize: "60px",
+                    color: "#214C74",
 
-<<<<<<< HEAD
                     marginTop: "50px",
                   }}
                 />
@@ -343,8 +326,6 @@ function Accueil(props) {
               
             </Col>
           </Row>
-=======
->>>>>>> d29a4f85703834bc8966e4bc1e3c6dfa8561db2f
           <Row justify="center">
             <Col span="2"></Col>
             <Col span="20">
@@ -412,32 +393,6 @@ function Accueil(props) {
               </List.Item>
             )}
           />
-          <Row>
-            <Col
-              justify="start"
-              span={12}
-              style={{
-                backgroundColor: "transparent",
-                textAlign: "center",
-                marginTop: "70px",
-              }}
-            >
-              <h3> Votre publication interesse-t-elle du monde ?</h3>
-              <p>
-                Découvrez les avis des autres utilisateurs... Lorem Ipsum is
-                simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived
-                not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged.
-              </p>
-            </Col>
-            <Col id="illustration2" span={12}>
-              col
-            </Col>
-          </Row>
-
           <Row
             style={{
               backgroundColor: "#C9F6F5",
@@ -494,7 +449,6 @@ function Accueil(props) {
               </Button>
             </Col>
           </Row>
-<<<<<<< HEAD
           <div
             className="site-statistic-demo-card"
             style={{ marginBottom: "30px" }}
@@ -534,11 +488,41 @@ function Accueil(props) {
               </Col>
             </Row>
           </div>
-=======
->>>>>>> d29a4f85703834bc8966e4bc1e3c6dfa8561db2f
         </Content>
       </Layout>
-      <PiedDePage />
+      <Footer className="footer" style={{ textAlign: "left" }}>
+        {" "}
+        <Row>
+          <Col span={8}>
+            NOTRE GROUPE
+            <ul class="un">
+              <li>A propos</li>
+              <li>Notre vision</li>
+              <li>Contact</li>
+            </ul>
+          </Col>
+          <Col span={8}>
+            {" "}
+            ASSISTANCE
+            <ul class="un">
+              <li>Aide</li>
+              <li>Guide</li>
+              <li>Mentions legales</li>
+              <li>CGU</li>
+              <li>Cookies</li>
+            </ul>
+          </Col>
+          <Col span={8}>
+            {" "}
+            RESEAUX SOCIAUX
+            <ul class="un">
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>Twitter</li>
+            </ul>
+          </Col>
+        </Row>
+      </Footer>
       <>
         <BackTop />
       </>
