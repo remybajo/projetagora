@@ -1,28 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { Layout, Menu, Breadcrumb, Image, Card, Avatar, Divider, Row, Col, Tabs, List, Space, Tag, BackTop, Badge, Modal,
-} from "antd";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Layout, Image, Avatar, Row, List, Space, BackTop, Col, Tabs} from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import {
-  SettingOutlined, EditOutlined, EllipsisOutlined, DownloadOutlined, TwitterOutlined, FacebookOutlined, LinkedinOutlined,
-  UserOutlined, MessageOutlined, LikeOutlined, StarOutlined, MailOutlined, CalendarOutlined, AppstoreOutlined, LinkOutlined,
-  DownCircleFilled} from "@ant-design/icons";
+  MessageOutlined, LikeOutlined, StarOutlined,
+  DownCircleFilled
+  } from "@ant-design/icons";
 import SideBarDroite from "./SideBarDroite";
-import EnTete from "./EnTete";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
+import SearchBar from "./Components/SearchBar";
 
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Content, Footer } = Layout;
 
-const { Meta } = Card;
 const { TabPane } = Tabs;
 
-const gridStyle = {
-  width: "25%",
-  textAlign: "center",
-};
+// const gridStyle = {
+//   width: "25%",
+//   textAlign: "center",
+// };
 
 //questions aléatoires
 const listData = [];
@@ -34,6 +31,7 @@ for (let i = 0; i < 3; i++) {
     description: "sous-theme ou tag perso",
     content:
       "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+    key: {i},
   });
 }
 
@@ -48,10 +46,10 @@ const IconText = ({ icon, text }) => (
 // import {connect} from 'react-redux';
 
 function Accueil(props) {
-  const [inscription, setInscription] = useState();
   const [latest, setLatest] = useState([]);
   const [allPublications, setAllPublications] = useState([]);
   const [populaires, setPopulaires] = useState([]);
+  const [publicationTitre, setPublicationTitre] = useState();
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -65,7 +63,6 @@ function Accueil(props) {
       console.log(body);
     };
     findPublications();
-    console.log("check push: ", latest);
 
     //recup articles les plus populaires
     const popPublications = async () => {
@@ -86,10 +83,28 @@ function Accueil(props) {
     allPublications();
   }, []);
 
+    // Pour la barre de recherche
+  useEffect(() => {
+    const findPublications = async () => {
+        const toutePublication = await fetch("/searchPublication");
+        const res_publication = await toutePublication.json();
+        console.log("ma res_publication", res_publication.allPublications)
+        setPublicationTitre(res_publication.allPublications)
+    }; findPublications()
+}, []);
+var publicationT=publicationTitre
+console.log("dans publicationTitre", publicationTitre)
+
+
+
+
+
+
+
   var publiCards = latest.map((publication, i) => {
     var toRead = publication;
     return (
-      <Carousel.Item>
+      <Carousel.Item key={i}>
         <img
           className="d-block w-100"
           src={publication.image}
@@ -109,7 +124,7 @@ function Accueil(props) {
           <h3>{publication.titre}</h3>
           <p>{publication.texte}</p>
           <Link to={`/publication/${toRead._id}`}>
-            <Button type="button" class="btn-danger">
+            <Button type="button" className="btn-danger">
               REAGIR
             </Button>
           </Link>
@@ -121,7 +136,7 @@ function Accueil(props) {
   var topPublications = populaires.map((publication, i) => {
     var toRead = publication;
     return (
-      <Carousel.Item>
+      <Carousel.Item key={i}>
         <img
           className="d-block w-100"
           src={publication.image}
@@ -141,7 +156,7 @@ function Accueil(props) {
           <h3>{publication.titre}</h3>
           <p>{publication.texte}</p>
           <Link to={`/publication/${toRead._id}`}>
-            <Button type="button" class="btn-danger">
+            <Button type="button" className="btn-danger">
               REAGIR
             </Button>
           </Link>
@@ -150,9 +165,16 @@ function Accueil(props) {
     );
   });
 
+  if(publicationTitre !== undefined){
   return (
+
+
+
     /* header */
     <Layout className="site-layout-background">
+      <div className="searchbar">
+        <SearchBar placeholder="chercher une publication" data={publicationT}/>
+      </div>
       <div id="head">
         <div>
           <Image
@@ -389,7 +411,7 @@ function Accueil(props) {
         <Row>
           <Col span={8}>
             NOTRE GROUPE
-            <ul class="un">
+            <ul className="un">
               <li>A propos</li>
               <li>Notre vision</li>
               <li>Contact</li>
@@ -398,7 +420,7 @@ function Accueil(props) {
           <Col span={8}>
             {" "}
             ASSISTANCE
-            <ul class="un">
+            <ul className="un">
               <li>Aide</li>
               <li>Guide</li>
               <li>Mentions legales</li>
@@ -409,7 +431,7 @@ function Accueil(props) {
           <Col span={8}>
             {" "}
             RESEAUX SOCIAUX
-            <ul class="un">
+            <ul className="un">
               <li>Facebook</li>
               <li>Instagram</li>
               <li>Twitter</li>
@@ -422,7 +444,7 @@ function Accueil(props) {
       </>
     </Layout>
   );
-}
+} else {return <div>wait</div>}}
 
 function mapStateToProps(state) {
   return { token: state.token };

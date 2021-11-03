@@ -1,49 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   Button,
-  Layout,
-  Menu,
   Image,
-  Card,
-  Avatar,
   Divider,
   Row,
   Col,
-  Tabs,
   Modal,
 } from "antd";
 import "antd/dist/antd.css";
 import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
   TwitterOutlined,
   FacebookOutlined,
   LinkedinOutlined,
   UserOutlined,
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
 } from "@ant-design/icons";
 import Inscription from "./inscription";
-const { Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
-
-const { Meta } = Card;
-const { TabPane } = Tabs;
 
 function EnTete(props) {
   console.log('les props de la page entete', props)
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const [modal, setModal] = useState(false);
 
   var showModal = () => {
     setIsModalVisible(true);

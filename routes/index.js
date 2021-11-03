@@ -271,7 +271,12 @@ router.post('/addvote', async function (req, res, next) {
 //   })
 
 
+router.get('/searchPublication', async function(req, res, next){
+  var allPublications = await publicationModel.find()
+  console.log(allPublications)
 
+  res.json({allPublications})
+ })
 
 
 

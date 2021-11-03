@@ -414,8 +414,8 @@ function Publication(props) {
             <List
               itemLayout="horizontal"
               dataSource={commentairesList}
-              renderItem={item => (
-                <List.Item>
+              renderItem={(item, i) => (
+                <List.Item key={i}>
                   <List.Item.Meta
                     avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
                     title=""

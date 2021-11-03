@@ -1,13 +1,9 @@
-import React, { useState, useEffect, Component } from 'react';
-import {render} from 'react-dom'
+import React, { useState } from 'react';
 import './App.css';
-import { Input, Button, Modal, InputNumber, Form, Radio, Select, Cascader } from 'antd';
-import { Link, Redirect } from 'react-router-dom'
+import { Button, InputNumber, Form, Select, Cascader } from 'antd';
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import querystring from 'querystring';
-
-const { Option } = Select;
 //import { CookiesProvider } from "react-cookie";
 //import Cookies from 'js-cookie';
 

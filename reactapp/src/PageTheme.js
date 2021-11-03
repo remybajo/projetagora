@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, Redirect, useParams } from "react-router-dom";
 import {
-  Button,
   Layout,
   Menu,
-  Image,
   Card,
-  Avatar,
-  Divider,
   Row,
   Col,
   Tabs,
@@ -17,34 +13,13 @@ import {
 } from "antd";
 import "antd/dist/antd.css";
 import {
-  SettingOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  DownloadOutlined,
-  TwitterOutlined,
-  FacebookOutlined,
-  LinkedinOutlined,
-  UserOutlined,
   MessageOutlined,
   LikeOutlined,
   StarOutlined,
-  MailOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  LinkOutlined,
   ArrowRightOutlined,
 } from "@ant-design/icons";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
-
-import Politique from "../src/image/Politique.jpg"
-import Education from "../src/image/Education.jpg"
-import Emploi from "../src/image/Emploi.jpg"
-import Environnement from "../src/image/Environnement.jpg"
-import Evenement from "../src/image/Evenement.jpg"
-import Remarquer from "../src/image/Remarquer.jpg"
-import Sport from "../src/image/Sport.jpg"
-import Tourisme from "../src/image/Tourisme.jpg"
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -167,7 +142,7 @@ console.log("pagetheme mon latest", latest)
                   <img
                     width={272}
                     alt="image de theme"
-                    src={Politique}
+                    src={item.image}
                   />
                 }
               >

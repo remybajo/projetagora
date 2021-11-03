@@ -42,6 +42,8 @@ import Evenement from "../src/image/Evenement.jpg"
 import Remarquer from "../src/image/Remarquer.jpg"
 import Sport from "../src/image/Sport.jpg"
 import Tourisme from "../src/image/Tourisme.jpg"
+import ClearableLabeledInput from "antd/lib/input/ClearableLabeledInput";
+import { ClearOutlined } from "@ant-design/icons";
 
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
@@ -185,7 +187,7 @@ function NouvelPublication(props) {
   const onSearch = (value) => {
     var listeMotCle = motCle;
     listeMotCle.push(value);
-    console.log("la liste", listeMotCle);
+    console.log("ma value", value);
     setMotCle(listeMotCle);
   };
 
@@ -238,7 +240,7 @@ function NouvelPublication(props) {
           width="100%"
           height="100%"
           src={image}
-          alt="Card image cap"
+          alt="Choisissez un thème pour faire apparaitre l'image"
         />
         <CardBody>
           <CardTitle tag="h5"></CardTitle>
@@ -302,16 +304,16 @@ function NouvelPublication(props) {
           className="cascade"
           options={options}
           onChange={onChange}
-          placeholder="Please select"
+          placeholder="Sélectionner un thème"
         />
 
         <Space direction="vertical">
           <Search
-            placeholder="input search text"
-            allowClear
+            placeholder="mot-clé"
             enterButton="Ajouter un mot-clé"
             size="large"
             onSearch={onSearch}
+            allowClear={true}
           />
         </Space>
         <Form>
