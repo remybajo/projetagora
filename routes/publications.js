@@ -78,6 +78,7 @@ router.get('/allPublications', async function(req, res, next){
       // console.log("all: ", allPublications)
     }
 
+    
   res.json({result, allPublications})
 
 })

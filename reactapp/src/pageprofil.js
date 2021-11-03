@@ -24,7 +24,7 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowUpOutlined, ArrowDownOutlined, UserOutlined, EditFilled } from "@ant-design/icons";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import EnTete from "./EnTete";
@@ -291,42 +291,49 @@ function PageProfil(props) {
             </Tabs>
           </div>
           <div
-            className="site-statistic-demo-card-2"
-            style={{ marginBottom: "30px", borderRadius: "20px" }}
+            className="site-statistic-demo-card"
+            style={{ marginBottom: "30px" }}
           >
+             <h4 style={{
+              display:"flex",
+                color: "blue",
+                textAlign: "center",
+               justifyContent:"center",
+                marginBottom: "30px",
+               
+              }}><Button> <Link to="/pageStat"> Plus de stats </Link> </Button> </h4>
             <h3
               style={{
-                color: "#0A1C37",
+                color: "white",
                 textAlign: "center",
+                alignItems : "center",
                 marginBottom: "30px",
                 marginLeft: "400px",
               }}
             >
               {" "}
-              ILs ont donné leur avis...
+              Mes stats 
             </h3>
+           
             <Row gutter={16}>
               <Col span={12}>
                 <Card>
                   <Statistic
-                    title="Active"
-                    value={11.28}
-                    precision={2}
+                    title="Nombre de publication"
+                    value={myPubli.length}
                     valueStyle={{ color: "#3f8600" }}
-                    prefix={<ArrowUpOutlined />}
-                    suffix="%"
+                    suffix={<EditFilled />}
+                    
                   />
                 </Card>
               </Col>
               <Col span={12}>
                 <Card>
                   <Statistic
-                    title="Idle"
-                    value={9.3}
-                    precision={2}
-                    valueStyle={{ color: "#cf1322" }}
-                    prefix={<ArrowDownOutlined />}
-                    suffix="%"
+                    title="Nombre de votes"
+                    value={voteArticle.length}
+                    valueStyle={{ color: "#3f8600" }}
+                    suffix={<UserOutlined />}
                   />
                 </Card>
               </Col>
