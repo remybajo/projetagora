@@ -168,7 +168,7 @@ function PageTheme(props) {
                     key="list-vertical-message"
                   />,
                 ]}
-                extra={<img width={272} alt="image de theme" src={Politique} />}
+                extra={<img width={272} alt="image de theme" src={item.image} />}
               >
                 <List.Item.Meta
                   title={
