@@ -154,6 +154,7 @@ var publicationT=publicationTitre
   useEffect(() => {
     setVote(selection);
     setMessage("");
+    console.log("selection: ", selection)
   }, [selection]);
 
   // requête pour l'envoi du vote en bdd - utilisée dans la fonction voteValidation()
@@ -168,6 +169,8 @@ var publicationT=publicationTitre
   // validation du vote au click sur bouton valider
 
   var voteValidation = () => {
+    console.log("vote: vote");
+    console.log("token: ", token)
     if (!vote) {
       setMessage(<Alert message="Veuillez choisir une option de vote avant de valider." type="error" showIcon />);
     } else if (!token) {
@@ -227,18 +230,28 @@ var publicationT=publicationTitre
 
 
   var likeItem = (<span className="comment-action">0</span>)
+
 var result;
 function increment (i){
 
+  setLikeComment(!likeComment);
   result = [...commentairesList]
-  if(result[i].__v===0){
-  result[i].__v += 1;}
 
+  if (!likeComment) {
+    result[i].nb_likes += 1;
+    setAction('liked')
+  } else {
+    result[i].nb_likes -= 1;
+    setAction('notliked');
+  }
+  
   setCommentairesList(result)
 
   console.log(result);
   // setIdC(idC + 1)
 }
+
+
 
 useEffect(() => {
 }, [commentairesList,result])
@@ -368,7 +381,7 @@ var handleDislike = (i) => {
   return (
     <Layout className='layout' style={{ margin: 10, backgroundColor:'white'}}>
     
-    <div id="head" style={{display:"flex"}}>
+    <div id="head" style={{display:"flex", margin:5}}>
       
       <div >
       <div style={{display:"flex", justifyContent:"space-between"}}>
@@ -443,13 +456,13 @@ var handleDislike = (i) => {
       <Layout>
         
         <SideBarDroite/>
-      <Content style={{margin:0}}>   
+      <Content>   
       <Row
         gutter={{ xs: 24, sm: 24, md: 12 }}
         className="site-layout-background"
         justify="center"
         align="top"
-        style={{ margin: 10, padding:10, height:"60%" }}
+        style={{ margin:0, padding:0, height:"60%" }}
       >
         <div style={{ width:"100%", height:"100%", display: "flex" }}>
 
@@ -485,7 +498,7 @@ var handleDislike = (i) => {
             <div>
             <Plot
             data={data}
-            layout={ {width: 400, height: 400, title: 'Résultat du Vote',
+            layout={ {width:380, height: 380, title: 'Résultat du Vote',
              paper_bgcolor:'#F2F3F4', legend: {orientation: 'h', side: 'top'},
              showticklabels: true, showlegend:false
                 } } 
@@ -494,60 +507,42 @@ var handleDislike = (i) => {
             </div>
 
             :
-            <div style={{height:"90%", width:"100%",display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
-            <h1>VOTEZ</h1>
-          
-          
-            <Radio.Group defaultValue="a" buttonStyle="solid"
-              style={{ margin: 10, fontWeight: "bold", display:'flex', flexDirection:'column' }}
-            >
-              <Radio.Button
-                disabled={status} style={{ margin: 16, backgroundColor: "#FFC806" }} value="J'Adore"
-                onClick={(e) => setSelection(e.target.value)}
-              > J'Adore </Radio.Button>
+            <div style={{width:300, height:350, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', position:'relative'}}> 
+            <h3>VOTEZ</h3>
+           
+            <Button
+                disabled={status} style={{backgroundColor: "#33EE22", margin:10, fontWeight:'bold'}} value="J'Adore"
+                onClick={(e) => setSelection(e.target.value)} shape='round'
+              > J'Adore  </Button>
                           
-              <Radio.Button
-                disabled={status}
-                style={{ margin: 16, backgroundColor: "#EDAC06" }}
-                value="Je suis Pour"
-                onClick={(e) => setSelection(e.target.value)}
-              >
-                Je suis Pour
-              </Radio.Button>
-              <Radio.Button
-                disabled={status}
-                style={{ margin: 16, backgroundColor: "#DAA419" }}
-                value="Je suis Mitigé(e)"
-                onClick={(e) => setSelection(e.target.value)}
-              >
-                Je suis Mitigé(e)
-              </Radio.Button>
+              <Button
+                disabled={status} style={{backgroundColor: "#93c47d", margin:10, fontWeight:'bold'}} value="Je suis Pour"
+                onClick={(e) => setSelection(e.target.value)} shape='round'
+              > Je suis Pour  </Button>
+
+              <Button
+                disabled={status} style={{backgroundColor: "#ffd966", margin:10, fontWeight:'bold' }} value="Je suis Mitigé(e)"
+                onClick={(e) => setSelection(e.target.value)} shape='round'
+              > Je suis Mitigé(e)</Button>
+                
             
-              <Radio.Button
-                disabled={status}
-                style={{ margin: 16, backgroundColor: "#BE833D" }}
-                value="Je suis Contre"
-                onClick={(e) => setSelection(e.target.value)}
-              >
-                Je suis Contre
-              </Radio.Button>
+                <Button
+                disabled={status} style={{backgroundColor: "#ffa500", margin:10, fontWeight:'bold'}} value="Je suis Contre"
+                onClick={(e) => setSelection(e.target.value)} shape='round'
+              > Je suis Contre</Button>
             
-              <Radio.Button
-                disabled={status}
-                style={{ margin: 16, backgroundColor: "#966215" }}
-                value="Je Déteste"
-                onClick={(e) => setSelection(e.target.value)}
-              >
-                Je Déteste
-              </Radio.Button>
+            <Button
+                disabled={status} style={{backgroundColor: "#f44336", margin:10, fontWeight:'bold'}} value="Je Déteste"
+                onClick={(e) => setSelection(e.target.value)} shape='round'
+              > Je Déteste</Button>
               
 
-            <Button type="danger" shape="round" disabled={status} onClick={() => voteValidation()}>
-              {" "}
+            <Button type="primary" size='large' disabled={status} onClick={() => voteValidation()}
+            style={{marginTop:10}}>
               {boutonVali}
             </Button>
             {message}
-            </Radio.Group>
+        
 
           </div>
 
@@ -605,7 +600,7 @@ var handleDislike = (i) => {
                 <Tooltip key="comment-basic-like" title="Like">
                   <span onClick={() => increment(i)}>
                     {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-                    <span className="comment-action">{comment.__v}</span>
+                    <span className="comment-action">{comment.nb_likes}</span>
                   </span>
                 </Tooltip>,
                 <Tooltip key="comment-basic-dislike" title="Dislike">
@@ -614,7 +609,7 @@ var handleDislike = (i) => {
                     <span className="comment-action">{dislikes}</span>
                   </span>
                 </Tooltip>,
-                <span key="comment-basic-reply-to" style={{backgroundColor:'beige'}}>{comment.nb_likes + " likes"}</span>,
+                // <span key="comment-basic-reply-to" style={{backgroundColor:'beige'}}>{comment.nb_likes + " likes"}</span>,
               ]}
               author={comment.vote}
               avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
@@ -630,7 +625,7 @@ var handleDislike = (i) => {
           </Col>
         </div>
       </Row>
-      <Row  gutter={{ xs: 20, sm: 20, md: 12 }} style={{height:"20%"}}>
+      <Row  gutter={{ xs: 20, sm: 20, md: 12 }} style={{height:50}}>
         <Col
         className="gutter-row"
           span={20}
@@ -645,8 +640,9 @@ var handleDislike = (i) => {
           {alreadyVoted == true ?
 
               <p style={{padding:20, fontSize:20, fontStyle: 'italic'}}>
-              Vous avez validez le vote suivant pour cette publication: 
-              <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:"orange"}}>{userVote}</span></p>
+              Vous avez voté
+              <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:"orange",
+              fontSize:30}}>{userVote}</span></p>
 
             :
             ""
@@ -659,17 +655,19 @@ var handleDislike = (i) => {
       <Row>
         <Col span={20} className="gutter-row" > 
           
-          <div style={{width:"100%", display:'flex', justifyContent:'center'}}>
+          <div style={{width:"100%", display:'flex', justifyContent:'center', alignItems:'center'}}>
               {alreadyCommented == true ?
 
                 
-                <div style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%", display:'flex', justifyContent:'center'}}>
-                  Votre Commentaire:    
+                <div style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%", display:'flex', justifyContent:'center', alignItems:'center'}}>
+                  Vous avez commenté    
                 <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:'blue'}}>{userComment}</span>
                 <Button
                   htmlType="submit"
                   onClick="{onSubmit}"
-                  type="primary"
+                  type="danger"
+                  shape="round"
+                  size="small"
                   onClick={() => commentSuppr()}
                 >
                 Supprimer le commentaire
@@ -679,6 +677,7 @@ var handleDislike = (i) => {
                 
               :
           <div style={{width:"100%"}}>
+            {messageCom}
           <Form.Item>
             <TextArea
               rows={4}
@@ -697,7 +696,7 @@ var handleDislike = (i) => {
               {boutonValiCom}
             </Button> 
           </Form.Item>
-          {messageCom}
+          
           </div>
            }
            </div>

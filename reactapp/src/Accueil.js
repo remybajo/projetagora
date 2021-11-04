@@ -171,10 +171,8 @@ console.log("dans publicationTitre", publicationTitre)
             
           }}>{publication.titre}</h3>
          
-          <Link to={`/publication/${toRead._id}`}>
-            <Button type="button" class="btn-danger">
+          <Link class="btn btn-danger" role="button" to={`/publication/${toRead._id}`}>
               VOIR
-            </Button>
           </Link>
         </Carousel.Caption>
       </Carousel.Item>
@@ -207,10 +205,8 @@ console.log("dans publicationTitre", publicationTitre)
           
         }}>{publication.titre}</h3>
       
-        <Link to={`/publication/${toRead._id}`}>
-          <Button type="button" class="btn-danger">
+        <Link class="btn btn-danger" role="button" to={`/publication/${toRead._id}`}>
             VOIR
-          </Button>
         </Link>
       </Carousel.Caption>
     </Carousel.Item>
