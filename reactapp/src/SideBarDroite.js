@@ -55,6 +55,10 @@ function SideBarDroite(props) {
     "Sport",
     "Tourisme",
     "Tu as remarqué ?",
+    "Nutrition",
+    "Santé",
+    "Technologie",
+    "Transport"
   ];
 
 
