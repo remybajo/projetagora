@@ -20,6 +20,7 @@ import Publication from "./publication";
 import CompleterProfil from "./completerProfil";
 import PageTheme from "./PageTheme";
 import EnTete from "./EnTete.js";
+import Header from "./Header";
 import SideBarDroite from "./SideBarDroite";
 import pageStat from "./pageStat";
 import piedDePage from "./piedDePage";
