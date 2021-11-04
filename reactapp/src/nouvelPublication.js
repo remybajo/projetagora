@@ -45,7 +45,11 @@ import Sport from "../src/image/Sport.jpg";
 import Tourisme from "../src/image/Tourisme.jpg";
 import PiedDePage from "./piedDePage";
 import SearchBar from "./Components/SearchBar";
-import AGORA from "../src/image/AGORA.png"
+import AGORA from "../src/image/AGORA.png";
+import Nutrition from "../src/image/Nutrition.jpg";
+import Santé from "../src/image/Santé.jpg";
+import Technologie from "../src/image/Technologie.jpg";
+import Transport from "../src/image/Transport.jpg";
 
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
@@ -186,6 +190,23 @@ var publicationT=publicationTitre
       value: "Remarquer",
       label: "Tas remarqué?",
     },
+    {
+      value: "Nutrition",
+      label: "Nutrition",
+    },
+    {
+      value: "Santé",
+      label: "Santé",
+    },
+    {
+      value: "Technologie",
+      label: "Technologie",
+    },
+    {
+      value: "Transport",
+      label: "Transport",
+    },
+    
   ];
 
   function onChange(value) {
@@ -247,7 +268,7 @@ var publicationT=publicationTitre
   // if (pictureSelected && validatePicture) {
   var illustration = (
     <Card style={{ width: "640px", height: "360px" }}>
-      <CardImg width="100%" height="100%" src={image} alt="Card image cap" />
+      <CardImg width="100%" height="100%" src={image} alt="Pour voir apparaître la photo, choisissez un thème" />
       <CardBody>
         <CardTitle tag="h5"></CardTitle>
         <CardText></CardText>
@@ -275,8 +296,15 @@ var publicationT=publicationTitre
       setImage(Sport);
     } else if (theme == "Tourisme") {
       setImage(Tourisme);
-    }
-  };
+    } else if (theme == "Nutrition") {
+      setImage(Nutrition);
+    } else if (theme == "Santé") {
+      setImage(Santé);
+    } else if (theme == "Technologie") {
+      setImage(Technologie);
+    } else if (theme == "Transport") {
+      setImage(Transport);
+  };}
 
  
 
