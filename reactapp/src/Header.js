@@ -61,7 +61,7 @@ function Header(props) {
     
     return ( 
        
-        <div id="head" style={{display:"flex"}}>
+        <div id="head" style={{display:"flex", margin:0}}>
        <Modal
         style={{ displayflex: 1, width: 150 }}
         visible={isModalVisible}

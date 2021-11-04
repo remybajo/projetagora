@@ -430,7 +430,7 @@ var handleDislike = (i) => {
         <div style={{ width:"100%", height:"100%", display: "flex" }}>
 
           <Col
-            span={9} className="gutter-row"
+            span={8} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -444,7 +444,7 @@ var handleDislike = (i) => {
               {content.titre}
             </h1>
 
-            <div style={{display:'flex', alignItems:'center'}}>
+            <div style={{display:'flex', alignItems:'center', margin:10, padding:10}}>
             <img
               src={content.image}
               style={{ width: "40%", margin:5, position: "relative" }}
@@ -454,7 +454,7 @@ var handleDislike = (i) => {
 
             </div>
           </Col>
-          <Col span={7} className="gutter-row"
+          <Col span={8} className="gutter-row"
           style={{margin:5, display:'flex', flexDirection:'row', justifyContent:'center'}}>
            
             {alreadyVoted ?
@@ -463,7 +463,7 @@ var handleDislike = (i) => {
             data={data}
             layout={ {width:380, height: 380, title: 'Résultat du Vote',
              paper_bgcolor:'#F2F3F4', legend: {orientation: 'h', side: 'top'},
-             showticklabels: true, showlegend:false
+             showticklabels: true, showlegend:false, font:{fontWeight:'bold'}
                 } } 
             />
            
@@ -567,6 +567,7 @@ var handleDislike = (i) => {
                 <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
                 
               :
+
               <div>
                 {commentairesList.map((comment, i) => {
               
