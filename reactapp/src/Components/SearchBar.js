@@ -53,7 +53,7 @@ function SearchBar({ placeholder, data }) {
                 <div className="searchInputs flex-container">
                     <input style={{width:"300px"}} type="text" placeholder={placeholder} onChange={handleFilter} value={wordEntered}></input>
                     <div className="searchIcon">
-                        {filteredData.length === 0 ? <ArrowLeftOutlined/> : <StopOutlined id="clearBtn" onClick={Erase}/>}
+                        {filteredData.length === 0 ? "" : <StopOutlined id="clearBtn" onClick={Erase}/>}
                         
                     </div>
 

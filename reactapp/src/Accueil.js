@@ -49,6 +49,7 @@ import SearchBar from "./Components/SearchBar";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 import AGORA from "../src/image/AGORA.png"
+import Header from "./Header";
 
 
 const { Content, Footer } = Layout;
@@ -92,7 +93,7 @@ function Accueil(props) {
   
 
 
-  const [publicationTitre, setPublicationTitre] = useState();
+ 
 
   //Récupération les publications à l'initialisation
   useEffect(() => {
@@ -127,17 +128,6 @@ function Accueil(props) {
     allPublications();
   }, []);
 
-    // Pour la barre de recherche
-  useEffect(() => {
-    const findPublications = async () => {
-        const toutePublication = await fetch("/searchPublication");
-        const res_publication = await toutePublication.json();
-        console.log("ma res_publication", res_publication.allPublications)
-        setPublicationTitre(res_publication.allPublications)
-    }; findPublications()
-}, []);
-var publicationT=publicationTitre
-console.log("dans publicationTitre", publicationTitre)
 
 
 
@@ -229,7 +219,7 @@ console.log("dans publicationTitre", publicationTitre)
 
  
  
-  if(publicationTitre !== undefined){
+
   return (
 
 
@@ -237,76 +227,7 @@ console.log("dans publicationTitre", publicationTitre)
     /* header */
     <Layout className='layout' style={{ margin: 10, backgroundColor:'white'}}>
       
-      <div id="head" style={{display:"flex"}}>
-      
-        <div >
-        <div style={{display:"flex", justifyContent:"space-between"}}>
-          <Image
-            preview={false}
-            size={40}
-            className="logo"
-            width={150}
-            src={AGORA}
-          />
-           <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
-        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
-      </div>
-          <div>
-            {" "}
-            <Button
-          size={20}
-            type="text"
-            style={{
-             
-              backgroundColor: "#214C74",
-              borderColor: "#214C74",
-            }}
-          >
-            LOG IN
-          </Button>
-          
-          <Button
-            type="link"
-            style={{
-              backgroundColor: "transparent",
-              color: "#214C74",
-
-              borderColor: "transparent",
-            }}
-            >
-            LOG OUT
-          </Button>
-            </div>
-            </div>
-          <div>
-           <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
-            {" "}
-            Donnez votre avis d'une manière différente{" "}
-          </p>
-          </div>
-        </div>
-       
-        <div>
-          
-         
-          
-          <Button
-            type="primary"
-            size={100}
-            style={{
-              backgroundColor: "rgba(240, 52, 52, 1)",
-              borderColor: "rgba(240, 52, 52, 1)",
-              marginLeft: "50px",
-              boxShadow: "1px 15px 10px grey",
-            }}
-          >
-            Poster votre publication
-          </Button>
-        </div>
-
-        
-        
-      </div>
+      <Header/>
 
       <Layout className="site-layout-background">
         <SideBarDroite />
@@ -560,8 +481,8 @@ console.log("dans publicationTitre", publicationTitre)
         <BackTop />
       </>
     </Layout>
-  );
-} else {return <div>wait</div>}}
+  );}
+
 
 function mapStateToProps(state) {
   return { token: state.token };
