@@ -86,7 +86,7 @@ function Publication(props) {
 
     // si l'utilisateur n'est pas loggé, cacher des éléments
     if(token)  {
-      setConnected(true)
+      setConnected(true);
     }
     
     // recuperation des commentaires liés à la publication
@@ -121,6 +121,8 @@ function Publication(props) {
     }
     setGender(body.gender);
     console.log("body gender ", body.gender)
+
+    setMessage("")
 
   }
 
@@ -169,12 +171,11 @@ var publicationT=publicationTitre
   // validation du vote au click sur bouton valider
 
   var voteValidation = () => {
-    console.log("vote: vote");
-    console.log("token: ", token)
     if (!vote) {
       setMessage(<Alert message="Veuillez choisir une option de vote avant de valider." type="error" showIcon />);
     } else if (!token) {
       setMessage(<Alert message="Veuillez vous identifier avant de voter." type="error" showIcon />);
+      setVote("");
     } else if (vote && !status) {
       setStatus(true);
       setMessage(<Alert message="Votre vote a bien été pris en compte. Merci pour votre participation." type="success" showIcon />);
@@ -218,13 +219,14 @@ var publicationT=publicationTitre
       sendComment();
       setComment("");
       setMessageCom(<Alert message="Votre commentaire a bien été envoyé." type="success" showIcon />);
-      getSelectedPublication(); 
       //setCommentairesList([...commentairesList, commentaire])
       
       //setBoutonValiCom("");
       setBoutonValiCom("Annuler le commentaire");
     }
-  };
+    getSelectedPublication(); 
+  }
+  ;
 
   // GESTION DES LIKES SUR LES COMMENTAIRES
 
@@ -477,7 +479,7 @@ var handleDislike = (i) => {
                      
             }}
           >
-            <h1 style={{ color: "#37A4B2", fontSize: "200%" }}>
+            <h1 style={{ color: "#37A4B2", fontSize: "200%", textAlign:'center'}}>
               {content.titre}
             </h1>
 
@@ -508,33 +510,33 @@ var handleDislike = (i) => {
 
             :
             <div style={{width:300, height:350, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', position:'relative'}}> 
-            <h3>VOTEZ</h3>
+            <h2>VOTEZ</h2>
            
-            <Button
+            <Radio.Button
                 disabled={status} style={{backgroundColor: "#33EE22", margin:10, fontWeight:'bold'}} value="J'Adore"
                 onClick={(e) => setSelection(e.target.value)} shape='round'
-              > J'Adore  </Button>
+              > J'Adore  </Radio.Button>
                           
-              <Button
+              <Radio.Button
                 disabled={status} style={{backgroundColor: "#93c47d", margin:10, fontWeight:'bold'}} value="Je suis Pour"
                 onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je suis Pour  </Button>
+              > Je suis Pour  </Radio.Button>
 
-              <Button
+              <Radio.Button
                 disabled={status} style={{backgroundColor: "#ffd966", margin:10, fontWeight:'bold' }} value="Je suis Mitigé(e)"
                 onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je suis Mitigé(e)</Button>
+              > Je suis Mitigé(e)</Radio.Button>
                 
             
-                <Button
+                <Radio.Button
                 disabled={status} style={{backgroundColor: "#ffa500", margin:10, fontWeight:'bold'}} value="Je suis Contre"
                 onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je suis Contre</Button>
+              > Je suis Contre</Radio.Button>
             
-            <Button
+            <Radio.Button
                 disabled={status} style={{backgroundColor: "#f44336", margin:10, fontWeight:'bold'}} value="Je Déteste"
                 onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je Déteste</Button>
+              > Je Déteste</Radio.Button>
               
 
             <Button type="primary" size='large' disabled={status} onClick={() => voteValidation()}
@@ -573,26 +575,41 @@ var handleDislike = (i) => {
             style={{
               display: "flex",
               flexDirection: "column",
-             
+              alignItems:'center',
               padding:20,
               margin: 5,
               color:"blue"
             }}
           >
-            <h5>Top Commentaires</h5>
+            <h3>Top Commentaires</h3>
 
             <div>
               {connected == false ?
 
-                <p style={{padding:20, fontSize:20, fontWeight:'bold', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
                 CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
                 </p>
+                
+              :
+
+              <div>
+                {alreadyVoted == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                VOTEZ POUR ACCEDER AUX COMMENTAIRES
+                </p>
+
+                :
+
+               <div> 
+                {commentairesList.length == 0 ?
+                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
                 
               :
               <div>
                 {commentairesList.map((comment, i) => {
               
-                  console.log("comment",comment);
+                  
                   return(
               <Comment
               key={i} 
@@ -618,6 +635,10 @@ var handleDislike = (i) => {
               }
               />) })}
             </div>
+            }
+            </div>
+              }
+            </div> 
 
               }
             </div>
@@ -625,7 +646,7 @@ var handleDislike = (i) => {
           </Col>
         </div>
       </Row>
-      <Row  gutter={{ xs: 20, sm: 20, md: 12 }} style={{height:50}}>
+      <Row  gutter={{ xs: 20, sm: 20, md: 12 }} style={{height:70}}>
         <Col
         className="gutter-row"
           span={20}
@@ -659,7 +680,7 @@ var handleDislike = (i) => {
               {alreadyCommented == true ?
 
                 
-                <div style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%", display:'flex', justifyContent:'center', alignItems:'center'}}>
+                <div style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%", display:'flex' , justifyContent:'center', alignItems:'center'}}>
                   Vous avez commenté    
                 <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:'blue'}}>{userComment}</span>
                 <Button
@@ -669,8 +690,7 @@ var handleDislike = (i) => {
                   shape="round"
                   size="small"
                   onClick={() => commentSuppr()}
-                >
-                Supprimer le commentaire
+                >Supprimer le commentaire
                 </Button> 
                 {messageCom}
                 </div>
@@ -680,7 +700,7 @@ var handleDislike = (i) => {
             {messageCom}
           <Form.Item>
             <TextArea
-              rows={4}
+              rows={3}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Tapez votre commentaire"
               value={comment}
