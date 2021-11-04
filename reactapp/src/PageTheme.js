@@ -51,8 +51,9 @@ import Tourisme from "../src/image/Tourisme.jpg";
 import PiedDePage from "./piedDePage";
 import AGORA from "../src/image/AGORA.png"
 import SearchBar from "./Components/SearchBar";
+import Header from "./Header";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 const { Meta } = Card;
@@ -81,7 +82,7 @@ function PageTheme(props) {
   var { theme } = useParams();
   const [latest, setLatest] = useState([]);
   const [themeArticle, setThemeArticle] = useState(theme);
-  const [publicationTitre, setPublicationTitre] = useState();
+  
 
   //   useEffect(() => {
   //      Thematique();
@@ -101,89 +102,12 @@ function PageTheme(props) {
   //test
 
   console.log("pagetheme mon latest", latest);
-  useEffect(() => {
-    const findPublications = async () => {
-        const toutePublication = await fetch("/searchPublication");
-        const res_publication = await toutePublication.json();
-        console.log("ma res_publication", res_publication.allPublications)
-        setPublicationTitre(res_publication.allPublications)
-    }; findPublications()
-}, []);
-var publicationT=publicationTitre
+ 
 
   return (
     <Layout className="site-layout-background">
       {" "}
-      <div id="head" style={{display:"flex"}}>
-      
-      <div >
-      <div style={{display:"flex", justifyContent:"space-between"}}>
-        <Image
-          preview={false}
-          size={40}
-          className="logo"
-          width={150}
-          src={AGORA}
-        />
-         <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
-        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
-      </div>
-        <div>
-          {" "}
-          <Button
-          size={20}
-            type="text"
-            style={{
-             
-              backgroundColor: "#214C74",
-              borderColor: "#214C74",
-            }}
-          >
-            LOG IN
-          </Button>
-          
-          <Button
-            type="link"
-            style={{
-              backgroundColor: "transparent",
-              color: "#214C74",
-
-              borderColor: "transparent",
-            }}
-          >
-            LOG OUT
-          </Button>
-          </div>
-          </div>
-        <div>
-         <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
-          {" "}
-          Donnez votre avis d'une manière différente{" "}
-        </p>
-        </div>
-      </div>
-     
-      <div>
-        
-       
-        
-        <Button
-          type="primary"
-          size={100}
-          style={{
-            backgroundColor: "rgba(240, 52, 52, 1)",
-            borderColor: "rgba(240, 52, 52, 1)",
-            marginLeft: "50px",
-            boxShadow: "1px 15px 10px grey",
-          }}
-        >
-          Poster votre publication
-        </Button>
-      </div>
-
-      
-      
-    </div>
+     <Header/>
       
       <Layout className="site-layout-background">
         <SideBarDroite />

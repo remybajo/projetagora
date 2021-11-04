@@ -33,9 +33,10 @@ import SideBarDroite from "./SideBarDroite";
 import PiedDePage from "./piedDePage";
 import AGORA from "../src/image/AGORA.png"
 import React, { useState, useEffect } from "react";
+import Header from "./Header";
 import { set } from "mongoose";
 
-const { Header, Content, Footer, Sider } = Layout;
+const {  Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
 
@@ -60,8 +61,9 @@ function PageProfil(props) {
   const [latest, setLatest] = useState([]);
   const [voteArticle, setVoteArticle] = useState([]);
   const [myPubli, setMyPubli] = useState([]);
-  const [publicationTitre, setPublicationTitre] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  
+   
 
   const [modal, setModal] = useState(false);
 
@@ -86,15 +88,7 @@ function PageProfil(props) {
   };
 
   var connexion = "connexion/inscription";
-  useEffect(() => {
-    const findPublications = async () => {
-        const toutePublication = await fetch("/searchPublication");
-        const res_publication = await toutePublication.json();
-        console.log("ma res_publication", res_publication.allPublications)
-        setPublicationTitre(res_publication.allPublications)
-    }; findPublications()
-}, []);
-var publicationT=publicationTitre
+
 
   useEffect(() => {
     const ProfilComment = async () => {
@@ -151,85 +145,8 @@ var publicationT=publicationTitre
 
   return (
     <Layout className="site-layout-background">
-      <Modal
-        title={connexion}
-        style={{ displayflex: 1, width: 150 }}
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Inscription />{" "}
-      </Modal>
-      <div id="head" style={{display:"flex"}}>
       
-        <div >
-        <div style={{display:"flex", justifyContent:"space-between"}}>
-          <Image
-            preview={false}
-            size={40}
-            className="logo"
-            width={150}
-            src={AGORA}
-          />
-          <div>
-          <SearchBar  placeholder="chercher une publication" data={publicationT}/>
-            </div>
-          <div>
-            {" "}
-            <Button
-          size={20}
-            type="text"
-            style={{
-             
-              backgroundColor: "#214C74",
-              borderColor: "#214C74",
-            }}
-          >
-            LOG IN
-          </Button>
-          
-          <Button
-            type="link"
-            style={{
-              backgroundColor: "transparent",
-              color: "#214C74",
-
-              borderColor: "transparent",
-            }}
-            >
-            LOG OUT
-          </Button>
-            </div>
-            </div>
-          <div>
-           <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
-            {" "}
-            Donnez votre avis d'une manière différente{" "}
-          </p>
-          </div>
-        </div>
-       
-        <div>
-          
-         
-          
-          <Button
-            type="primary"
-            size={100}
-            style={{
-              backgroundColor: "rgba(240, 52, 52, 1)",
-              borderColor: "rgba(240, 52, 52, 1)",
-              marginLeft: "50px",
-              boxShadow: "1px 15px 10px grey",
-            }}
-          >
-            Poster votre publication
-          </Button>
-        </div>
-
-        
-        
-      </div>
+      <Header/>
 
       <Layout className="site-layout-background">
         <SideBarDroite />

@@ -2,7 +2,7 @@ import React, { useState, useEffect, createElement } from "react";
 import { useParams } from 'react-router-dom';
 import {
   Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
-  Input, Badge, Alert, Tooltip} from "antd";
+  Input, Badge, Alert, Tooltip, Modal} from "antd";
 import { connect } from "react-redux";
 
 import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled} from "@ant-design/icons";
@@ -13,6 +13,8 @@ import "./publication.css";
 import EnTete from "./EnTete";
 import SideBarDroite from "./SideBarDroite";
 import AGORA from "../src/image/AGORA.png"
+import Inscription from "./inscription";
+import Header from "./Header";
 
 function Publication(props) {
   const { Header, Footer, Sider, Content } = Layout;
@@ -47,6 +49,9 @@ function Publication(props) {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
+  const [isConnect, setIsConnect] = useState(false);
+  const [isConnectProfil, setIsConnectProfil] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [idC, setIdC] = useState(0)
 
@@ -275,6 +280,7 @@ useEffect(() => {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: "nbLikes=${updateLikeNb}",
         });
+        updateLikes()
       };
      
     }
@@ -334,6 +340,30 @@ var handleDislike = (i) => {
       setStatus(true)
     } 
   }
+//show Modal
+  var showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = (e) => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = (e) => {
+    setIsModalVisible(false);
+  };
+
+  var handleClick = async () => {
+    if (props.token == null) {
+        setIsConnectProfil(false)}
+
+        if (isConnectProfil == false){
+      showModal();}
+  };
+
+  var deleteClick = (e) => {
+    setIsConnectProfil(false)
+  }
 
 
   var data = [
@@ -369,7 +399,14 @@ var handleDislike = (i) => {
     <Layout className='layout' style={{ margin: 10, backgroundColor:'white'}}>
     
     <div id="head" style={{display:"flex"}}>
-      
+    <Modal
+        style={{ displayflex: 1, width: 150 }}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Inscription />{" "}
+      </Modal>
       <div >
       <div style={{display:"flex", justifyContent:"space-between"}}>
         <Image
@@ -384,7 +421,7 @@ var handleDislike = (i) => {
       </div>
         <div>
           {" "}
-          <Button
+          <Button onClick={() => handleClick()}
         size={20}
           type="text"
           style={{
@@ -416,7 +453,11 @@ var handleDislike = (i) => {
         </p>
         </div>
       </div>
+<<<<<<< HEAD
    
+=======
+     
+>>>>>>> derniere
       <div>
         
        

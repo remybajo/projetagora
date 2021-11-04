@@ -45,9 +45,11 @@ import Sport from "../src/image/Sport.jpg";
 import Tourisme from "../src/image/Tourisme.jpg";
 import PiedDePage from "./piedDePage";
 import SearchBar from "./Components/SearchBar";
-import AGORA from "../src/image/AGORA.png"
+import AGORA from "../src/image/AGORA.png";
+import Header from "./Header";
 
-const { Header, Footer, Sider, Content } = Layout;
+
+const { Footer, Sider, Content } = Layout;
 const { Search } = Input;
 
 function NouvelPublication(props) {
@@ -69,20 +71,12 @@ function NouvelPublication(props) {
   const [validatePicture, setValidatePicture] = useState(false);
   const [id, setId] = useState();
   const [image, setImage] = useState();
-  const [publicationTitre, setPublicationTitre] = useState();
+ 
   var illustration;
   var border = { border: "" };
   var idP = "";
 
-  useEffect(() => {
-    const findPublications = async () => {
-        const toutePublication = await fetch("/searchPublication");
-        const res_publication = await toutePublication.json();
-        console.log("ma res_publication", res_publication.allPublications)
-        setPublicationTitre(res_publication.allPublications)
-    }; findPublications()
-}, []);
-var publicationT=publicationTitre
+
 
   useEffect(() => {
     var dateKnow = async () => {
@@ -281,77 +275,12 @@ var publicationT=publicationTitre
  
 
   return (
-    <div>
-      <div id="head" style={{display:"flex"}}>
-      
-      <div >
-      <div style={{display:"flex", justifyContent:"space-between"}}>
-        <Image
-          preview={false}
-          size={40}
-          className="logo"
-          width={150}
-          src={AGORA}
-        />
-         <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
-        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
-      </div>
-        <div>
-          {" "}
-          <Button
-          size={20}
-            type="text"
-            style={{
-             
-              backgroundColor: "#214C74",
-              borderColor: "#214C74",
-            }}
-          >
-            LOG IN
-          </Button>
-          
-          <Button
-            type="link"
-            style={{
-              backgroundColor: "transparent",
-              color: "#214C74",
-
-              borderColor: "transparent",
-            }}
-          >
-            LOG OUT
-          </Button>
-          </div>
-          </div>
-        <div>
-         <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
-          {" "}
-          Donnez votre avis d'une manière différente{" "}
-        </p>
-        </div>
-      </div>
-  
-      <div>
-        
-       
-        
-        <Button
-          type="primary"
-          size={100}
-          style={{
-            backgroundColor: "rgba(240, 52, 52, 1)",
-            borderColor: "rgba(240, 52, 52, 1)",
-            marginLeft: "50px",
-            boxShadow: "1px 15px 10px grey",
-          }}
-        >
-          Poster votre publication
-        </Button>
-      </div>
+    <div className="site-layout-background">
+     <Header/>
 
       
       
-    </div>
+    
 
       <Row>
         <SideBarDroite />

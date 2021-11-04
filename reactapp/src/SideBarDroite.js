@@ -57,13 +57,6 @@ function SideBarDroite(props) {
     "Tu as remarqué ?",
   ];
 
-  //  var findClickTheme = (theme) => {
-  // setTheme(theme)}
-
-  // }
-  // if (theme){
-  //  return <Redirect to={`/pageTheme/${theme}`} />
-  // }
 
   var showModal = () => {
     setIsModalVisible(true);
@@ -87,7 +80,7 @@ function SideBarDroite(props) {
 
   if (isConnect) {
     return <Redirect to="/pageprofil" />;
-  }
+  } 
 
   var handleClickPubli = (e) => {
     if (props.token == null) {
@@ -96,6 +89,8 @@ function SideBarDroite(props) {
       setIsConnectProfil(true);
     }
   };
+
+ 
 
   if (isConnectProfil) {
     return <Redirect to="/nouvelPublication" />;
