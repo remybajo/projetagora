@@ -6,22 +6,34 @@ import Inscription from "./inscription";
 import { connect } from "react-redux";
 import {Image, Modal } from "antd";
 
+
 function Header(props) {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isConnect, setIsConnect] = useState(false);
-    const [isConnectProfil, setIsConnectProfil] = useState(true);
+    const [isConnectProfil, setIsConnectProfil] = useState(false);
     const [publicationTitre, setPublicationTitre] = useState();
+    var token = props.token;
+
+    const findPublications = async () => {
+      const toutePublication = await fetch("/searchPublication");
+      const res_publication = await toutePublication.json();
+      console.log("ma res_publication", res_publication.allPublications)
+      setPublicationTitre(res_publication.allPublications)
+    }; 
 
     useEffect(() => {
-        const findPublications = async () => {
-            const toutePublication = await fetch("/searchPublication");
-            const res_publication = await toutePublication.json();
-            console.log("ma res_publication", res_publication.allPublications)
-            setPublicationTitre(res_publication.allPublications)
-        }; findPublications()
+       findPublications()
     }, []);
+
     var publicationT=publicationTitre;
+
+    useEffect(()=> {
+      if(!isConnectProfil) {
+        findPublications()
+        token = null
+      } 
+    },[isConnectProfil])
 
     var showModal = () => {
         setIsModalVisible(true);
@@ -37,14 +49,14 @@ function Header(props) {
     
       var handleClick = async () => {
         if (props.token == null) {
-            setIsConnectProfil(false)}
-
-            if (isConnectProfil == false){
-          showModal();}
+          showModal();
+        }
       };
 
       var deleteClick = (e) => {
-        setIsConnectProfil(false)
+        if (token != null) {
+        setIsConnectProfil(false);
+        }
       }
     
     return ( 
@@ -71,7 +83,7 @@ function Header(props) {
         <SearchBar  placeholder="chercher une publication" data={publicationT}/>
       </div>
           <div>
-            {" "}
+            {token == null ?
             <Button  onClick={() => handleClick()}
           size={20}
             type="text"
@@ -83,18 +95,23 @@ function Header(props) {
           >
             LOG IN
           </Button>
-          
+          :
+          <div style={{padding:5, fontWeight:'bold', display:'flex'}}>
+            <p style={{padding:5, fontWeight:'bold'}}>Vous êtes connecté(e)</p>
           <Button onClick={() => deleteClick()}
             type="link"
+            type="text"
             style={{
-              backgroundColor: "transparent",
-              color: "#214C74",
-
-              borderColor: "transparent",
+             
+              backgroundColor: "#214C74",
+              borderColor: "#214C74",
             }}
             >
             LOG OUT
           </Button>
+          
+          </div>
+          }
             </div>
             </div>
           <div>

@@ -15,6 +15,7 @@ router.post('/sendComment', async function(req, res, next){
         vote: req.body.vote,
         commentaire: req.body.commentaire,
         nb_likes: 0,
+        nb_dislikes: 0,
         date: req.body.date
     })
   
