@@ -46,14 +46,11 @@ import Tourisme from "../src/image/Tourisme.jpg";
 import PiedDePage from "./piedDePage";
 import SearchBar from "./Components/SearchBar";
 import AGORA from "../src/image/AGORA.png";
-<<<<<<< HEAD
 import Header from "./Header";
-=======
 import Nutrition from "../src/image/Nutrition.jpg";
 import Santé from "../src/image/Santé.jpg";
 import Technologie from "../src/image/Technologie.jpg";
 import Transport from "../src/image/Transport.jpg";
->>>>>>> damien
 
 
 const { Footer, Sider, Content } = Layout;
