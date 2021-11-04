@@ -17,7 +17,7 @@ import Inscription from "./inscription";
 import Header from "./Header";
 
 function Publication(props) {
-  const { Header, Footer, Sider, Content } = Layout;
+  const { Footer, Sider, Content } = Layout;
 
   var { id } = useParams();
   
@@ -413,87 +413,7 @@ var handleDislike = (i) => {
   return (
     <Layout className='layout' style={{ margin: 10, backgroundColor:'white'}}>
     
-    <div id="head" style={{display:"flex"}}>
-       <Modal
-        style={{ displayflex: 1, width: 150 }}
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Inscription />{" "}
-      </Modal>
-        <div >
-        <div style={{display:"flex", justifyContent:"space-between"}}>
-          <Image
-            preview={false}
-            size={40}
-            className="logo"
-            width={150}
-            src={AGORA}
-          />
-           <div className="searchbar" style={{display:"flex", justifyContent:"center"}}>
-        <SearchBar  placeholder="chercher une publication" data={publicationT}/>
-      </div>
-          <div>
-            {token == null ?
-            <Button  onClick={() => handleClick()}
-          size={20}
-            type="text"
-            style={{
-             
-              backgroundColor: "#214C74",
-              borderColor: "#214C74",
-            }}
-          >
-            LOG IN
-          </Button>
-          :
-          <div style={{padding:5, fontWeight:'bold', display:'flex'}}>
-            <p style={{padding:5, fontWeight:'bold'}}>Vous êtes connecté(e)</p>
-          <Button onClick={() => deleteClick()}
-            type="link"
-            type="text"
-            style={{
-             
-              backgroundColor: "#214C74",
-              borderColor: "#214C74",
-            }}
-            >
-            LOG OUT
-          </Button>
-          
-          </div>
-          }
-            </div>
-            </div>
-          <div>
-           <p style={{ marginLeft: "50px", fontWeight:"bold" }}>
-            {" "}
-            Donnez votre avis d'une manière différente{" "}
-          </p>
-          </div>
-        </div>
-       
-        <div>
-          
-         
-          
-          <Button
-            type="primary"
-            size={100}
-            style={{
-              backgroundColor: "rgba(240, 52, 52, 1)",
-              borderColor: "rgba(240, 52, 52, 1)",
-              marginLeft: "50px",
-              boxShadow: "1px 15px 10px grey",
-            }}
-          >
-            Poster votre publication
-          </Button>
-        </div>
-        
-      </div>
-        
+      <Header/>
         
      
       <Layout>
