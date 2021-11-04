@@ -453,11 +453,7 @@ var handleDislike = (i) => {
         </p>
         </div>
       </div>
-<<<<<<< HEAD
    
-=======
-     
->>>>>>> derniere
       <div>
         
        
