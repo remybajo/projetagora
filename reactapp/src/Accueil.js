@@ -250,6 +250,7 @@ function Accueil(props) {
               justify="start"
               span={12}
               style={{
+
                 backgroundColor: "transparent",
                 textAlign: "center",
                 marginTop: "70px",
@@ -257,13 +258,16 @@ function Accueil(props) {
             >
               <h3> Votre publication interesse-t-elle du monde ?</h3>
               <p>
-                Découvrez les avis des autres utilisateurs... Lorem Ipsum is
-                simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever
-                since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived
-                not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged.
+              La proposition d'Agora c'est  :<br/>
+- d’être acteurs du débat, plutôt que consommateurs passifs. <br/>
+- de contribuer de manière positive en proposant des sujets de débat ou proposer des solutions. <br/>
+- d’exprimer son opinion à travers un seul vote et un seul commentaire réfléchis.<br/>
+- une interface simple d’utilisation et, pour ceux qui n’ont pas le temps de rédiger, un moyen très rapide de faire passer son message.<br/>
+
+Cette solution permet à l’issue de chaque question de :<br/>
+- mettre en évidence l’avis de la majorité avec des chiffres à l’appui,<br/>
+- connaître et comprendre les avis des autres
+
               </p>
               <div id="ical">
                 <DownCircleFilled
