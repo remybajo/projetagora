@@ -92,7 +92,11 @@ function Inscription(props) {
         return (<p key={i}>{error}</p>)
     })
 
-
+    useEffect(() => {
+        if(props.token == null) {
+            setUserExists(false)
+        }
+    }, [props.token])
 
      if (userExists) { 
     //   return <Link to={window.location.href}/>
