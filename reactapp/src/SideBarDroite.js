@@ -74,31 +74,19 @@ function SideBarDroite(props) {
     setIsModalVisible(false);
   };
 
-  var handleClick = async () => {
-    if (props.token == null) {
-      showModal();
-    } else {
-      setIsConnect(true);
-    }
-  };
-
-  if (isConnect) {
-    return <Redirect to="/pageprofil" />;
-  } 
-
-  var handleClickPubli = (e) => {
-    if (props.token == null) {
-      showModal();
-    } else {
-      setIsConnectProfil(true);
-    }
-  };
+  // var handleClickPubli = (e) => {
+  //   if (props.token == null) {
+  //     showModal();
+  //   } else {
+  //     setIsConnectProfil(true);
+  //   }
+  // };
 
  
 
-  if (isConnectProfil) {
-    return <Redirect to="/nouvelPublication" />;
-  }
+  // if (isConnectProfil) {
+  //   return <Redirect to="/nouvelPublication" />;
+  // }
 
   var publiTheme = themeData.map((theme, i) => {
     return (
@@ -130,21 +118,38 @@ function SideBarDroite(props) {
         <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Thématique">
           {publiTheme}
         </SubMenu>
+        {props.token ?
         <Menu.Item
-          onClick={() => handleClick()}
+          //onClick={() => handleClick()}
           key="2"
           icon={<CalendarOutlined />}
-        >
-          Mon compte
+        > <Link to="/pageprofil">Mon compte</Link>
         </Menu.Item>
-
+        :
         <Menu.Item
-          onClick={() => handleClickPubli()}
+          onClick={() => showModal()}
+          key="2"
+          icon={<CalendarOutlined />}
+        > Mon compte
+        </Menu.Item>
+          }
+        
+        {props.token ?
+        <Menu.Item
+          //onClick={() => handleClickPubli()}
           key="link"
           icon={<EditOutlined />}
-        >
-          Nouvelle publication
+        > <Link to="/nouvelPublication">Nouvelle publication</Link>
         </Menu.Item>
+        :
+        <Menu.Item
+          onClick={() => showModal()}
+          key="2"
+          icon={<CalendarOutlined />}
+        > Nouvelle Publication
+        </Menu.Item>
+        }
+        
       </Menu>
     </Sider>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, } from "react";
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import AGORA from "../src/image/AGORA.png"
 import SearchBar from "./Components/SearchBar";
@@ -93,8 +94,7 @@ function Header(props) {
               backgroundColor: "#214C74",
               borderColor: "#214C74",
             }}
-            >
-            LOG OUT
+            ><Link to="/">LOG OUT</Link>
           </Button>
           
           </div>
