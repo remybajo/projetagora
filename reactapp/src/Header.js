@@ -28,13 +28,6 @@ function Header(props) {
 
     var publicationT=publicationTitre;
 
-    useEffect(()=> {
-      if(!isConnectProfil) {
-        findPublications()
-        token = null
-      } 
-    },[isConnectProfil])
-
     var showModal = () => {
         setIsModalVisible(true);
       };
@@ -52,12 +45,6 @@ function Header(props) {
           showModal();
         }
       };
-
-      var deleteClick = (e) => {
-        if (token != null) {
-        setIsConnectProfil(false);
-        }
-      }
     
     return ( 
        
@@ -98,7 +85,7 @@ function Header(props) {
           :
           <div style={{padding:5, fontWeight:'bold', display:'flex'}}>
             <p style={{padding:5, fontWeight:'bold'}}>Vous êtes connecté(e)</p>
-          <Button onClick={() => deleteClick()}
+          <Button onClick={() => props.deleteToken(token)}
             type="link"
             type="text"
             style={{
@@ -148,4 +135,19 @@ function Header(props) {
 function mapStateToProps(state) {
     return { token: state.token };
   }
-  export default connect (mapStateToProps, null)(Header)
+
+  function mapDispatchToProps(dispatch) {
+    return {
+        deleteToken: function (token) {
+            dispatch({ type: 'deleteToken', token: token },
+           
+            )
+           
+        
+    }}
+}
+
+  export default connect (
+    mapStateToProps,
+    mapDispatchToProps
+    )(Header)

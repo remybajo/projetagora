@@ -5,8 +5,8 @@ const commentSchema = mongoose.Schema({
     publication_id: { type: mongoose.Schema.Types.ObjectId, ref: 'publications' },
     vote: String,
     commentaire: String,
-    nb_likes: Number,
-    nb_dislikes: Number,
+    users_like: Array,
+    users_dislike: Array,
     date: String
 })
 

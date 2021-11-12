@@ -48,23 +48,17 @@ router.get('/populaires', async function(req, res, next){
     {$limit: 3 }
     ]);
 
-   
-  var pop_ids = [];
-  var publi;
+  console.log("see rank: ", rank)
+
+  var topPublications = [];
   for (var i=0; i<rank.length; i++) {
-    publi = rank[i]._id;
-    publi = publi.toString().replace(/new ObjectId/g, '' );
-    pop_ids.push(publi);
+    var publi = await publicationModel.find({_id: rank[i]});
+    // retourne un tableau de tableaux
+    topPublications.push(publi[0]);
   }
- 
-    var topPublications = [];
-    for (var i=0; i<pop_ids.length; i++) {
-      top = await publicationModel.findById(pop_ids[i])
-      topPublications.push(top)
-    } 
-    //console.log("top 3 ", topPublications);
 
-
+  //console.log("check public: ", topPublications)
+   
   res.json({result, topPublications})
 
 })
@@ -92,6 +86,7 @@ router.get('/selectedPublication', async function(req, res, next){
   var result_comments = false
   id = req.query.id;
   //console.log("check id: ",id)
+
   // récupération de l'article correspondant à l'id sélectionné
   var publication = await publicationModel.findById(id);
   var publiToDisplay = publication
@@ -115,10 +110,7 @@ router.get('/selectedPublication', async function(req, res, next){
   var user;
   var votes
   var userConnected = false;
-  // var alreadyVoted;
-  // var userVote;
-  // var alreadyCommented;
-  // var userComment;
+ 
 
   if (req.query.token != null) {
     userConnected = true;
@@ -142,47 +134,20 @@ router.get('/selectedPublication', async function(req, res, next){
   }
  
   console.log("genre: ", gender);
-    
-  //   if(votes.length == 0){
-  //     alreadyVoted = false
-  //   } else {
-  //     alreadyVoted = true;
-  //     userVote = votes[0].vote;
-  //     console.log("vote du user" , userVote)
-  //   }
-
-  // var commented = await commentModel.find({publication_id: id, user_id:user._id });
-  //   console.log("userComment: ", commented );
-  //   if(commented.length ==0) {
-  //     alreadyCommented = false;
-  //   } else {
-  //     alreadyCommented = true;
-  //     userComment = commented[0].commentaire;
-  //     console.log("user comment: ", userComment)
-  //   }
-
-  
+      
   console.log("user connected: ", userConnected)
 
- 
-
   // récupération du résultat du vote pour l'article sélectionné
-  // ATENTION LE MATCH NE FONCTIONNE PAS - pas encore de filtre sur l'id
-  
-  //var stats = await voteModel.find({publication_id: id})
+
   var stats = await voteModel.aggregate([ 
     {$match:{publication_id: mongoose.Types.ObjectId(id)}},
     {$group:{
     _id : "$vote",
      userCount: { $sum: 1 }
    }}
-   
   ]);
   
   //console.log('stats ', stats)
-
-  
-  
 
   //res.json({result, publiToDisplay, comments, stats, alreadyVoted, userVote, userConnected, alreadyCommented, userComment})
   res.json({result, publiToDisplay, comments, stats, userConnected, user, votes, gender})

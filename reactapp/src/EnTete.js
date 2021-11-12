@@ -119,4 +119,7 @@ function EnTete(props) {
 function mapStateToProps(state) {
   return { token: state.token };
 }
+
+
+
 export default connect(mapStateToProps, null)(EnTete);

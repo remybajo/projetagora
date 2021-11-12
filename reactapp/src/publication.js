@@ -15,6 +15,7 @@ import SideBarDroite from "./SideBarDroite";
 import AGORA from "../src/image/AGORA.png"
 import Inscription from "./inscription";
 import Header from "./Header";
+import Commentaires from "./commentaires"
 
 function Publication(props) {
   const { Footer, Sider, Content } = Layout;
@@ -49,14 +50,20 @@ function Publication(props) {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
+  const [actionLike, setActionLike] = useState("");
+  const [actionDislike, setActionDislike] = useState("");
   const [isConnect, setIsConnect] = useState(false);
   const [isConnectProfil, setIsConnectProfil] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [thumbUp, setThumbUp] = useState("");
+  var newComment = {};
+  var topComments = []
 
   const [idC, setIdC] = useState(0)
 
 
   const { TextArea } = Input;
+  const { TabPane } = Tabs;
 
   const IconText = ({ icon, text }) => (
     <Space>
@@ -92,6 +99,8 @@ function Publication(props) {
     // si l'utilisateur n'est pas loggé, cacher des éléments
     if(token)  {
       setConnected(true);
+    } else {
+      setConnected(false)
     }
     
     // recuperation des commentaires liés à la publication
@@ -113,7 +122,7 @@ function Publication(props) {
         setAlreadyVoted(true);
         setStatus(true)
         setUserVote(voted[0].vote)
-      }
+      } 
 
       var commented = body.comments.filter(comment => comment.user_id == body.user._id);
       if (commented.length > 0) {
@@ -123,6 +132,10 @@ function Publication(props) {
         setAlreadyCommented(false)
       }
   
+    } else {
+      setAlreadyVoted(false);
+      setStatus(false);
+      setAlreadyCommented(false)
     }
     setGender(body.gender);
     console.log("body gender ", body.gender)
@@ -151,11 +164,15 @@ var publicationT=publicationTitre
   useEffect(() => {
     getSelectedPublication()
   }, [token])
-
-  useEffect(() => {
-    setCommentairesList(props.commentairesList)
-  }, [props.commentairesList])
   
+  // Récup des nouveaux commentaires via le reducer pour le re-render des top commentaires
+  // useEffect(() => {
+  //   console.log("comment from reducer: ", props.commentairesList)
+  //   setCommentairesList([...commentairesList, props.commentairesList[props.commentairesList.length-1]])
+  //   //commentairesList.push(props.commentairesList)
+  // }, [props.commentairesList])
+  
+  console.log("comment after update of commentairesList: ", commentairesList)
 
   // mise à jour de la sélection pour le vote
   useEffect(() => {
@@ -222,104 +239,18 @@ var publicationT=publicationTitre
       dateComment = dateFormat(Date.now());
       console.log("date commentaire: ", dateComment);
       sendComment();
+      // newComment = {commentaire: comment, vote: userVote, nb_likes: 0, nb_dislikes:0};
+      // console.log("new comment object: ", newComment)
+      // props.addComment(newComment);
+      getSelectedPublication();
       setComment("");
       setMessageCom(<Alert message="Votre commentaire a bien été envoyé." type="success" showIcon />);
       //setCommentairesList([...commentairesList, commentaire])
-      
       //setBoutonValiCom("");
       setBoutonValiCom("Annuler le commentaire");
     }
-    getSelectedPublication(); 
   }
-  ;
 
-  // GESTION DES LIKES SUR LES COMMENTAIRES
-
-
-  var likeItem = (<span className="comment-action">0</span>)
-
-var result;
-function increment (i){
-
-  setLikeComment(!likeComment);
-  result = [...commentairesList]
-
-  if (!likeComment) {
-    result[i].nb_likes += 1;
-    setAction('liked')
-  } else {
-    result[i].nb_likes -= 1;
-    setAction('notliked');
-  }
-  
-  setCommentairesList(result)
-
-  console.log(result);
-  // setIdC(idC + 1)
-}
-
-
-
-useEffect(() => {
-}, [commentairesList,result])
-
-
-
-
-  var handleLike = (i) => {
-    console.log("this",i);
-    var index = i.i
-    console.log("liked index: ", index)
-    var idComment = commentairesList[index]._id
-    setIdC(i)
-    
-
-    setLikeComment(true)
-
-    // 3 lignes actuellement utilisées pour les pouces like
-    setLikes(1);
-    setDislikes(0);
-    setAction('liked');
-
-
-    commentairesList[index].nb_likes +=1;
-    var updateLikeNb = commentairesList[index].nb_likes
-    likeItem = (<span className="comment-action">1</span>)
-    console.log("check commentaire clicked: ",commentairesList[index])
-    
-
-  
-      var updateLikes = async () => {
-        await fetch(`/comments/updateLikes?idComment=${idComment}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: "nbLikes=${updateLikeNb}",
-        });
-        updateLikes()
-      };
-     
-    }
-    console.log("commentaireslist w like", commentairesList);
-    console.log("count ", count)
-
-// Gerer les dislike -- ATTENTION - PAS TERMINé
-
-var handleDislike = (i) => {
-  var index = i.i;
-  console.log("disliked index : ", index)
-  var idComment = commentairesList[index]._id
-   
-  setLikes(0);
-  setDislikes(1);
-  setAction('disliked');
-
-  if(commentairesList[index].nb_likes>0){
-    commentairesList[index].nb_likes -=1 ;
-  var updateLikeNb = commentairesList[index].nb_likes
-  likeItem = (<span className="comment-action">1</span>)
-  console.log("check commentaire clicked: ",commentairesList[index])
-  }
-}
   
 
   // supprimer son commentaire
@@ -408,6 +339,11 @@ var handleDislike = (i) => {
       }];
 
       console.log('le i de la page publication', idC)
+
+      console.log("check user id : ", user._id)
+      
+      console.log('see if update token: ', token)
+
 
 
   return (
@@ -569,33 +505,9 @@ var handleDislike = (i) => {
               :
 
               <div>
-                {commentairesList.map((comment, i) => {
-              
-                  
+                {commentairesList.map((comment, i) => { 
                   return(
-              <Comment
-              key={i} 
-              actions={[
-                <Tooltip key="comment-basic-like" title="Like">
-                  <span onClick={() => increment(i)}>
-                    {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-                    <span className="comment-action">{comment.nb_likes}</span>
-                  </span>
-                </Tooltip>,
-                <Tooltip key="comment-basic-dislike" title="Dislike">
-                  <span onClick={() => handleDislike({i})}> 
-                    {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
-                    <span className="comment-action">{dislikes}</span>
-                  </span>
-                </Tooltip>,
-                // <span key="comment-basic-reply-to" style={{backgroundColor:'beige'}}>{comment.nb_likes + " likes"}</span>,
-              ]}
-              author={comment.vote}
-              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-              content={
-                <p>{comment.commentaire}</p>
-              }
-              />) })}
+              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>) })}
             </div>
             }
             </div>
@@ -686,6 +598,208 @@ var handleDislike = (i) => {
 
         </Col>
       </Row>
+      <Row>
+        <Col span={20} style={{color: "#37A4B2", fontSize: "150%", fontWeight:'bold' , margin:20}}> 
+        TOUS LES COMMENTAIRES
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="J'Adore" key="1">
+          <div>
+              {connected == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
+                </p>                
+              :
+
+              <div>
+                {alreadyVoted == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                VOTEZ POUR ACCEDER AUX COMMENTAIRES
+                </p>
+
+                :
+
+               <div> 
+                {commentairesList.length == 0 ?
+                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
+                
+              :
+
+              <div>
+                {commentairesList.map((comment, i) => { 
+                  if(comment.vote == "J'Adore") {
+                    return(
+              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
+                  }
+                   })}
+            </div>
+            }
+            </div>
+              }
+            </div> 
+              }
+            </div>
+          </TabPane>
+          <TabPane tab="Je suis Pour" key="2">
+          <div>
+              {connected == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
+                </p>                
+              :
+              
+              <div>
+                {alreadyVoted == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                VOTEZ POUR ACCEDER AUX COMMENTAIRES
+                </p>
+
+                :
+
+               <div> 
+                {commentairesList.length == 0 ?
+                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
+                
+              :
+
+              <div>
+                {commentairesList.map((comment, i) => { 
+                  if(comment.vote == "Je suis Pour") {
+                    return(
+              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
+                  }
+                   })}
+            </div>
+            }
+            </div>
+              }
+            </div> 
+              }
+            </div>
+          </TabPane>
+          <TabPane tab="Je suis Mitigé(e)" key="3">
+          <div>
+              {connected == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
+                </p>                
+              :
+              
+              <div>
+                {alreadyVoted == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                VOTEZ POUR ACCEDER AUX COMMENTAIRES
+                </p>
+
+                :
+
+               <div> 
+                {commentairesList.length == 0 ?
+                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
+                
+              :
+
+              <div>
+                {commentairesList.map((comment, i) => { 
+                  if(comment.vote == "Je suis Mitigé(e)") {
+                    return(
+              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
+                  }
+                   })}
+            </div>
+            }
+            </div>
+              }
+            </div> 
+              }
+            </div>
+          </TabPane>
+          <TabPane tab="Je suis Contre" key="4">
+          <div>
+              {connected == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
+                </p>                
+              :
+              
+              <div>
+                {alreadyVoted == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                VOTEZ POUR ACCEDER AUX COMMENTAIRES
+                </p>
+
+                :
+
+               <div> 
+                {commentairesList.length == 0 ?
+                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
+                
+              :
+
+              <div>
+                {commentairesList.map((comment, i) => { 
+                  if(comment.vote == "Je suis Contre") {
+                    return(
+              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
+                  }
+                   })}
+            </div>
+            }
+            </div>
+              }
+            </div> 
+              }
+            </div>
+          </TabPane>
+          <TabPane tab="Je Déteste" key="5">
+          <div>
+              {connected == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
+                </p>                
+              :
+              
+              <div>
+                {alreadyVoted == false ?
+
+                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
+                VOTEZ POUR ACCEDER AUX COMMENTAIRES
+                </p>
+
+                :
+
+               <div> 
+                {commentairesList.length == 0 ?
+                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
+                
+              :
+
+              <div>
+                {commentairesList.map((comment, i) => { 
+                  if(comment.vote == "Je Déteste") {
+                    return(
+              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
+                  }
+                   })}
+            </div>
+            }
+            </div>
+              }
+            </div> 
+              }
+            </div>
+          </TabPane>
+        </Tabs>
+        </Col>
+      </Row>
     
       </Content> 
       </Layout>
@@ -703,10 +817,13 @@ function mapDispatchToProps(dispatch) {
       addToken: function (token) {
           dispatch({ type: 'addToken', token: token },         
           )
-  }, updateNbLikes: function(commentairesList){
-        dispatch({ type: 'updateLikes', listComments: commentairesList},         
+  },addComment: function(newComment){
+        dispatch({ type: 'addComment', newComment: newComment},         
           )
-  }
+  }, updateNbLikes: function(commentairesList){
+    dispatch({ type: 'updateLikes', listComments: commentairesList},         
+      )
+}
 }
 }
 

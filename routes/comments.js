@@ -14,8 +14,8 @@ router.post('/sendComment', async function(req, res, next){
         publication_id: req.body.publication,
         vote: req.body.vote,
         commentaire: req.body.commentaire,
-        nb_likes: 0,
-        nb_dislikes: 0,
+        users_like: [],
+        users_dislike: [],
         date: req.body.date
     })
   
@@ -45,13 +45,33 @@ router.post('/sendComment', async function(req, res, next){
     res.json({result, comments})
 })
 
-router.put('/updateLikes/:idComment', async function(req, res, next){
-  var comments = await commentModel.find({_id: req.params.idComment});
-  console.log("comment liked: ",comments)
+router.post('/updateLikes', async function(req, res, next){
+  var commentLiked = await commentModel.findById(req.body.commentId);
+  console.log("check like: ", req.body.like);
+  console.log("check dislike: ", req.body.dislike);
 
+  var checkDoublonLikes = commentLiked.users_like.findIndex(e => e == req.body.userId)
+  var checkDoublonDislikes = commentLiked.users_dislike.findIndex(e => e == req.body.userId)
+  
+  if(req.body.like == 1 && checkDoublonLikes == -1) {
+  await commentLiked.users_like.push(req.body.userId);
+  await commentLiked.save();
+  } else if (req.body.like == 0){
+    await commentLiked.users_like.pull(req.body.userId);
+    await commentLiked.save();
+  }
 
+  if(req.body.dislike == 1 && checkDoublonDislikes == -1) {
+    await commentLiked.users_dislike.push(req.body.userId)
+    await commentLiked.save()
+  } else if (req.body.dislike == 0) {
+    await commentLiked.users_dislike.pull(req.body.userId);
+    await commentLiked.save();
+  }
+  
+  console.log("comment liked after push: ", commentLiked)
 
-  res.json()
+  res.json(commentLiked)
 })
 
 module.exports = router;
