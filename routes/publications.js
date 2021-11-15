@@ -10,16 +10,6 @@ const mongoose = require('mongoose');
 var id;
 var token;
 
-var uniqid = require('uniqid');
-var fs = require('fs');
-
-var cloudinary = require('cloudinary').v2;
-cloudinary.config({ 
-  cloud_name: 'dndcvhxbw',
- api_key: '466162484392489',
- api_secret: '-fErMn0jlCeAFf4IiGibqxiEWpY' 
-});
-
 router.get('/lastPublications', async function(req, res, next){
     var result = false;
     var publications = await publicationModel.find().sort({date_publication: -1});
@@ -69,7 +59,7 @@ router.get('/allPublications', async function(req, res, next){
  
   if(allPublications){
       result = true
-      // console.log("all: ", allPublications)
+      //console.log("all: ", allPublications)
     }
 
     
@@ -122,7 +112,7 @@ router.get('/selectedPublication', async function(req, res, next){
   votes = await voteModel.find({publication_id: id});
   
   var voters = await voteModel.find({publication_id: id}).populate('user_id');
-  console.log("voters: ", voters)
+  console.log("voters: ", voters.length)
 
   var gender = [{genre: "hommes", nbre:0}, {genre: "femmes", nbre:0}]
   for(var i=0;i<voters.length;i++){
@@ -132,6 +122,9 @@ router.get('/selectedPublication', async function(req, res, next){
       gender[1].nbre++
     }
   }
+
+  var nbVoters = voters.length
+  
  
   console.log("genre: ", gender);
       
@@ -150,7 +143,7 @@ router.get('/selectedPublication', async function(req, res, next){
   //console.log('stats ', stats)
 
   //res.json({result, publiToDisplay, comments, stats, alreadyVoted, userVote, userConnected, alreadyCommented, userComment})
-  res.json({result, publiToDisplay, comments, stats, userConnected, user, votes, gender})
+  res.json({result, publiToDisplay, comments, stats, userConnected, user, votes, gender, nbVoters})
 
 })
 
@@ -180,31 +173,6 @@ router.get('/nouveaute', async function(req, res, next){
   res.json({result, publiToDisplay, id})
 }) 
 
-router.post('/upload', async function(req, res, next) {
-  console.log('check upload de fichiers: ',req.files.image)
-  
-  var pictureName = './tmp/'+uniqid()+'.jpg';
-  var resultCopy = await req.files.image.mv(pictureName);
-  if(!resultCopy) {
-    var resultCloudinary = await cloudinary.uploader.upload(pictureName);
-    var url = resultCloudinary.url
-    console.log("url cloudinary: ", url)
-    var options = {
-      json: {
-        apiKey: "5c0a5d392c1745d2ae84dc0b1483bfd2",
-        image: url
-      },
-     };
-    
-    
-    res.json({result: true, message: 'File uploaded!', url: url, gender:gender, age:age});
-  } else {
-    res.json({error: resultCopy});
-  
-  }
 
-  // fs.unlinkSync(pictureName);
-  
-});
 
 module.exports = router;

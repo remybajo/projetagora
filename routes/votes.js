@@ -16,7 +16,6 @@ router.post('/sendVote', async function(req, res, next){
         user_id: user._id,
         publication_id: req.body.publication,
         vote: req.body.vote,
-        //commentaire_id:,
         date_vote: req.body.date
       })
   

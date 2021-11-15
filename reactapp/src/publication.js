@@ -1,11 +1,9 @@
-import React, { useState, useEffect, createElement } from "react";
+import React, { useState, useEffect} from "react";
 import { useParams } from 'react-router-dom';
 import {
-  Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
-  Input, Badge, Alert, Tooltip, Modal, Statistic} from "antd";
+  Radio,  Layout,  Menu,  Button,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
+  Input, Alert} from "antd";
 import { connect } from "react-redux";
-
-import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
 
 import Plot from 'react-plotly.js';
 import SearchBar from "./Components/SearchBar";
@@ -39,11 +37,11 @@ function Publication(props) {
   const [alreadyVoted, setAlreadyVoted] = useState(false);
   const [alreadyCommented, setAlreadyCommented] = useState(false);
   const [userVote, setUserVote] = useState();
+  const [nbVoters, setNbVoters] = useState(0);
   const [userComment, setUserComment] = useState("");
   const [connected, setConnected] = useState(false);
   const [count, setCount] = useState(0);
   const [counter, setCounter] = useState(0)
-  const [icon, setIcon] = useState(<LikeFilled/>)
   const [likeComment, setLikeComment] = useState(false)
   const [gender, setGender] = useState();
   const [publicationTitre, setPublicationTitre] = useState();
@@ -55,7 +53,13 @@ function Publication(props) {
   const [isConnect, setIsConnect] = useState(false);
   const [isConnectProfil, setIsConnectProfil] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [thumbUp, setThumbUp] = useState("");
+
+
+
+  const [listVotes, setListVotes] = useState([{vote: "J'Adore", color: "#33EE22", border:""}, {vote: "Je suis Pour", color: "#93c47d", border:""}, {vote: "Je suis Mitigé(e)", color: "#ffd966", border:""}, {vote: "Je suis Contre", color: "#ffa500", border:""}, {vote: "Je Déteste", color: "#f44336", border:""}])
+
+  //const [border, setBorder] = useState("");
+
   var newComment = {};
   var topComments = []
 
@@ -122,6 +126,7 @@ function Publication(props) {
         setAlreadyVoted(true);
         setStatus(true)
         setUserVote(voted[0].vote)
+        setNbVoters(body.nbVoters)
       } 
 
       var commented = body.comments.filter(comment => comment.user_id == body.user._id);
@@ -140,8 +145,7 @@ function Publication(props) {
     setGender(body.gender);
     console.log("body gender ", body.gender)
 
-    setMessage("")
-
+    setMessage("");
   }
 
   //recupération données bar de recherche
@@ -161,8 +165,10 @@ var publicationT=publicationTitre
     getSelectedPublication(); 
   },[])
 
+  console.log("check nb Voters: ", nbVoters)
+
   useEffect(() => {
-    getSelectedPublication()
+    getSelectedPublication();
   }, [token])
   
   // Récup des nouveaux commentaires via le reducer pour le re-render des top commentaires
@@ -176,10 +182,31 @@ var publicationT=publicationTitre
 
   // mise à jour de la sélection pour le vote
   useEffect(() => {
-    setVote(selection);
-    setMessage("");
-    console.log("selection: ", selection)
-  }, [selection]);
+    if(selection) {
+      setVote(selection);
+      setMessage("");
+    } else {
+      setVote('');
+      setMessage("");
+    }
+  }, [selection]); 
+  
+  var handleBorder = (element) => {
+    var items = [];
+    var index = element.element;
+    console.log("check index: ", index)
+    for (var i=0; i<listVotes.length; i++) {
+      if (i == index){
+        items = [...listVotes];
+        items[i].border = "solid blue";
+        setListVotes(items)
+      } else {
+        items = [...listVotes];
+        items[i].border = "";
+        setListVotes(items)
+      }
+    }
+  }
 
   // requête pour l'envoi du vote en bdd - utilisée dans la fonction voteValidation()
   var sendVote = async () => {
@@ -193,27 +220,21 @@ var publicationT=publicationTitre
   // validation du vote au click sur bouton valider
 
   var voteValidation = () => {
+    console.log("check selection: ", selection)
+    console.log("check vote: ", vote)
     if (!vote) {
       setMessage(<Alert message="Veuillez choisir une option de vote avant de valider." type="error" showIcon />);
     } else if (!token) {
       setMessage(<Alert message="Veuillez vous identifier avant de voter." type="error" showIcon />);
-      setVote("");
     } else if (vote && !status) {
       setStatus(true);
       setMessage(<Alert message="Votre vote a bien été pris en compte. Merci pour votre participation." type="success" showIcon />);
       setAlreadyVoted(true);
       date = dateFormat(Date.now());
-      console.log("date: ", date);
       sendVote();
       getSelectedPublication(); 
     }
-    if (boutonVali == "Annuler le vote") {
-      setStatus(false);
-      setBoutonVali("Valider le choix");
-      setMessage("");
-    }
-
-    console.log(vote);
+    console.log("vote: ",vote);
   };
 
 
@@ -242,16 +263,11 @@ var publicationT=publicationTitre
       // newComment = {commentaire: comment, vote: userVote, nb_likes: 0, nb_dislikes:0};
       // console.log("new comment object: ", newComment)
       // props.addComment(newComment);
-      getSelectedPublication();
       setComment("");
       setMessageCom(<Alert message="Votre commentaire a bien été envoyé." type="success" showIcon />);
-      //setCommentairesList([...commentairesList, commentaire])
-      //setBoutonValiCom("");
-      setBoutonValiCom("Annuler le commentaire");
+      getSelectedPublication();
     }
   }
-
-  
 
   // supprimer son commentaire
   var commentSuppr = async () => {
@@ -331,19 +347,11 @@ var publicationT=publicationTitre
         text: genderLabels,
         hoverinfo: 'none',
         marker: {'colors': [
-          "#FFC806",  //adore
-          "#EDAC06",  //pour
-       
+          "#FFC806", 
+          "#EDAC06",  
          ] 
       },
       }];
-
-      console.log('le i de la page publication', idC)
-
-      console.log("check user id : ", user._id)
-      
-      console.log('see if update token: ', token)
-
 
 
   return (
@@ -352,7 +360,7 @@ var publicationT=publicationTitre
       <Header/>
         
      
-      <Layout>
+      <Layout style={{height:"100vh"}}>
         
         <SideBarDroite/>
       <Content>   
@@ -361,19 +369,18 @@ var publicationT=publicationTitre
         className="site-layout-background"
         justify="center"
         align="top"
-        style={{ margin:0, padding:0, height:"60%" }}
+        style={{ margin:0, padding:0, height:"50vh", width:"90vw",display: "flex", alignItem:'center' }}
       >
-        <div style={{ width:"100%", height:"100%", display: "flex" }}>
 
           <Col
-            span={8} className="gutter-row"
+            span={7} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: "center",          
               margin: 5,
-                     
+              width:'30%',
+              height:"100%"                     
             }}
           >
             <h1 style={{ color: "#37A4B2", fontSize: "200%", textAlign:'center'}}>
@@ -390,51 +397,36 @@ var publicationT=publicationTitre
 
             </div>
           </Col>
-          <Col span={8} className="gutter-row"
-          style={{margin:5, display:'flex', flexDirection:'row', justifyContent:'center'}}>
+          <Col span={7} className="gutter-row"
+          style={{margin:5, padding:15, height:'100%', width:'30%', display:'flex', flexDirection:'row', justifyContent:'center'}}>
            
             {alreadyVoted ?
-            <div>
-            <Plot
-            data={data}
-            layout={ {width:380, height: 380, title: 'Résultat du Vote',
-             paper_bgcolor:'#F2F3F4', legend: {orientation: 'h', side: 'top'},
-             showticklabels: true, showlegend:false, font:{fontWeight:'bold'}
-                } } 
-            />
+            
+            <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+              <h2 style={{color:"#37A4B2"}}>Résultat du Vote</h2>
+              <Plot
+              data={data}
+              config={{displayModeBar:false}}
+              layout={ {width:"380", height: 380, title:`Nbre total de Votants: ${nbVoters}`,
+              paper_bgcolor:'#F2F3F4', legend: {orientation: 'h', side: 'top'},
+              showticklabels: true, showlegend:false, margin:10
+                  } }
+              
+              />
            
             </div>
 
             :
-            <div style={{width:300, height:350, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', position:'relative'}}> 
-            <h2>VOTEZ</h2>
-           
-            <Radio.Button
-                disabled={status} style={{backgroundColor: "#33EE22", margin:10, fontWeight:'bold'}} value="J'Adore"
-                onClick={(e) => setSelection(e.target.value)} shape='round'
-              > J'Adore  </Radio.Button>
-                          
-              <Radio.Button
-                disabled={status} style={{backgroundColor: "#93c47d", margin:10, fontWeight:'bold'}} value="Je suis Pour"
-                onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je suis Pour  </Radio.Button>
-
-              <Radio.Button
-                disabled={status} style={{backgroundColor: "#ffd966", margin:10, fontWeight:'bold' }} value="Je suis Mitigé(e)"
-                onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je suis Mitigé(e)</Radio.Button>
-                
-            
-                <Radio.Button
-                disabled={status} style={{backgroundColor: "#ffa500", margin:10, fontWeight:'bold'}} value="Je suis Contre"
-                onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je suis Contre</Radio.Button>
-            
-            <Radio.Button
-                disabled={status} style={{backgroundColor: "#f44336", margin:10, fontWeight:'bold'}} value="Je Déteste"
-                onClick={(e) => setSelection(e.target.value)} shape='round'
-              > Je Déteste</Radio.Button>
-              
+            <div style={{width:300, height:350, display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}> 
+            <h2 style={{color:"#37A4B2"}}>VOTEZ</h2>
+           {listVotes.map((vote, element) => {
+             return(
+               <Radio.Button key={element}
+                disabled={status} style={{backgroundColor: `${vote.color}`, margin:10, fontWeight:'bold', border:`${vote.border}`}} value={vote.vote}
+                onClick={(e) => {setSelection(e.target.value); handleBorder({element})}} shape='round'
+              > {vote.vote}  </Radio.Button>
+             )
+           })}             
 
             <Button type="primary" size='large' disabled={status} onClick={() => voteValidation()}
             style={{marginTop:10}}>
@@ -448,115 +440,37 @@ var publicationT=publicationTitre
             }
 
           </Col>
-          {/* <Col span={4} className="gutter-row"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems:'center',
-              backgroundColor:"#FFFFFF",
-              padding:0,
-              margin: 0,
-              color:"blue"
-            }}>
-              <h5>Qui a voté ? </h5>
-          <Plot
-            data={dataGender}
-            layout={ {width: 200, height: 200, margin:0, title: 'Genre',
-             paper_bgcolor:'#919191', legend: {orientation: 'h', side: 'top'},
-             showticklabels: true, showlegend:false
-                } } 
-            />
-          </Col> */}
           <Col
             span={7} className="gutter-row"
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems:'center',
-              padding:20,
+              padding:5,
               margin: 5,
-              color:"blue"
+              width:'30%',
+              height:'100%'
             }}
           >
-            <h3>Top Commentaires</h3>
-
-            <div>
-              {connected == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
-                </p>
-                
-              :
-
-              <div>
-                {alreadyVoted == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                VOTEZ POUR ACCEDER AUX COMMENTAIRES
-                </p>
-
-                :
-
-               <div> 
-                {commentairesList.length == 0 ?
-                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
-                
-              :
-
-              <div>
-                {commentairesList.map((comment, i) => { 
-                  return(
-              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>) })}
-            </div>
-            }
-            </div>
-              }
-            </div> 
-
-              }
-            </div>
-            
-          </Col>
-        </div>
-      </Row>
-      <Row  gutter={{ xs: 20, sm: 20, md: 12 }} style={{height:70}}>
-        <Col
-        className="gutter-row"
-          span={20}
-          style={{
-            display: "flex",
-            justifyContent:'center',
-            alignItems: "center",
-            
-          }}
-        >          
-          <div>
+            <div style={{display:'flex'}}>
           {alreadyVoted == true ?
-
-              <p style={{padding:20, fontSize:20, fontStyle: 'italic'}}>
+            <div>
+              <p style={{fontSize:20, fontStyle: 'italic', textAlign:'center'}}>
               Vous avez voté
-              <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:"orange",
-              fontSize:30}}>{userVote}</span></p>
-
+              </p>
+              <p style={{padding:10, fontWeight:'bold', fontStyle: 'normal', color:'orange', fontSize:30}}>{userVote}</p>
+            </div>
             :
             ""
           }
           </div>          
-          
-        </Col>
-      </Row>
-
-      <Row>
-        <Col span={20} className="gutter-row" > 
-          
           <div style={{width:"100%", display:'flex', justifyContent:'center', alignItems:'center'}}>
               {alreadyCommented == true ?
 
                 
-                <div style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%", display:'flex' , justifyContent:'center', alignItems:'center'}}>
-                  Vous avez commenté    
-                <span style={{padding:20, fontWeight:'bold', fontStyle: 'normal', color:'blue'}}>{userComment}</span>
+                <div style={{padding:16, fontSize:20, fontStyle: 'italic', width:"100%", height:"100%", display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+                 <p> Vous avez commenté</p> 
+                 <p style={{padding:20, fontStyle: 'normal', color:'blue', textAlign:'center'}}>{userComment}</p>
                 <Button
                   htmlType="submit"
                   onClick="{onSubmit}"
@@ -570,11 +484,12 @@ var publicationT=publicationTitre
                 </div>
                 
               :
-          <div style={{width:"100%"}}>
+          <div style={{width:"90%"}}>
+            <h5 style={{color:"#37A4B2"}}>COMMENTEZ CETTE PUBLICATION</h5>
             {messageCom}
           <Form.Item>
             <TextArea
-              rows={3}
+              rows={6}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Tapez votre commentaire"
               value={comment}
@@ -594,15 +509,17 @@ var publicationT=publicationTitre
           </div>
            }
            </div>
-         
-
-        </Col>
+          </Col>
       </Row>
-      <Row>
-        <Col span={20} style={{color: "#37A4B2", fontSize: "150%", fontWeight:'bold' , margin:20}}> 
-        TOUS LES COMMENTAIRES
+      
+      <Row style={{ margin:10, padding:10, width:"90vw",display: "flex", alignItem:'center' }}>
+        <Col span={22} style={{color: "#37A4B2", fontSize: "150%"}}> 
+        <h5 style={{color:"#37A4B2"}}>VOIR TOUS LES COMMENTAIRES PAR CATEGORIE DE VOTE</h5>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="J'Adore" key="1">
+          {listVotes.map((vote, i) => {
+            return(
+            
+          <TabPane tab={vote.vote} key={i}>
           <div>
               {connected == false ?
 
@@ -620,183 +537,22 @@ var publicationT=publicationTitre
 
                 :
 
-               <div> 
-                {commentairesList.length == 0 ?
-                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
-                
-              :
-
               <div>
                 {commentairesList.map((comment, i) => { 
-                  if(comment.vote == "J'Adore") {
+                  if(comment.vote == vote.vote) {
                     return(
-              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
-                  }
-                   })}
+                      <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
+                       }
+                    })}
             </div>
             }
-            </div>
-              }
             </div> 
               }
             </div>
           </TabPane>
-          <TabPane tab="Je suis Pour" key="2">
-          <div>
-              {connected == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
-                </p>                
-              :
-              
-              <div>
-                {alreadyVoted == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                VOTEZ POUR ACCEDER AUX COMMENTAIRES
-                </p>
-
-                :
-
-               <div> 
-                {commentairesList.length == 0 ?
-                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
-                
-              :
-
-              <div>
-                {commentairesList.map((comment, i) => { 
-                  if(comment.vote == "Je suis Pour") {
-                    return(
-              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
-                  }
-                   })}
-            </div>
-            }
-            </div>
-              }
-            </div> 
-              }
-            </div>
-          </TabPane>
-          <TabPane tab="Je suis Mitigé(e)" key="3">
-          <div>
-              {connected == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
-                </p>                
-              :
-              
-              <div>
-                {alreadyVoted == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                VOTEZ POUR ACCEDER AUX COMMENTAIRES
-                </p>
-
-                :
-
-               <div> 
-                {commentairesList.length == 0 ?
-                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
-                
-              :
-
-              <div>
-                {commentairesList.map((comment, i) => { 
-                  if(comment.vote == "Je suis Mitigé(e)") {
-                    return(
-              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
-                  }
-                   })}
-            </div>
-            }
-            </div>
-              }
-            </div> 
-              }
-            </div>
-          </TabPane>
-          <TabPane tab="Je suis Contre" key="4">
-          <div>
-              {connected == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
-                </p>                
-              :
-              
-              <div>
-                {alreadyVoted == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                VOTEZ POUR ACCEDER AUX COMMENTAIRES
-                </p>
-
-                :
-
-               <div> 
-                {commentairesList.length == 0 ?
-                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
-                
-              :
-
-              <div>
-                {commentairesList.map((comment, i) => { 
-                  if(comment.vote == "Je suis Contre") {
-                    return(
-              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
-                  }
-                   })}
-            </div>
-            }
-            </div>
-              }
-            </div> 
-              }
-            </div>
-          </TabPane>
-          <TabPane tab="Je Déteste" key="5">
-          <div>
-              {connected == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                CONNECTEZ-VOUS POUR ACCEDER AUX COMMENTAIRES
-                </p>                
-              :
-              
-              <div>
-                {alreadyVoted == false ?
-
-                <p style={{padding:20, fontSize:20, fontWeight:'bold',color: "#37A4B2", fontSize: "150%", textAlign:'center', backgroundColor:"lightgray",width:"100%", height:"100%"}}>
-                VOTEZ POUR ACCEDER AUX COMMENTAIRES
-                </p>
-
-                :
-
-               <div> 
-                {commentairesList.length == 0 ?
-                <p style={{display:'flex', alignItems:'center'}}> Aucun commentaire publié pour le moment </p>
-                
-              :
-
-              <div>
-                {commentairesList.map((comment, i) => { 
-                  if(comment.vote == "Je Déteste") {
-                    return(
-              <Commentaires vote={comment.vote} commentaire={comment.commentaire} nb_likes={comment.users_like.length} nb_dislikes={comment.users_dislike.length} id={comment._id} userId={user._id} alreadyLiked={comment.users_like.includes(user._id)} alreadyDisliked={comment.users_dislike.includes(user._id) }/>)
-                  }
-                   })}
-            </div>
-            }
-            </div>
-              }
-            </div> 
-              }
-            </div>
-          </TabPane>
+          
+            )
+          })}
         </Tabs>
         </Col>
       </Row>

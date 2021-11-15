@@ -1,19 +1,14 @@
 import React, { useState, useEffect, createElement } from "react";
-import { useParams } from 'react-router-dom';
-import {
-  Radio,  Layout,  Menu,  Button,  Image,  Breadcrumb,  Card,  Avatar,  Divider,  Row,  Col,  Tabs,  List,  Space,  Comment,  Form,
-  Input, Badge, Alert, Tooltip, Modal, Statistic} from "antd";
-import { connect } from "react-redux";
+import { Avatar, Comment, Tooltip} from "antd";
 
-import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
-import { set } from "mongoose";
+import { LikeOutlined, LikeFilled, DislikeOutlined, DislikeFilled} from "@ant-design/icons";
+
 
 
 function Commentaires(props) {
 
     const [actionLike, setActionLike] = useState(props.thumbUp);
     const [actionDislike, setActionDislike] = useState("");
-    const [commentairesList, setCommentairesList] = useState([]);
     const [likeComment, setLikeComment] = useState(false)
     const [dislikeComment, setDislikeComment] = useState(false)
 

@@ -5,7 +5,6 @@ const voteSchema = mongoose.Schema({
     publication_id: { type: mongoose.Schema.Types.ObjectId, ref: 'publications' },
     vote: String,
     commentaire_id: { type: mongoose.Schema.Types.ObjectId, ref: 'comments' } ,
-    commentaires_likes: Array,
     date_vote: String,
 
 })

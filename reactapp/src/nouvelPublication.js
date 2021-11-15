@@ -216,48 +216,8 @@ function NouvelPublication(props) {
     setMotCle(listeMotCle);
   };
 
-  // affichage des images en fonction du mot clé
-  var handlePictureRequest = async () => {
-    var keyword = mot_Cle.replace(/\s/g, "|");
-    setModal(true);
-    console.log("keyword", keyword);
-    var rawResponse = await fetch(
-      `https://pixabay.com/api/?key=${apiKey}&image_type=photo&lang=fr&orientation=horizontal&safesearch=true&q=${keyword}`
-    );
-    var response = await rawResponse.json();
-    console.log("log du response : ", response);
-    setFoundPictures(response.hits);
-    console.log("log du hits : ", response.hits[0].webformatURL);
-  };
+  
 
-  // Validation de l'image sélectionnée
-  var handlePictureClick = (img) => {
-    console.log("clicked picture: ", img);
-    //console.log("access style: ", listPictures[0].props.style)
-
-    for (var i = 0; i < listPictures.length; i++) {
-      if (listPictures[i].props.src == img) {
-        setPictureSelected(img);
-
-        console.log("listpicture src : ", listPictures[i].props.src);
-        border = { border: "1px solid red" };
-        console.log(border);
-      }
-    }
-  };
-
-  var listPictures = foundPictures.map((picture, i) => {
-    return (
-      <img
-        key={i}
-        src={picture.webformatURL}
-        onClick={() => {
-          handlePictureClick(picture.webformatURL);
-        }}
-        style={{ border, width: "400px" }}
-      />
-    );
-  });
 
   // if (pictureSelected && validatePicture) {
   var illustration = (
@@ -346,43 +306,7 @@ function NouvelPublication(props) {
               />
             </Space>
             <Divider type="vertical" />
-            {/* <Form>
-              <Form.Item>
-                <Input
-                  placeholder="Tapez un mot-clé"
-                  onChange={(e) => setMot_Cle(e.target.value)}
-                />{" "}
-                <Button type="primary" onClick={() => handlePictureRequest()}>
-                  Valider
-                </Button>
-              </Form.Item>
-            </Form> */}
-
-            <Modal isOpen={modal} toggle={modal} className="">
-              <ModalHeader toggle={modal}>
-                {" "}
-                Choisissez une image pour le sujet "{mot_Cle}"
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    setModal(!modal);
-                    setValidatePicture(true);
-                  }}
-                >
-                  Valider la selection
-                </Button>{" "}
-                <Button
-                  color="secondary"
-                  onClick={() => {
-                    setModal(!modal);
-                    setValidatePicture(false);
-                  }}
-                >
-                  Annuler
-                </Button>
-              </ModalHeader>
-              <ModalBody style={{ width: "200px" }}>{listPictures}</ModalBody>
-            </Modal>
+        
           </div>
           <Input
             className="description"
