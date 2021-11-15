@@ -142,7 +142,6 @@ router.get('/selectedPublication', async function(req, res, next){
   
   //console.log('stats ', stats)
 
-  //res.json({result, publiToDisplay, comments, stats, alreadyVoted, userVote, userConnected, alreadyCommented, userComment})
   res.json({result, publiToDisplay, comments, stats, userConnected, user, votes, gender, nbVoters})
 
 })

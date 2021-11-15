@@ -40,20 +40,6 @@ const {  Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 const { TabPane } = Tabs;
 
-const data = [
-  {
-    title: "Ant Design Title 1",
-  },
-  {
-    title: "Ant Design Title 2",
-  },
-  {
-    title: "Ant Design Title 3",
-  },
-  {
-    title: "Ant Design Title 4",
-  },
-];
 
 function PageProfil(props) {
   const [loading, setLoading] = useState(false);
